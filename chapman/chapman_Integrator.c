@@ -13,7 +13,7 @@
 /*        R. Sander, Max-Planck Institute for Chemistry, Mainz, Germany */
 /*                                                                  */
 /* File                 : chapman_Integrator.c                      */
-/* Time                 : Thu Jan 27 12:38:58 2022                  */
+/* Time                 : Thu Jan 27 12:45:52 2022                  */
 /* Working directory    : /home/kyriacos/CyprusInstitute/kpp/chapman */
 /* Equation file        : chapman.kpp                               */
 /* Output root filename : chapman                                   */
@@ -163,7 +163,7 @@ void INTEGRATE(double TIN, double TOUT)
    Nr = Nr + IPAR[14];
    Ng = Ng + IPAR[17];
    Nc = Nc + IPAR[18];
-   printf("\n Step=%d  Acc=%d  Rej=%d  Singular=%d RCss = %d\n",
+   printf("\n Step=%d  Acc=%d  Rej=%d  Singular=%d RCss=%d\n",
           Ns, Na, Nr, Ng, Nc);
 
    if (IERR < 0)

@@ -13,7 +13,7 @@
 /*        R. Sander, Max-Planck Institute for Chemistry, Mainz, Germany */
 /*                                                                  */
 /* File                 : tropo_Initialize.c                        */
-/* Time                 : Thu Jan 27 12:39:16 2022                  */
+/* Time                 : Thu Jan 27 12:46:24 2022                  */
 /* Working directory    : /home/kyriacos/CyprusInstitute/kpp/tropo  */
 /* Equation file        : tropo.kpp                                 */
 /* Output root filename : tropo                                     */

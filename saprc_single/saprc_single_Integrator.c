@@ -13,7 +13,7 @@
 /*        R. Sander, Max-Planck Institute for Chemistry, Mainz, Germany */
 /*                                                                  */
 /* File                 : saprc_single_Integrator.c                 */
-/* Time                 : Thu Jan 27 12:39:25 2022                  */
+/* Time                 : Thu Jan 27 12:46:37 2022                  */
 /* Working directory    : /home/kyriacos/CyprusInstitute/kpp/saprc_single */
 /* Equation file        : saprc_single.kpp                          */
 /* Output root filename : saprc_single                              */
@@ -163,7 +163,7 @@ void INTEGRATE(float TIN, float TOUT)
    Nr = Nr + IPAR[14];
    Ng = Ng + IPAR[17];
    Nc = Nc + IPAR[18];
-   printf("\n Step=%d  Acc=%d  Rej=%d  Singular=%d RCss = %d\n",
+   printf("\n Step=%d  Acc=%d  Rej=%d  Singular=%d RCss=%d\n",
           Ns, Na, Nr, Ng, Nc);
 
    if (IERR < 0)

@@ -13,7 +13,7 @@
 /*        R. Sander, Max-Planck Institute for Chemistry, Mainz, Germany */
 /*                                                                  */
 /* File                 : strato_Integrator.c                       */
-/* Time                 : Thu Jan 27 12:39:13 2022                  */
+/* Time                 : Thu Jan 27 12:46:20 2022                  */
 /* Working directory    : /home/kyriacos/CyprusInstitute/kpp/strato */
 /* Equation file        : strato.kpp                                */
 /* Output root filename : strato                                    */
@@ -163,7 +163,7 @@ void INTEGRATE(double TIN, double TOUT)
    Nr = Nr + IPAR[14];
    Ng = Ng + IPAR[17];
    Nc = Nc + IPAR[18];
-   printf("\n Step=%d  Acc=%d  Rej=%d  Singular=%d RCss = %d\n",
+   printf("\n Step=%d  Acc=%d  Rej=%d  Singular=%d RCss=%d\n",
           Ns, Na, Nr, Ng, Nc);
 
    if (IERR < 0)
