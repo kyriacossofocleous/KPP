@@ -13,7 +13,7 @@
 /*        R. Sander, Max-Planck Institute for Chemistry, Mainz, Germany */
 /*                                                                  */
 /* File                 : strato_Global.h                           */
-/* Time                 : Thu Jan 27 11:06:10 2022                  */
+/* Time                 : Thu Jan 27 11:36:57 2022                  */
 /* Working directory    : /home/kyriacos/CyprusInstitute/kpp/strato */
 /* Equation file        : strato.kpp                                */
 /* Output root filename : strato                                    */
@@ -28,6 +28,7 @@
 extern double C[NSPEC];                         /* Concentration of all species */
   extern double * VAR;
   extern double * FIX;
+extern double E[NSPEC];                         /* Error of all species */
 extern double RCONST[NREACT];                   /* Rate constants (global) */
 extern double TIME;                             /* Current integration time */
 extern double SUN;                              /* Sunlight intensity between [0,1] */

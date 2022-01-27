@@ -13,7 +13,7 @@
 /*        R. Sander, Max-Planck Institute for Chemistry, Mainz, Germany */
 /*                                                                  */
 /* File                 : saprc_Global.h                            */
-/* Time                 : Thu Jan 27 11:05:58 2022                  */
+/* Time                 : Thu Jan 27 11:36:44 2022                  */
 /* Working directory    : /home/kyriacos/CyprusInstitute/kpp/saprc  */
 /* Equation file        : saprc.kpp                                 */
 /* Output root filename : saprc                                     */
@@ -28,6 +28,7 @@
 extern double C[NSPEC];                         /* Concentration of all species */
   extern double * VAR;
   extern double * FIX;
+extern double E[NSPEC];                         /* Error of all species */
 extern double RCONST[NREACT];                   /* Rate constants (global) */
 extern double TIME;                             /* Current integration time */
 extern double SUN;                              /* Sunlight intensity between [0,1] */

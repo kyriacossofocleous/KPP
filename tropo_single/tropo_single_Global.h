@@ -13,7 +13,7 @@
 /*        R. Sander, Max-Planck Institute for Chemistry, Mainz, Germany */
 /*                                                                  */
 /* File                 : tropo_single_Global.h                     */
-/* Time                 : Thu Jan 27 11:06:32 2022                  */
+/* Time                 : Thu Jan 27 11:37:24 2022                  */
 /* Working directory    : /home/kyriacos/CyprusInstitute/kpp/tropo_single */
 /* Equation file        : tropo_single.kpp                          */
 /* Output root filename : tropo_single                              */
@@ -28,6 +28,7 @@
 extern float C[NSPEC];                          /* Concentration of all species */
   extern float * VAR;
   extern float * FIX;
+extern float E[NSPEC];                          /* Error of all species */
 extern float RCONST[NREACT];                    /* Rate constants (global) */
 extern float TIME;                              /* Current integration time */
 extern float SUN;                               /* Sunlight intensity between [0,1] */

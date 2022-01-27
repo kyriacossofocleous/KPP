@@ -1,7 +1,11 @@
 int  InitSaveData();
+int  InitSaveError();
+int  InitSaveE();
 void Initialize();
 int  SaveData();
 int  CloseSaveData();
+int  CloseSaveError();
+int  CloseSaveE();
 int  GenerateMatlab( char * prefix );
 void GetMass( KPP_REAL CL[], KPP_REAL Mass[] );
 void INTEGRATE( KPP_REAL TIN, KPP_REAL TOUT );
@@ -32,6 +36,8 @@ double t;
 /* ********** TIME LOOP **************************** */
 
   InitSaveData();
+  InitSaveError();
+  InitSaveE();
 
   printf("\n%7s %7s   ", "done[%]", "Time[h]");
   for( i = 0; i < NMONITOR; i++ )  
@@ -48,7 +54,7 @@ double t;
     for( i = 0; i < NMASS; i++ ) 
       printf( "%9.3e  ", dval[i]/CFACTOR );
     
-    SaveData();
+    // SaveData();
 
     INTEGRATE( TIME , TIME+DT );
     TIME += DT;
@@ -59,6 +65,8 @@ double t;
   printf("Simulation Time: %10.6f", t);
   printf("\n");
   CloseSaveData();
+  CloseSaveError();
+  CloseSaveE();
 
     return 0; /*didnt return anything initially */
 

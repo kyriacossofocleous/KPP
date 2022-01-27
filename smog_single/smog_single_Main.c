@@ -13,7 +13,7 @@
 /*        R. Sander, Max-Planck Institute for Chemistry, Mainz, Germany */
 /*                                                                  */
 /* File                 : smog_single_Main.c                        */
-/* Time                 : Thu Jan 27 11:06:29 2022                  */
+/* Time                 : Thu Jan 27 11:37:20 2022                  */
 /* Working directory    : /home/kyriacos/CyprusInstitute/kpp/smog_single */
 /* Equation file        : smog_single.kpp                           */
 /* Output root filename : smog_single                               */
@@ -34,6 +34,7 @@
 float C[NSPEC];                          /* Concentration of all species */
 float * VAR = & C[0];
 float * FIX = & C[12];
+float E[NSPEC];                          /* Error of all species */
 float RCONST[NREACT];                    /* Rate constants (global) */
 float TIME;                              /* Current integration time */
 float SUN;                               /* Sunlight intensity between [0,1] */
@@ -56,9 +57,13 @@ float CFACTOR;                           /* Conversion factor for concentration 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
 int  InitSaveData();
+int  InitSaveError();
+int  InitSaveE();
 void Initialize();
 int  SaveData();
 int  CloseSaveData();
+int  CloseSaveError();
+int  CloseSaveE();
 int  GenerateMatlab( char * prefix );
 void GetMass( float CL[], float Mass[] );
 void INTEGRATE( float TIN, float TOUT );
@@ -89,6 +94,8 @@ double t;
 /* ********** TIME LOOP **************************** */
 
   InitSaveData();
+  InitSaveError();
+  InitSaveE();
 
   printf("\n%7s %7s   ", "done[%]", "Time[h]");
   for( i = 0; i < NMONITOR; i++ )  
@@ -105,7 +112,7 @@ double t;
     for( i = 0; i < NMASS; i++ ) 
       printf( "%9.3e  ", dval[i]/CFACTOR );
     
-    SaveData();
+    // SaveData();
 
     INTEGRATE( TIME , TIME+DT );
     TIME += DT;
@@ -116,6 +123,8 @@ double t;
   printf("Simulation Time: %10.6f", t);
   printf("\n");
   CloseSaveData();
+  CloseSaveError();
+  CloseSaveE();
 
     return 0; /*didnt return anything initially */
 

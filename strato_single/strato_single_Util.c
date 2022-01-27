@@ -13,7 +13,7 @@
 /*        R. Sander, Max-Planck Institute for Chemistry, Mainz, Germany */
 /*                                                                  */
 /* File                 : strato_single_Util.c                      */
-/* Time                 : Thu Jan 27 11:06:30 2022                  */
+/* Time                 : Thu Jan 27 11:37:22 2022                  */
 /* Working directory    : /home/kyriacos/CyprusInstitute/kpp/strato_single */
 /* Equation file        : strato_single.kpp                         */
 /* Output root filename : strato_single                             */
@@ -66,8 +66,9 @@ Stopwatch(double t0)
   return (double)t.tv_sec + (double)t.tv_usec / 1e6 - t0;
 }
 
-
 static FILE *fpDat = 0;
+static FILE *fpErr = 0;
+static FILE *fpE = 0;
 
 int InitSaveData()
 {
@@ -79,6 +80,37 @@ int InitSaveData()
   return 0;
 }
 
+int InitSaveError()
+{
+  fpErr = fopen("strato_single_Err.dat", "w");
+  if( fpErr == 0 ) {
+    printf("\n Can't create file : strato_single_Err.dat");
+    exit(1);
+  }
+  return 0;
+}
+
+int InitSaveE()
+{
+  fpE = fopen("strato_single_E.dat","w");
+  if ( fpE == 0 ){
+    printf("\n Can't create file: strato_single_E.dat");
+    exit(1);
+  }
+  return 0;
+}
+
+int SaveE(float Err, int s)
+{
+  fprintf( fpE, "%6.3f ", TIME/3600.0);
+  fprintf( fpE, "%e ", Err);
+  fprintf( fpE, "%e ", SUN);
+  fprintf( fpE, "%d ", s);
+  fprintf( fpE, "\n");
+  return 0;
+}
+
+
 int SaveData()
 {
 int i;
@@ -86,13 +118,38 @@ int i;
   fprintf( fpDat, "%6.1f ", TIME/3600.0 );
   for( i = 0; i < NLOOKAT; i++ )
     fprintf( fpDat, "%24.16e ", C[ LOOKAT[i] ]/CFACTOR );
+  // fprintf( fpDat, "%d ", s);
   fprintf( fpDat, "\n");
+  return 0;
+}
+
+int SaveError(int s)
+{
+int i;
+
+  fprintf( fpErr, "%6.1f ", TIME/3600.0 );
+  for( i = 0; i < NLOOKAT; i++ )
+    fprintf( fpErr, "%24.16e ", E[ LOOKAT[i] ] );
+  fprintf( fpErr, "%d ", s);
+  fprintf( fpErr, "\n");
   return 0;
 }
 
 int CloseSaveData()
 {
   fclose( fpDat );
+  return 0;
+}
+
+int CloseSaveError()
+{
+  fclose( fpErr );
+  return 0;
+}
+
+int CloseSaveE()
+{
+  fclose( fpE );
   return 0;
 }
 
@@ -121,7 +178,6 @@ FILE *fpMatlab;
   fclose( fpMatlab );
   return 0;
 }
-
 /* End Utility Functions from KPP_HOME/util/util                    */
 /* End of UTIL function                                             */
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */

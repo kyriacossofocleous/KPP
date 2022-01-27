@@ -13,7 +13,7 @@
 /*        R. Sander, Max-Planck Institute for Chemistry, Mainz, Germany */
 /*                                                                  */
 /* File                 : chapman_single_Rates.c                    */
-/* Time                 : Thu Jan 27 11:06:18 2022                  */
+/* Time                 : Thu Jan 27 11:37:07 2022                  */
 /* Working directory    : /home/kyriacos/CyprusInstitute/kpp/chapman_single */
 /* Equation file        : chapman_single.kpp                        */
 /* Output root filename : chapman_single                            */

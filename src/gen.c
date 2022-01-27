@@ -49,6 +49,7 @@ int NSPEC, NVAR, NVARACT, NFIX, NREACT;
 int NVARST, NFIXST;
 /* int PI; */ 
 int C_DEFAULT, C;
+int E;
 int DC;
 int ARP, JVRP, NJVRP, CROW_JVRP, IROW_JVRP, ICOL_JVRP;
 int V, F, VAR, FIX;
@@ -226,6 +227,7 @@ int i,j;
 
   C_DEFAULT = DefvElm( "C_DEFAULT", real, -NSPEC, "Default concentration for all species" );
   C = DefvElm( "C", real, -NSPEC, "Concentration of all species" );
+  E = DefvElm( "E", real, -NSPEC, "Error of all species" );
   CL = DefvElm( "CL", real, -NSPEC, "Concentration of all species (local)" );
   DC = DefvElm( "DC", real, -NSPEC, "Fluxes of all species" );
   ATOL = DefvElm( "ATOL", real, -NVAR, "Absolute tolerance" );
@@ -331,7 +333,7 @@ int dim;
   C_Inline("%s * %s = & %s[%d];", C_types[real], 
             varTable[FIX]->name, varTable[C]->name, VarNr );
 	     
-
+  GlobalDeclare( E );
   GlobalDeclare( RCONST );
   GlobalDeclare( TIME );
   GlobalDeclare( SUN );
@@ -2292,7 +2294,7 @@ int mxyz;
   C_Inline("  extern %s * %s;", C_types[real], varTable[VAR]->name );
   C_Inline("  extern %s * %s;", C_types[real], varTable[FIX]->name );
 
-
+  ExternDeclare( E );
   ExternDeclare( RCONST );
   ExternDeclare( TIME );
   ExternDeclare( SUN );
