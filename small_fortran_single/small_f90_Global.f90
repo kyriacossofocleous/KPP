@@ -13,7 +13,7 @@
 !        R. Sander, Max-Planck Institute for Chemistry, Mainz, Germany
 ! 
 ! File                 : small_f90_Global.f90
-! Time                 : Thu Jan 27 14:18:02 2022
+! Time                 : Thu Jan 27 14:30:16 2022
 ! Working directory    : /home/kyriacos/CyprusInstitute/kpp/small_fortran_single
 ! Equation file        : small_f90.kpp
 ! Output root filename : small_f90

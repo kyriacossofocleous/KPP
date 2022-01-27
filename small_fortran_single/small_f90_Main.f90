@@ -13,7 +13,7 @@
 !        R. Sander, Max-Planck Institute for Chemistry, Mainz, Germany
 ! 
 ! File                 : small_f90_Main.f90
-! Time                 : Thu Jan 27 14:18:02 2022
+! Time                 : Thu Jan 27 14:30:16 2022
 ! Working directory    : /home/kyriacos/CyprusInstitute/kpp/small_fortran_single
 ! Equation file        : small_f90.kpp
 ! Output root filename : small_f90
@@ -36,8 +36,9 @@ PROGRAM small_f90_Driver
 
       REAL(kind=sp) :: T, DVAL(NSPEC)
       REAL(kind=sp) :: RSTATE(20)
-      INTEGER :: i
-  
+      REAL(kind=dp) :: START, FINISH
+      INTEGER :: i,j
+      
 !~~~> Initialization 
 
       STEPMIN = 0.0d0
@@ -47,38 +48,42 @@ PROGRAM small_f90_Driver
         RTOL(i) = 1.0d-1
         ATOL(i) = 1.0
       END DO
-     
-      CALL Initialize()
-      CALL InitSaveData()
+      CALL cpu_time(START)
+      DO j=1, 1000
+            CALL Initialize()
 
-!~~~> Time loop
-      T = TSTART
-kron: DO WHILE (T < TEND)
+            ! CALL InitSaveData()
 
-        TIME = T
-        CALL GetMass( C, DVAL )
-        WRITE(6,991) (T-TSTART)/(TEND-TSTART)*100, T,       &
-                   ( TRIM(SPC_NAMES(MONITOR(i))),           &
-                     C(MONITOR(i))/CFACTOR, i=1,NMONITOR )
-        CALL SaveData()
-        CALL Update_SUN() 
-        CALL Update_RCONST()
+      !~~~> Time loop
+            T = TSTART
+      kron: DO WHILE (T < TEND)
 
-        CALL INTEGRATE( TIN = T, TOUT = T+DT, RSTATUS_U = RSTATE, &
-        ICNTRL_U = (/ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 /) )
-        T = RSTATE(1)
+            TIME = T
+            CALL GetMass( C, DVAL )
+            ! WRITE(6,991) (T-TSTART)/(TEND-TSTART)*100, T,       &
+                        ! ( TRIM(SPC_NAMES(MONITOR(i))),           &
+                        ! C(MONITOR(i))/CFACTOR, i=1,NMONITOR )
+            !   CALL SaveData()
+            CALL Update_SUN() 
+            CALL Update_RCONST()
 
-      END DO kron
-!~~~> End Time loop
+            CALL INTEGRATE( TIN = T, TOUT = T+DT, RSTATUS_U = RSTATE, &
+            ICNTRL_U = (/ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 /) )
+            T = RSTATE(1)
 
-      CALL GetMass( C, DVAL )
-      WRITE(6,991) (T-TSTART)/(TEND-TSTART)*100, T,     &
-               ( TRIM(SPC_NAMES(MONITOR(i))),           &
-                 C(MONITOR(i))/CFACTOR, i=1,NMONITOR ) 
-      TIME = T
-      CALL SaveData()
-      CALL CloseSaveData()
+            END DO kron
+      !~~~> End Time loop
 
+            CALL GetMass( C, DVAL )
+            ! WRITE(6,991) (T-TSTART)/(TEND-TSTART)*100, T,     &
+                  ! ( TRIM(SPC_NAMES(MONITOR(i))),           &
+                  ! C(MONITOR(i))/CFACTOR, i=1,NMONITOR ) 
+            TIME = T
+            ! CALL SaveData()
+            ! CALL CloseSaveData()
+      END DO
+      CALL cpu_time(FINISH)
+      PRINT '("Time = ",f10.6," seconds.")',FINISH-START
 991   FORMAT(F6.1,'%. T=',E9.3,2X,200(A,'=',E11.4,'; '))
 
 END PROGRAM small_f90_Driver
