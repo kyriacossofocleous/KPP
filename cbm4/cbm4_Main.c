@@ -13,7 +13,7 @@
 /*        R. Sander, Max-Planck Institute for Chemistry, Mainz, Germany */
 /*                                                                  */
 /* File                 : cbm4_Main.c                               */
-/* Time                 : Thu Jan 27 12:45:47 2022                  */
+/* Time                 : Thu Jan 27 12:48:12 2022                  */
 /* Working directory    : /home/kyriacos/CyprusInstitute/kpp/cbm4   */
 /* Equation file        : cbm4.kpp                                  */
 /* Output root filename : cbm4                                      */
@@ -97,9 +97,9 @@ int main()
 
     /* ********** TIME LOOP **************************** */
 
-    InitSaveData();
-    InitSaveError();
-    InitSaveE();
+    // InitSaveData();
+    // InitSaveError();
+    // InitSaveE();
 
     printf("\n%7s %7s   ", "done[%]", "Time[h]");
     for (i = 0; i < NMONITOR; i++)
@@ -128,9 +128,9 @@ int main()
   t = Stopwatch(t);
   printf("Simulation Time: %10.6f", t);
   printf("\n");
-  CloseSaveData();
-  CloseSaveError();
-  CloseSaveE();
+  // CloseSaveData();
+  // CloseSaveError();
+  // CloseSaveE();
 
   return 0; /*didnt return anything initially */
 }

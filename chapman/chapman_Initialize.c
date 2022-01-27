@@ -13,7 +13,7 @@
 /*        R. Sander, Max-Planck Institute for Chemistry, Mainz, Germany */
 /*                                                                  */
 /* File                 : chapman_Initialize.c                      */
-/* Time                 : Thu Jan 27 12:45:52 2022                  */
+/* Time                 : Thu Jan 27 12:48:22 2022                  */
 /* Working directory    : /home/kyriacos/CyprusInstitute/kpp/chapman */
 /* Equation file        : chapman.kpp                               */
 /* Output root filename : chapman                                   */

@@ -13,7 +13,7 @@
 /*        R. Sander, Max-Planck Institute for Chemistry, Mainz, Germany */
 /*                                                                  */
 /* File                 : smog_Main.c                               */
-/* Time                 : Thu Jan 27 12:46:18 2022                  */
+/* Time                 : Thu Jan 27 12:49:14 2022                  */
 /* Working directory    : /home/kyriacos/CyprusInstitute/kpp/smog   */
 /* Equation file        : smog.kpp                                  */
 /* Output root filename : smog                                      */
@@ -97,9 +97,9 @@ int main()
 
     /* ********** TIME LOOP **************************** */
 
-    InitSaveData();
-    InitSaveError();
-    InitSaveE();
+    // InitSaveData();
+    // InitSaveError();
+    // InitSaveE();
 
     printf("\n%7s %7s   ", "done[%]", "Time[h]");
     for (i = 0; i < NMONITOR; i++)
@@ -128,9 +128,9 @@ int main()
   t = Stopwatch(t);
   printf("Simulation Time: %10.6f", t);
   printf("\n");
-  CloseSaveData();
-  CloseSaveError();
-  CloseSaveE();
+  // CloseSaveData();
+  // CloseSaveError();
+  // CloseSaveE();
 
   return 0; /*didnt return anything initially */
 }
