@@ -13,7 +13,7 @@
 /*        R. Sander, Max-Planck Institute for Chemistry, Mainz, Germany */
 /*                                                                  */
 /* File                 : chapman_single_Integrator.c               */
-/* Time                 : Thu Jan 27 10:54:03 2022                  */
+/* Time                 : Thu Jan 27 11:06:18 2022                  */
 /* Working directory    : /home/kyriacos/CyprusInstitute/kpp/chapman_single */
 /* Equation file        : chapman_single.kpp                        */
 /* Output root filename : chapman_single                            */
@@ -24,6 +24,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <string.h>
+#include <sys/time.h>
 #include "chapman_single_Parameters.h"
 #include "chapman_single_Global.h"
 #include "chapman_single_Sparse.h"

@@ -13,7 +13,7 @@
 /*        R. Sander, Max-Planck Institute for Chemistry, Mainz, Germany */
 /*                                                                  */
 /* File                 : smog_Parameters.h                         */
-/* Time                 : Thu Jan 27 10:53:54 2022                  */
+/* Time                 : Thu Jan 27 11:06:08 2022                  */
 /* Working directory    : /home/kyriacos/CyprusInstitute/kpp/smog   */
 /* Equation file        : smog.kpp                                  */
 /* Output root filename : smog                                      */

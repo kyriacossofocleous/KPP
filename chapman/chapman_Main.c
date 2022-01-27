@@ -13,7 +13,7 @@
 /*        R. Sander, Max-Planck Institute for Chemistry, Mainz, Germany */
 /*                                                                  */
 /* File                 : chapman_Main.c                            */
-/* Time                 : Thu Jan 27 10:53:43 2022                  */
+/* Time                 : Thu Jan 27 11:05:57 2022                  */
 /* Working directory    : /home/kyriacos/CyprusInstitute/kpp/chapman */
 /* Equation file        : chapman.kpp                               */
 /* Output root filename : chapman                                   */
@@ -24,6 +24,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <string.h>
+#include <sys/time.h>
 #include "chapman_Parameters.h"
 #include "chapman_Global.h"
 #include "chapman_Sparse.h"
@@ -61,12 +62,13 @@ int  CloseSaveData();
 int  GenerateMatlab( char * prefix );
 void GetMass( double CL[], double Mass[] );
 void INTEGRATE( double TIN, double TOUT );
+double Stopwatch(double t);
 
 int main()
 {
 double dval[NSPEC];
 int i;
- 
+double t; 
 /* ---- TIME VARIABLES ------------------ */
 
   RTOLS = 1e-1;
@@ -76,7 +78,7 @@ int i;
   TEMP = 236.21;
 
   Initialize();
-      
+  t = Stopwatch(0);
   for( i = 0; i < NVAR; i++ ) {
     RTOL[i] = RTOLS;
     ATOL[i] = 1.0;
@@ -110,7 +112,8 @@ int i;
   }
 
 /* *********** END TIME LOOP *********************** */
-
+  t = Stopwatch(t);
+  printf("Simulation Time: %10.6f", t);
   printf("\n");
   CloseSaveData();
 

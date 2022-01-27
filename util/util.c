@@ -13,6 +13,15 @@ KPP_REAL max( KPP_REAL x, KPP_REAL y )
   return ( x >= y ) ? x : y;
 }
 
+double
+Stopwatch(double t0)
+{
+  struct timeval t;
+  gettimeofday(&t, NULL);
+  return (double)t.tv_sec + (double)t.tv_usec / 1e6 - t0;
+}
+
+
 static FILE *fpDat = 0;
 
 int InitSaveData()

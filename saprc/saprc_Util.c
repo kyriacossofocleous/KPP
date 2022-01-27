@@ -13,7 +13,7 @@
 /*        R. Sander, Max-Planck Institute for Chemistry, Mainz, Germany */
 /*                                                                  */
 /* File                 : saprc_Util.c                              */
-/* Time                 : Thu Jan 27 10:53:44 2022                  */
+/* Time                 : Thu Jan 27 11:05:58 2022                  */
 /* Working directory    : /home/kyriacos/CyprusInstitute/kpp/saprc  */
 /* Equation file        : saprc.kpp                                 */
 /* Output root filename : saprc                                     */
@@ -24,6 +24,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <string.h>
+#include <sys/time.h>
 #include "saprc_Parameters.h"
 #include "saprc_Global.h"
 #include "saprc_Sparse.h"
@@ -56,6 +57,15 @@ double max( double x, double y )
 {
   return ( x >= y ) ? x : y;
 }
+
+double
+Stopwatch(double t0)
+{
+  struct timeval t;
+  gettimeofday(&t, NULL);
+  return (double)t.tv_sec + (double)t.tv_usec / 1e6 - t0;
+}
+
 
 static FILE *fpDat = 0;
 

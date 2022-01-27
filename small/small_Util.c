@@ -13,7 +13,7 @@
 /*        R. Sander, Max-Planck Institute for Chemistry, Mainz, Germany */
 /*                                                                  */
 /* File                 : small_Util.c                              */
-/* Time                 : Thu Jan 27 10:53:53 2022                  */
+/* Time                 : Thu Jan 27 11:06:07 2022                  */
 /* Working directory    : /home/kyriacos/CyprusInstitute/kpp/small  */
 /* Equation file        : small.kpp                                 */
 /* Output root filename : small                                     */
@@ -24,6 +24,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <string.h>
+#include <sys/time.h>
 #include "small_Parameters.h"
 #include "small_Global.h"
 #include "small_Sparse.h"
@@ -56,6 +57,15 @@ double max( double x, double y )
 {
   return ( x >= y ) ? x : y;
 }
+
+double
+Stopwatch(double t0)
+{
+  struct timeval t;
+  gettimeofday(&t, NULL);
+  return (double)t.tv_sec + (double)t.tv_usec / 1e6 - t0;
+}
+
 
 static FILE *fpDat = 0;
 

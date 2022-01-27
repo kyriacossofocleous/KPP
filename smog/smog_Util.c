@@ -13,7 +13,7 @@
 /*        R. Sander, Max-Planck Institute for Chemistry, Mainz, Germany */
 /*                                                                  */
 /* File                 : smog_Util.c                               */
-/* Time                 : Thu Jan 27 10:53:54 2022                  */
+/* Time                 : Thu Jan 27 11:06:08 2022                  */
 /* Working directory    : /home/kyriacos/CyprusInstitute/kpp/smog   */
 /* Equation file        : smog.kpp                                  */
 /* Output root filename : smog                                      */
@@ -24,6 +24,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <string.h>
+#include <sys/time.h>
 #include "smog_Parameters.h"
 #include "smog_Global.h"
 #include "smog_Sparse.h"
@@ -56,6 +57,15 @@ double max( double x, double y )
 {
   return ( x >= y ) ? x : y;
 }
+
+double
+Stopwatch(double t0)
+{
+  struct timeval t;
+  gettimeofday(&t, NULL);
+  return (double)t.tv_sec + (double)t.tv_usec / 1e6 - t0;
+}
+
 
 static FILE *fpDat = 0;
 

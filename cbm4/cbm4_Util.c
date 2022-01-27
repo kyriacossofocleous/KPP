@@ -13,7 +13,7 @@
 /*        R. Sander, Max-Planck Institute for Chemistry, Mainz, Germany */
 /*                                                                  */
 /* File                 : cbm4_Util.c                               */
-/* Time                 : Thu Jan 27 10:53:41 2022                  */
+/* Time                 : Thu Jan 27 11:05:55 2022                  */
 /* Working directory    : /home/kyriacos/CyprusInstitute/kpp/cbm4   */
 /* Equation file        : cbm4.kpp                                  */
 /* Output root filename : cbm4                                      */
@@ -24,6 +24,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <string.h>
+#include <sys/time.h>
 #include "cbm4_Parameters.h"
 #include "cbm4_Global.h"
 #include "cbm4_Sparse.h"
@@ -56,6 +57,15 @@ double max( double x, double y )
 {
   return ( x >= y ) ? x : y;
 }
+
+double
+Stopwatch(double t0)
+{
+  struct timeval t;
+  gettimeofday(&t, NULL);
+  return (double)t.tv_sec + (double)t.tv_usec / 1e6 - t0;
+}
+
 
 static FILE *fpDat = 0;
 

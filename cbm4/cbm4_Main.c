@@ -13,7 +13,7 @@
 /*        R. Sander, Max-Planck Institute for Chemistry, Mainz, Germany */
 /*                                                                  */
 /* File                 : cbm4_Main.c                               */
-/* Time                 : Thu Jan 27 10:53:41 2022                  */
+/* Time                 : Thu Jan 27 11:05:55 2022                  */
 /* Working directory    : /home/kyriacos/CyprusInstitute/kpp/cbm4   */
 /* Equation file        : cbm4.kpp                                  */
 /* Output root filename : cbm4                                      */
@@ -24,6 +24,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <string.h>
+#include <sys/time.h>
 #include "cbm4_Parameters.h"
 #include "cbm4_Global.h"
 #include "cbm4_Sparse.h"
@@ -61,12 +62,13 @@ int  CloseSaveData();
 int  GenerateMatlab( char * prefix );
 void GetMass( double CL[], double Mass[] );
 void INTEGRATE( double TIN, double TOUT );
+double Stopwatch(double t);
 
 int main()
 {
 double dval[NSPEC];
 int i;
- 
+double t; 
 /* ---- TIME VARIABLES ------------------ */
 
   RTOLS = 1e-1;
@@ -76,7 +78,7 @@ int i;
   TEMP = 236.21;
 
   Initialize();
-      
+  t = Stopwatch(0);
   for( i = 0; i < NVAR; i++ ) {
     RTOL[i] = RTOLS;
     ATOL[i] = 1.0;
@@ -110,7 +112,8 @@ int i;
   }
 
 /* *********** END TIME LOOP *********************** */
-
+  t = Stopwatch(t);
+  printf("Simulation Time: %10.6f", t);
   printf("\n");
   CloseSaveData();
 

@@ -13,7 +13,7 @@
 /*        R. Sander, Max-Planck Institute for Chemistry, Mainz, Germany */
 /*                                                                  */
 /* File                 : saprc_single_JacobianSP.c                 */
-/* Time                 : Thu Jan 27 10:54:04 2022                  */
+/* Time                 : Thu Jan 27 11:06:19 2022                  */
 /* Working directory    : /home/kyriacos/CyprusInstitute/kpp/saprc_single */
 /* Equation file        : saprc_single.kpp                          */
 /* Output root filename : saprc_single                              */
@@ -24,6 +24,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <string.h>
+#include <sys/time.h>
 #include "saprc_single_Parameters.h"
 #include "saprc_single_Global.h"
 #include "saprc_single_Sparse.h"

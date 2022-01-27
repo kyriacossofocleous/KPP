@@ -5,12 +5,13 @@ int  CloseSaveData();
 int  GenerateMatlab( char * prefix );
 void GetMass( KPP_REAL CL[], KPP_REAL Mass[] );
 void INTEGRATE( KPP_REAL TIN, KPP_REAL TOUT );
+double Stopwatch(double t);
 
 int main()
 {
 KPP_REAL dval[NSPEC];
 int i;
- 
+double t; 
 /* ---- TIME VARIABLES ------------------ */
 
   RTOLS = 1e-1;
@@ -20,7 +21,7 @@ int i;
   TEMP = 236.21;
 
   Initialize();
-      
+  t = Stopwatch(0);
   for( i = 0; i < NVAR; i++ ) {
     RTOL[i] = RTOLS;
     ATOL[i] = 1.0;
@@ -54,7 +55,8 @@ int i;
   }
 
 /* *********** END TIME LOOP *********************** */
-
+  t = Stopwatch(t);
+  printf("Simulation Time: %10.6f", t);
   printf("\n");
   CloseSaveData();
 

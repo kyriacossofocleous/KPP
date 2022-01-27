@@ -13,7 +13,7 @@
 /*        R. Sander, Max-Planck Institute for Chemistry, Mainz, Germany */
 /*                                                                  */
 /* File                 : strato_single_Util.c                      */
-/* Time                 : Thu Jan 27 10:54:15 2022                  */
+/* Time                 : Thu Jan 27 11:06:30 2022                  */
 /* Working directory    : /home/kyriacos/CyprusInstitute/kpp/strato_single */
 /* Equation file        : strato_single.kpp                         */
 /* Output root filename : strato_single                             */
@@ -24,6 +24,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <string.h>
+#include <sys/time.h>
 #include "strato_single_Parameters.h"
 #include "strato_single_Global.h"
 #include "strato_single_Sparse.h"
@@ -56,6 +57,15 @@ float max( float x, float y )
 {
   return ( x >= y ) ? x : y;
 }
+
+double
+Stopwatch(double t0)
+{
+  struct timeval t;
+  gettimeofday(&t, NULL);
+  return (double)t.tv_sec + (double)t.tv_usec / 1e6 - t0;
+}
+
 
 static FILE *fpDat = 0;
 
