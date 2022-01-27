@@ -3,8 +3,8 @@ void Initialize();
 int  SaveData();
 int  CloseSaveData();
 int  GenerateMatlab( char * prefix );
-void GetMass( double CL[], double Mass[] );
-void INTEGRATE( double TIN, double TOUT );
+void GetMass( KPP_REAL CL[], KPP_REAL Mass[] );
+void INTEGRATE( KPP_REAL TIN, KPP_REAL TOUT );
 
 int main()
 {
@@ -13,7 +13,7 @@ int i;
  
 /* ---- TIME VARIABLES ------------------ */
 
-  RTOLS = 1e-3;
+  RTOLS = 1e-1;
   TSTART = 3600*12;
   TEND = TSTART + 3600*24*5;
   DT = 3600.;

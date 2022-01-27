@@ -1,0 +1,103 @@
+# Set here the desired C compiler and its optimization options
+CC   = gcc
+COPT = -O -Wall  
+
+# To create Matlab gateway routines
+# Note: use $(CC) as the mex C compiler
+MEX  = mex
+
+HEADERS = saprc_Global.h  saprc_Parameters.h  saprc_Sparse.h
+
+SPSRC = saprc_JacobianSP.c \
+	saprc_HessianSP.c  \
+	saprc_StoichiomSP.c
+
+SPOBJ = saprc_JacobianSP.o \
+	saprc_HessianSP.o  \
+	saprc_StoichiomSP.o
+
+
+SRC =   saprc_Main.c      saprc_Integrator.c   \
+	saprc_Function.c  saprc_Initialize.c   \
+	saprc_Jacobian.c  saprc_LinearAlgebra.c\
+	saprc_Rates.c     saprc_Hessian.c      \
+	saprc_Stoichiom.c saprc_Util.c         \
+	saprc_Monitor.c
+
+OBJ =   saprc_Main.o      saprc_Integrator.o   \
+	saprc_Function.o  saprc_Initialize.o   \
+	saprc_Jacobian.o  saprc_LinearAlgebra.o\
+	saprc_Rates.o     saprc_Hessian.o      \
+	saprc_Stoichiom.o saprc_Util.o         \
+	saprc_Monitor.o
+
+STOCHSRC = saprc_Stochastic.c 
+STOCHOBJ = saprc_Stochastic.o 
+
+all:    exe
+
+exe:	$(HEADERS) $(SPOBJ) $(OBJ)
+	$(CC) $(COPT) $(SPOBJ) $(OBJ) -lm -o saprc.exe	
+
+stochastic:$(HEADERS) $(SPOBJ) $(OBJ) $(STOCHOBJ)
+	$(CC) $(COPT) $(SPOBJ) $(OBJ) $(STOCHOBJ) -lm \
+	-o saprc_stochastic.exe	
+
+mex:    $(HEADERS) $(SPOBJ) $(OBJ)
+	$(MEX) CC#$(CC) -O saprc_mex_Fun.c     -lm $(SPOBJ) $(OBJ)
+	$(MEX) CC#$(CC) -O saprc_mex_Jac_SP.c  -lm $(SPOBJ) $(OBJ)
+	$(MEX) CC#$(CC) -O saprc_mex_Hessian.c -lm $(SPOBJ) $(OBJ)
+
+
+clean:
+	rm -f $(SPOBJ) $(OBJ) saprc.exe saprc_*.mexglx saprc*.dat
+
+distclean:
+	rm -f $(SPOBJ) $(OBJ) saprc.exe saprc*.dat \
+	saprc_*.c saprc_*.h saprc_*.map saprc_*.mexglx
+
+saprc_Monitor.o: saprc_Monitor.c $(HEADERS)
+	$(CC) $(COPT) -c $<
+
+saprc_JacobianSP.o: saprc_JacobianSP.c $(HEADERS)
+	$(CC) $(COPT) -c $<
+
+saprc_HessianSP.o: saprc_HessianSP.c  $(HEADERS)
+	$(CC) $(COPT) -c $<
+
+saprc_StoichiomSP.o: saprc_StoichiomSP.c $(HEADERS)
+	$(CC) $(COPT) -c $<
+
+saprc_Main.o: saprc_Main.c saprc_Initialize.o $(HEADERS) $(SPOBJ)
+	$(CC) $(COPT) -c $<
+
+saprc_Integrator.o: saprc_Integrator.c  $(HEADERS) $(SPOBJ)
+	$(CC) $(COPT) -c $<
+
+saprc_Initialize.o: saprc_Initialize.c  $(HEADERS) $(SPOBJ)
+	$(CC) $(COPT) -c $<
+
+saprc_Function.o: saprc_Function.c  $(HEADERS) $(SPOBJ)
+	$(CC) $(COPT) -c $<
+
+saprc_Stochastic.o: saprc_Stochastic.c  $(HEADERS) $(SPOBJ)
+	$(CC) $(COPT) -c $<
+
+saprc_Jacobian.o: saprc_Jacobian.c  $(HEADERS) $(SPOBJ)
+	$(CC) $(COPT) -c $<
+
+saprc_LinearAlgebra.o: saprc_LinearAlgebra.c  $(HEADERS) $(SPOBJ)
+	$(CC) $(COPT) -c $<
+
+saprc_Rates.o: saprc_Rates.c  $(HEADERS) $(SPOBJ)
+	$(CC) $(COPT) -c $<
+
+saprc_Hessian.o:  saprc_Hessian.c $(HEADERS) $(SPOBJ)
+	$(CC) $(COPT) -c $<
+
+saprc_Stoichiom.o: saprc_Stoichiom.c  $(HEADERS) $(SPOBJ)
+	$(CC) $(COPT) -c $<
+
+saprc_Util.o: saprc_Util.c  $(HEADERS) $(SPOBJ)
+	$(CC) $(COPT) -c $<
+

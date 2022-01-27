@@ -1,0 +1,103 @@
+# Set here the desired C compiler and its optimization options
+CC   = gcc
+COPT = -O -Wall  
+
+# To create Matlab gateway routines
+# Note: use $(CC) as the mex C compiler
+MEX  = mex
+
+HEADERS = smog_Global.h  smog_Parameters.h  smog_Sparse.h
+
+SPSRC = smog_JacobianSP.c \
+	smog_HessianSP.c  \
+	smog_StoichiomSP.c
+
+SPOBJ = smog_JacobianSP.o \
+	smog_HessianSP.o  \
+	smog_StoichiomSP.o
+
+
+SRC =   smog_Main.c      smog_Integrator.c   \
+	smog_Function.c  smog_Initialize.c   \
+	smog_Jacobian.c  smog_LinearAlgebra.c\
+	smog_Rates.c     smog_Hessian.c      \
+	smog_Stoichiom.c smog_Util.c         \
+	smog_Monitor.c
+
+OBJ =   smog_Main.o      smog_Integrator.o   \
+	smog_Function.o  smog_Initialize.o   \
+	smog_Jacobian.o  smog_LinearAlgebra.o\
+	smog_Rates.o     smog_Hessian.o      \
+	smog_Stoichiom.o smog_Util.o         \
+	smog_Monitor.o
+
+STOCHSRC = smog_Stochastic.c 
+STOCHOBJ = smog_Stochastic.o 
+
+all:    exe
+
+exe:	$(HEADERS) $(SPOBJ) $(OBJ)
+	$(CC) $(COPT) $(SPOBJ) $(OBJ) -lm -o smog.exe	
+
+stochastic:$(HEADERS) $(SPOBJ) $(OBJ) $(STOCHOBJ)
+	$(CC) $(COPT) $(SPOBJ) $(OBJ) $(STOCHOBJ) -lm \
+	-o smog_stochastic.exe	
+
+mex:    $(HEADERS) $(SPOBJ) $(OBJ)
+	$(MEX) CC#$(CC) -O smog_mex_Fun.c     -lm $(SPOBJ) $(OBJ)
+	$(MEX) CC#$(CC) -O smog_mex_Jac_SP.c  -lm $(SPOBJ) $(OBJ)
+	$(MEX) CC#$(CC) -O smog_mex_Hessian.c -lm $(SPOBJ) $(OBJ)
+
+
+clean:
+	rm -f $(SPOBJ) $(OBJ) smog.exe smog_*.mexglx smog*.dat
+
+distclean:
+	rm -f $(SPOBJ) $(OBJ) smog.exe smog*.dat \
+	smog_*.c smog_*.h smog_*.map smog_*.mexglx
+
+smog_Monitor.o: smog_Monitor.c $(HEADERS)
+	$(CC) $(COPT) -c $<
+
+smog_JacobianSP.o: smog_JacobianSP.c $(HEADERS)
+	$(CC) $(COPT) -c $<
+
+smog_HessianSP.o: smog_HessianSP.c  $(HEADERS)
+	$(CC) $(COPT) -c $<
+
+smog_StoichiomSP.o: smog_StoichiomSP.c $(HEADERS)
+	$(CC) $(COPT) -c $<
+
+smog_Main.o: smog_Main.c smog_Initialize.o $(HEADERS) $(SPOBJ)
+	$(CC) $(COPT) -c $<
+
+smog_Integrator.o: smog_Integrator.c  $(HEADERS) $(SPOBJ)
+	$(CC) $(COPT) -c $<
+
+smog_Initialize.o: smog_Initialize.c  $(HEADERS) $(SPOBJ)
+	$(CC) $(COPT) -c $<
+
+smog_Function.o: smog_Function.c  $(HEADERS) $(SPOBJ)
+	$(CC) $(COPT) -c $<
+
+smog_Stochastic.o: smog_Stochastic.c  $(HEADERS) $(SPOBJ)
+	$(CC) $(COPT) -c $<
+
+smog_Jacobian.o: smog_Jacobian.c  $(HEADERS) $(SPOBJ)
+	$(CC) $(COPT) -c $<
+
+smog_LinearAlgebra.o: smog_LinearAlgebra.c  $(HEADERS) $(SPOBJ)
+	$(CC) $(COPT) -c $<
+
+smog_Rates.o: smog_Rates.c  $(HEADERS) $(SPOBJ)
+	$(CC) $(COPT) -c $<
+
+smog_Hessian.o:  smog_Hessian.c $(HEADERS) $(SPOBJ)
+	$(CC) $(COPT) -c $<
+
+smog_Stoichiom.o: smog_Stoichiom.c  $(HEADERS) $(SPOBJ)
+	$(CC) $(COPT) -c $<
+
+smog_Util.o: smog_Util.c  $(HEADERS) $(SPOBJ)
+	$(CC) $(COPT) -c $<
+

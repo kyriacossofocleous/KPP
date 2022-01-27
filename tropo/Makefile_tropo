@@ -1,0 +1,103 @@
+# Set here the desired C compiler and its optimization options
+CC   = gcc
+COPT = -O -Wall  
+
+# To create Matlab gateway routines
+# Note: use $(CC) as the mex C compiler
+MEX  = mex
+
+HEADERS = tropo_Global.h  tropo_Parameters.h  tropo_Sparse.h
+
+SPSRC = tropo_JacobianSP.c \
+	tropo_HessianSP.c  \
+	tropo_StoichiomSP.c
+
+SPOBJ = tropo_JacobianSP.o \
+	tropo_HessianSP.o  \
+	tropo_StoichiomSP.o
+
+
+SRC =   tropo_Main.c      tropo_Integrator.c   \
+	tropo_Function.c  tropo_Initialize.c   \
+	tropo_Jacobian.c  tropo_LinearAlgebra.c\
+	tropo_Rates.c     tropo_Hessian.c      \
+	tropo_Stoichiom.c tropo_Util.c         \
+	tropo_Monitor.c
+
+OBJ =   tropo_Main.o      tropo_Integrator.o   \
+	tropo_Function.o  tropo_Initialize.o   \
+	tropo_Jacobian.o  tropo_LinearAlgebra.o\
+	tropo_Rates.o     tropo_Hessian.o      \
+	tropo_Stoichiom.o tropo_Util.o         \
+	tropo_Monitor.o
+
+STOCHSRC = tropo_Stochastic.c 
+STOCHOBJ = tropo_Stochastic.o 
+
+all:    exe
+
+exe:	$(HEADERS) $(SPOBJ) $(OBJ)
+	$(CC) $(COPT) $(SPOBJ) $(OBJ) -lm -o tropo.exe	
+
+stochastic:$(HEADERS) $(SPOBJ) $(OBJ) $(STOCHOBJ)
+	$(CC) $(COPT) $(SPOBJ) $(OBJ) $(STOCHOBJ) -lm \
+	-o tropo_stochastic.exe	
+
+mex:    $(HEADERS) $(SPOBJ) $(OBJ)
+	$(MEX) CC#$(CC) -O tropo_mex_Fun.c     -lm $(SPOBJ) $(OBJ)
+	$(MEX) CC#$(CC) -O tropo_mex_Jac_SP.c  -lm $(SPOBJ) $(OBJ)
+	$(MEX) CC#$(CC) -O tropo_mex_Hessian.c -lm $(SPOBJ) $(OBJ)
+
+
+clean:
+	rm -f $(SPOBJ) $(OBJ) tropo.exe tropo_*.mexglx tropo*.dat
+
+distclean:
+	rm -f $(SPOBJ) $(OBJ) tropo.exe tropo*.dat \
+	tropo_*.c tropo_*.h tropo_*.map tropo_*.mexglx
+
+tropo_Monitor.o: tropo_Monitor.c $(HEADERS)
+	$(CC) $(COPT) -c $<
+
+tropo_JacobianSP.o: tropo_JacobianSP.c $(HEADERS)
+	$(CC) $(COPT) -c $<
+
+tropo_HessianSP.o: tropo_HessianSP.c  $(HEADERS)
+	$(CC) $(COPT) -c $<
+
+tropo_StoichiomSP.o: tropo_StoichiomSP.c $(HEADERS)
+	$(CC) $(COPT) -c $<
+
+tropo_Main.o: tropo_Main.c tropo_Initialize.o $(HEADERS) $(SPOBJ)
+	$(CC) $(COPT) -c $<
+
+tropo_Integrator.o: tropo_Integrator.c  $(HEADERS) $(SPOBJ)
+	$(CC) $(COPT) -c $<
+
+tropo_Initialize.o: tropo_Initialize.c  $(HEADERS) $(SPOBJ)
+	$(CC) $(COPT) -c $<
+
+tropo_Function.o: tropo_Function.c  $(HEADERS) $(SPOBJ)
+	$(CC) $(COPT) -c $<
+
+tropo_Stochastic.o: tropo_Stochastic.c  $(HEADERS) $(SPOBJ)
+	$(CC) $(COPT) -c $<
+
+tropo_Jacobian.o: tropo_Jacobian.c  $(HEADERS) $(SPOBJ)
+	$(CC) $(COPT) -c $<
+
+tropo_LinearAlgebra.o: tropo_LinearAlgebra.c  $(HEADERS) $(SPOBJ)
+	$(CC) $(COPT) -c $<
+
+tropo_Rates.o: tropo_Rates.c  $(HEADERS) $(SPOBJ)
+	$(CC) $(COPT) -c $<
+
+tropo_Hessian.o:  tropo_Hessian.c $(HEADERS) $(SPOBJ)
+	$(CC) $(COPT) -c $<
+
+tropo_Stoichiom.o: tropo_Stoichiom.c  $(HEADERS) $(SPOBJ)
+	$(CC) $(COPT) -c $<
+
+tropo_Util.o: tropo_Util.c  $(HEADERS) $(SPOBJ)
+	$(CC) $(COPT) -c $<
+
