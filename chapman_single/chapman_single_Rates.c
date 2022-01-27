@@ -13,7 +13,7 @@
 /*        R. Sander, Max-Planck Institute for Chemistry, Mainz, Germany */
 /*                                                                  */
 /* File                 : chapman_single_Rates.c                    */
-/* Time                 : Thu Jan 27 11:37:07 2022                  */
+/* Time                 : Thu Jan 27 12:39:23 2022                  */
 /* Working directory    : /home/kyriacos/CyprusInstitute/kpp/chapman_single */
 /* Equation file        : chapman_single.kpp                        */
 /* Output root filename : chapman_single                            */
@@ -25,6 +25,7 @@
 #include <math.h>
 #include <string.h>
 #include <sys/time.h>
+#include <float.h>
 #include "chapman_single_Parameters.h"
 #include "chapman_single_Global.h"
 #include "chapman_single_Sparse.h"
@@ -119,7 +120,7 @@ float  FALL (  float A0, float B0, float C0, float A1, float B1, float C1, float
 void Update_SUN()
 {
 float SunRise, SunSet;
-float Thour, Tlocal, Ttmp; 
+double Thour, Tlocal, Ttmp; 
 const float PI = 3.14159265358979;  
 
   SunRise = 4.5;

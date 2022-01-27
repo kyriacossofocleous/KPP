@@ -13,7 +13,7 @@
 /*        R. Sander, Max-Planck Institute for Chemistry, Mainz, Germany */
 /*                                                                  */
 /* File                 : smog_single_Stoichiom.c                   */
-/* Time                 : Thu Jan 27 11:37:20 2022                  */
+/* Time                 : Thu Jan 27 12:39:37 2022                  */
 /* Working directory    : /home/kyriacos/CyprusInstitute/kpp/smog_single */
 /* Equation file        : smog_single.kpp                           */
 /* Output root filename : smog_single                               */
@@ -25,6 +25,7 @@
 #include <math.h>
 #include <string.h>
 #include <sys/time.h>
+#include <float.h>
 #include "smog_single_Parameters.h"
 #include "smog_single_Global.h"
 #include "smog_single_Sparse.h"

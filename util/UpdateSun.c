@@ -1,7 +1,7 @@
 void Update_SUN()
 {
 KPP_REAL SunRise, SunSet;
-KPP_REAL Thour, Tlocal, Ttmp; 
+double Thour, Tlocal, Ttmp; 
 const KPP_REAL PI = 3.14159265358979;  
 
   SunRise = 4.5;

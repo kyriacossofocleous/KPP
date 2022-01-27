@@ -18,7 +18,7 @@ int i;
 double t; 
 /* ---- TIME VARIABLES ------------------ */
 
-  RTOLS = 1e-1;
+  RTOLS = 1e-3;
   TSTART = 3600*12;
   TEND = TSTART + 3600*24*5;
   DT = 3600.;

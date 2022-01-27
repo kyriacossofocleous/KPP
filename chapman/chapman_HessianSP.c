@@ -13,7 +13,7 @@
 /*        R. Sander, Max-Planck Institute for Chemistry, Mainz, Germany */
 /*                                                                  */
 /* File                 : chapman_HessianSP.c                       */
-/* Time                 : Thu Jan 27 11:36:43 2022                  */
+/* Time                 : Thu Jan 27 12:38:58 2022                  */
 /* Working directory    : /home/kyriacos/CyprusInstitute/kpp/chapman */
 /* Equation file        : chapman.kpp                               */
 /* Output root filename : chapman                                   */
@@ -25,6 +25,7 @@
 #include <math.h>
 #include <string.h>
 #include <sys/time.h>
+#include <float.h>
 #include "chapman_Parameters.h"
 #include "chapman_Global.h"
 #include "chapman_Sparse.h"

@@ -13,7 +13,7 @@
 /*        R. Sander, Max-Planck Institute for Chemistry, Mainz, Germany */
 /*                                                                  */
 /* File                 : chapman_single_Integrator.c               */
-/* Time                 : Thu Jan 27 11:37:07 2022                  */
+/* Time                 : Thu Jan 27 12:39:23 2022                  */
 /* Working directory    : /home/kyriacos/CyprusInstitute/kpp/chapman_single */
 /* Equation file        : chapman_single.kpp                        */
 /* Output root filename : chapman_single                            */
@@ -25,6 +25,7 @@
 #include <math.h>
 #include <string.h>
 #include <sys/time.h>
+#include <float.h>
 #include "chapman_single_Parameters.h"
 #include "chapman_single_Global.h"
 #include "chapman_single_Sparse.h"
@@ -57,17 +58,20 @@ int Nfun, Njac, Nstp, Nacc, Nrej, Ndec, Nsol, Nsng, Ncss;
 
 /*~~~> Function headers */
 void FunTemplate(float, float[], float[]);
+void FunTemplate2(double, float[], float[]);
 void JacTemplate(float, float[], float[]);
 int Rosenbrock(float Y[], float Tstart, float Tend,
                float AbsTol[], float RelTol[],
                void (*ode_Fun)(float, float[], float[]),
                void (*ode_Jac)(float, float[], float[]),
+               void (*ode_Fun2)(double, float[], float[]),
                float RPAR[], int IPAR[]);
 int RosenbrockIntegrator(
     float Y[], float Tstart, float Tend,
     float AbsTol[], float RelTol[],
     void (*ode_Fun)(float, float[], float[]),
     void (*ode_Jac)(float, float[], float[]),
+    void (*ode_Fun2)(double, float[], float[]),
     int ros_S,
     float ros_M[], float ros_E[],
     float ros_A[], float ros_C[],
@@ -89,11 +93,12 @@ int ros_ErrorMsg(int Code, float T, float H);
 void ros_FunTimeDerivative(
     float T, float Roundoff,
     float Y[], float Fcn0[],
-    void ode_Fun(float, float[], float[]),
+    void ode_Fun2(double, float[], float[]),
     float dFdT[]);
 void Fun(float Y[], float FIX[], float RCONST[], float Ydot[]);
 void Jac_SP(float Y[], float FIX[], float RCONST[], float Ydot[]);
 void FunTemplate(float T, float Y[], float Ydot[]);
+void FunTemplate2(double T, float Y[], float Ydot[]);
 void JacTemplate(float T, float Y[], float Ydot[]);
 void DecompTemplate(float A[], int Pivot[], int *ising);
 void SolveTemplate(float A[], int Pivot[], float b[]);
@@ -144,19 +149,20 @@ void INTEGRATE(float TIN, float TOUT)
    } /* for */
 
    IPAR[0] = 0;       /* non-autonomous */
-   IPAR[1] = 1;       /* vector tolerances */
+   IPAR[1] = 2;       /* vector tolerances */
    RPAR[2] = STEPMIN; /* starting step */
-   IPAR[3] = 5;       /* choice of the method */
+   IPAR[3] = 4;       /* choice of the method */
 
    IERR = Rosenbrock(VAR, TIN, TOUT,
                      ATOL, RTOL,
-                     &FunTemplate, &JacTemplate,
+                     &FunTemplate, &JacTemplate, &FunTemplate2,
                      RPAR, IPAR);
 
    Ns = Ns + IPAR[12];
    Na = Na + IPAR[13];
    Nr = Nr + IPAR[14];
    Ng = Ng + IPAR[17];
+   Nc = Nc + IPAR[18];
    printf("\n Step=%d  Acc=%d  Rej=%d  Singular=%d RCss = %d\n",
           Ns, Na, Nr, Ng, Nc);
 
@@ -174,6 +180,7 @@ int Rosenbrock(float Y[], float Tstart, float Tend,
                float AbsTol[], float RelTol[],
                void (*ode_Fun)(float, float[], float[]),
                void (*ode_Jac)(float, float[], float[]),
+               void (*ode_Fun2)(double, float[], float[]),
                float RPAR[], int IPAR[])
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
    
@@ -464,7 +471,7 @@ int Rosenbrock(float Y[], float Tstart, float Tend,
    /*~~~>  Rosenbrock method   */
    IERR = RosenbrockIntegrator(Y, Tstart, Tend,
                                AbsTol, RelTol,
-                               ode_Fun, ode_Jac,
+                               ode_Fun, ode_Jac, ode_Fun2,
                                /*  Rosenbrock method coefficients  */
                                ros_S, ros_M, ros_E, ros_A, ros_C,
                                ros_Alpha, ros_Gamma, ros_ELO, ros_NewF,
@@ -504,6 +511,8 @@ int RosenbrockIntegrator(
     /*~~~> Input: ode function and its Jacobian */
     void (*ode_Fun)(float, float[], float[]),
     void (*ode_Jac)(float, float[], float[]),
+    void (*ode_Fun2)(double, float[], float[]),
+
     /*~~~> Input: The Rosenbrock method parameters */
     int ros_S,
     float ros_M[], float ros_E[],
@@ -581,7 +590,7 @@ int RosenbrockIntegrator(
 
       /*~~~>  Compute the function derivative with respect to T  */
       if (!Autonomous)
-         ros_FunTimeDerivative(T, Roundoff, Y, Fcn0, ode_Fun, dFdT);
+         ros_FunTimeDerivative(T, Roundoff, Y, Fcn0, ode_Fun2, dFdT);
 
       /*~~~>   Compute the Jacobian at current time  */
       (*ode_Jac)(T, Y, Jac0);
@@ -667,17 +676,17 @@ int RosenbrockIntegrator(
             RejectMoreH = 0;
             if (H > Hnew)
             {
-               SaveData(2);
-               SaveError(2);
-               SaveE(Err, 2);
+               // SaveData(2);
+               // SaveError(2);
+               // SaveE(Err, 2);
                Ncss++;
             }
-            else
-            {
-               SaveData(1);
-               SaveError(1);
-               SaveE(Err, 1);
-            }
+            // else
+            // {
+               // SaveData(1);
+               // SaveError(1);
+               // SaveE(Err, 1);
+            // }
             H = Hnew;
             break; /* EXIT THE LOOP: WHILE STEP NOT ACCEPTED */
          }
@@ -689,9 +698,9 @@ int RosenbrockIntegrator(
                Hnew = H * FacRej;
             RejectMoreH = RejectLastH;
             RejectLastH = 1;
-            SaveData(0);
-            SaveError(0);
-            SaveE(Err, 0);
+            // SaveData(0);
+            // SaveError(0);
+            // SaveE(Err, 0);
             H = Hnew;
          } /* end if Err <= 1 */
 
@@ -745,7 +754,7 @@ void ros_FunTimeDerivative(
     /*~~~> Input arguments: */
     float T, float Roundoff,
     float Y[], float Fcn0[],
-    void (*ode_Fun)(float, float[], float[]),
+    void (*ode_Fun2)(double, float[], float[]),
     /*~~~> Output arguments: */
     float dFdT[])
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -753,10 +762,17 @@ void ros_FunTimeDerivative(
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 {
    /*~~~> Local variables */
-   float Delta;
+   double Delta;
 
-   Delta = SQRT(Roundoff) * MAX(DeltaMin, ABS(T));
-   (*ode_Fun)(T + Delta, Y, dFdT);
+   if (SUN < 1e-2)
+   {
+      Delta = SQRT(DBL_EPSILON) * MAX(DeltaMin, ABS(T));
+   }
+   else
+   {
+      Delta = SQRT(Roundoff) * MAX(DeltaMin, ABS(T));
+   }
+   (*ode_Fun2)(T + Delta, Y, dFdT);
    WAXPY(5, (-ONE), Fcn0, 1, dFdT, 1);
    WSCAL(5, (ONE / Delta), dFdT, 1);
 
@@ -1311,7 +1327,26 @@ void JacTemplate(float T, float Y[], float Jcb[])
    Njac++;
 
 } /* JacTemplate   */
-/* End of INTEGRATE function                                        */
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+void FunTemplate2(double T, float Y[], float Ydot[])
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+    Template for the ODE function call.
+    Updates the rate coefficients (and possibly the fixed species) at each call    
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+{
+   double Told;
+
+   Told = TIME;
+   TIME = T;
+   Update_SUN();
+   Update_RCONST();
+   Fun(Y, FIX, RCONST, Ydot);
+   TIME = Told;
+
+   Nfun++;
+
+} /*  FunTemplate *//* End of INTEGRATE function                                        */
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
 

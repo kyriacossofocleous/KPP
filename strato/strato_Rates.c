@@ -13,7 +13,7 @@
 /*        R. Sander, Max-Planck Institute for Chemistry, Mainz, Germany */
 /*                                                                  */
 /* File                 : strato_Rates.c                            */
-/* Time                 : Thu Jan 27 11:36:57 2022                  */
+/* Time                 : Thu Jan 27 12:39:13 2022                  */
 /* Working directory    : /home/kyriacos/CyprusInstitute/kpp/strato */
 /* Equation file        : strato.kpp                                */
 /* Output root filename : strato                                    */
@@ -25,6 +25,7 @@
 #include <math.h>
 #include <string.h>
 #include <sys/time.h>
+#include <float.h>
 #include "strato_Parameters.h"
 #include "strato_Global.h"
 #include "strato_Sparse.h"

@@ -13,7 +13,7 @@
 /*        R. Sander, Max-Planck Institute for Chemistry, Mainz, Germany */
 /*                                                                  */
 /* File                 : tropo_single_LinearAlgebra.c              */
-/* Time                 : Thu Jan 27 11:37:24 2022                  */
+/* Time                 : Thu Jan 27 12:39:42 2022                  */
 /* Working directory    : /home/kyriacos/CyprusInstitute/kpp/tropo_single */
 /* Equation file        : tropo_single.kpp                          */
 /* Output root filename : tropo_single                              */
@@ -25,6 +25,7 @@
 #include <math.h>
 #include <string.h>
 #include <sys/time.h>
+#include <float.h>
 #include "tropo_single_Parameters.h"
 #include "tropo_single_Global.h"
 #include "tropo_single_Sparse.h"

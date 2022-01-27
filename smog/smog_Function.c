@@ -13,7 +13,7 @@
 /*        R. Sander, Max-Planck Institute for Chemistry, Mainz, Germany */
 /*                                                                  */
 /* File                 : smog_Function.c                           */
-/* Time                 : Thu Jan 27 11:36:56 2022                  */
+/* Time                 : Thu Jan 27 12:39:11 2022                  */
 /* Working directory    : /home/kyriacos/CyprusInstitute/kpp/smog   */
 /* Equation file        : smog.kpp                                  */
 /* Output root filename : smog                                      */
@@ -25,6 +25,7 @@
 #include <math.h>
 #include <string.h>
 #include <sys/time.h>
+#include <float.h>
 #include "smog_Parameters.h"
 #include "smog_Global.h"
 #include "smog_Sparse.h"

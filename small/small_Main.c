@@ -13,7 +13,7 @@
 /*        R. Sander, Max-Planck Institute for Chemistry, Mainz, Germany */
 /*                                                                  */
 /* File                 : small_Main.c                              */
-/* Time                 : Thu Jan 27 11:36:54 2022                  */
+/* Time                 : Thu Jan 27 12:39:10 2022                  */
 /* Working directory    : /home/kyriacos/CyprusInstitute/kpp/small  */
 /* Equation file        : small.kpp                                 */
 /* Output root filename : small                                     */
@@ -25,6 +25,7 @@
 #include <math.h>
 #include <string.h>
 #include <sys/time.h>
+#include <float.h>
 #include "small_Parameters.h"
 #include "small_Global.h"
 #include "small_Sparse.h"
@@ -76,7 +77,7 @@ int i;
 double t; 
 /* ---- TIME VARIABLES ------------------ */
 
-  RTOLS = 1e-1;
+  RTOLS = 1e-3;
   TSTART = 3600*12;
   TEND = TSTART + 3600*24*5;
   DT = 3600.;

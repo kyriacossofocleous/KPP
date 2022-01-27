@@ -13,7 +13,7 @@
 /*        R. Sander, Max-Planck Institute for Chemistry, Mainz, Germany */
 /*                                                                  */
 /* File                 : cbm4_Rates.c                              */
-/* Time                 : Thu Jan 27 11:36:40 2022                  */
+/* Time                 : Thu Jan 27 12:38:55 2022                  */
 /* Working directory    : /home/kyriacos/CyprusInstitute/kpp/cbm4   */
 /* Equation file        : cbm4.kpp                                  */
 /* Output root filename : cbm4                                      */
@@ -25,6 +25,7 @@
 #include <math.h>
 #include <string.h>
 #include <sys/time.h>
+#include <float.h>
 #include "cbm4_Parameters.h"
 #include "cbm4_Global.h"
 #include "cbm4_Sparse.h"

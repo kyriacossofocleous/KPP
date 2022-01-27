@@ -16,17 +16,20 @@ int Nfun, Njac, Nstp, Nacc, Nrej, Ndec, Nsol, Nsng, Ncss;
 
 /*~~~> Function headers */
 void FunTemplate(KPP_REAL, KPP_REAL[], KPP_REAL[]);
+void FunTemplate2(double, KPP_REAL[], KPP_REAL[]);
 void JacTemplate(KPP_REAL, KPP_REAL[], KPP_REAL[]);
 int Rosenbrock(KPP_REAL Y[], KPP_REAL Tstart, KPP_REAL Tend,
                KPP_REAL AbsTol[], KPP_REAL RelTol[],
                void (*ode_Fun)(KPP_REAL, KPP_REAL[], KPP_REAL[]),
                void (*ode_Jac)(KPP_REAL, KPP_REAL[], KPP_REAL[]),
+               void (*ode_Fun2)(double, KPP_REAL[], KPP_REAL[]),
                KPP_REAL RPAR[], int IPAR[]);
 int RosenbrockIntegrator(
     KPP_REAL Y[], KPP_REAL Tstart, KPP_REAL Tend,
     KPP_REAL AbsTol[], KPP_REAL RelTol[],
     void (*ode_Fun)(KPP_REAL, KPP_REAL[], KPP_REAL[]),
     void (*ode_Jac)(KPP_REAL, KPP_REAL[], KPP_REAL[]),
+    void (*ode_Fun2)(double, KPP_REAL[], KPP_REAL[]),
     int ros_S,
     KPP_REAL ros_M[], KPP_REAL ros_E[],
     KPP_REAL ros_A[], KPP_REAL ros_C[],
@@ -48,11 +51,12 @@ int ros_ErrorMsg(int Code, KPP_REAL T, KPP_REAL H);
 void ros_FunTimeDerivative(
     KPP_REAL T, KPP_REAL Roundoff,
     KPP_REAL Y[], KPP_REAL Fcn0[],
-    void ode_Fun(KPP_REAL, KPP_REAL[], KPP_REAL[]),
+    void ode_Fun2(double, KPP_REAL[], KPP_REAL[]),
     KPP_REAL dFdT[]);
 void Fun(KPP_REAL Y[], KPP_REAL FIX[], KPP_REAL RCONST[], KPP_REAL Ydot[]);
 void Jac_SP(KPP_REAL Y[], KPP_REAL FIX[], KPP_REAL RCONST[], KPP_REAL Ydot[]);
 void FunTemplate(KPP_REAL T, KPP_REAL Y[], KPP_REAL Ydot[]);
+void FunTemplate2(double T, KPP_REAL Y[], KPP_REAL Ydot[]);
 void JacTemplate(KPP_REAL T, KPP_REAL Y[], KPP_REAL Ydot[]);
 void DecompTemplate(KPP_REAL A[], int Pivot[], int *ising);
 void SolveTemplate(KPP_REAL A[], int Pivot[], KPP_REAL b[]);
@@ -103,20 +107,21 @@ void INTEGRATE(KPP_REAL TIN, KPP_REAL TOUT)
    } /* for */
 
    IPAR[0] = 0;       /* non-autonomous */
-   IPAR[1] = 1;       /* vector tolerances */
+   IPAR[1] = 2;       /* vector tolerances */
    RPAR[2] = STEPMIN; /* starting step */
-   IPAR[3] = 5;       /* choice of the method */
+   IPAR[3] = 4;       /* choice of the method */
 
    IERR = Rosenbrock(VAR, TIN, TOUT,
                      ATOL, RTOL,
-                     &FunTemplate, &JacTemplate,
+                     &FunTemplate, &JacTemplate, &FunTemplate2,
                      RPAR, IPAR);
 
    Ns = Ns + IPAR[12];
    Na = Na + IPAR[13];
    Nr = Nr + IPAR[14];
    Ng = Ng + IPAR[17];
-   printf("\n Step=%d  Acc=%d  Rej=%d  Singular=%d RCss = %d\n",
+   Nc = Nc + IPAR[18];
+   printf("\n Step=%d  Acc=%d  Rej=%d  Singular=%d RCss=%d\n",
           Ns, Na, Nr, Ng, Nc);
 
    if (IERR < 0)
@@ -133,6 +138,7 @@ int Rosenbrock(KPP_REAL Y[], KPP_REAL Tstart, KPP_REAL Tend,
                KPP_REAL AbsTol[], KPP_REAL RelTol[],
                void (*ode_Fun)(KPP_REAL, KPP_REAL[], KPP_REAL[]),
                void (*ode_Jac)(KPP_REAL, KPP_REAL[], KPP_REAL[]),
+               void (*ode_Fun2)(double, KPP_REAL[], KPP_REAL[]),
                KPP_REAL RPAR[], int IPAR[])
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
    
@@ -423,7 +429,7 @@ int Rosenbrock(KPP_REAL Y[], KPP_REAL Tstart, KPP_REAL Tend,
    /*~~~>  Rosenbrock method   */
    IERR = RosenbrockIntegrator(Y, Tstart, Tend,
                                AbsTol, RelTol,
-                               ode_Fun, ode_Jac,
+                               ode_Fun, ode_Jac, ode_Fun2,
                                /*  Rosenbrock method coefficients  */
                                ros_S, ros_M, ros_E, ros_A, ros_C,
                                ros_Alpha, ros_Gamma, ros_ELO, ros_NewF,
@@ -463,6 +469,8 @@ int RosenbrockIntegrator(
     /*~~~> Input: ode function and its Jacobian */
     void (*ode_Fun)(KPP_REAL, KPP_REAL[], KPP_REAL[]),
     void (*ode_Jac)(KPP_REAL, KPP_REAL[], KPP_REAL[]),
+    void (*ode_Fun2)(double, KPP_REAL[], KPP_REAL[]),
+
     /*~~~> Input: The Rosenbrock method parameters */
     int ros_S,
     KPP_REAL ros_M[], KPP_REAL ros_E[],
@@ -540,7 +548,7 @@ int RosenbrockIntegrator(
 
       /*~~~>  Compute the function derivative with respect to T  */
       if (!Autonomous)
-         ros_FunTimeDerivative(T, Roundoff, Y, Fcn0, ode_Fun, dFdT);
+         ros_FunTimeDerivative(T, Roundoff, Y, Fcn0, ode_Fun2, dFdT);
 
       /*~~~>   Compute the Jacobian at current time  */
       (*ode_Jac)(T, Y, Jac0);
@@ -626,17 +634,17 @@ int RosenbrockIntegrator(
             RejectMoreH = 0;
             if (H > Hnew)
             {
-               SaveData(2);
-               SaveError(2);
-               SaveE(Err, 2);
+               // SaveData(2);
+               // SaveError(2);
+               // SaveE(Err, 2);
                Ncss++;
             }
-            else
-            {
-               SaveData(1);
-               SaveError(1);
-               SaveE(Err, 1);
-            }
+            // else
+            // {
+               // SaveData(1);
+               // SaveError(1);
+               // SaveE(Err, 1);
+            // }
             H = Hnew;
             break; /* EXIT THE LOOP: WHILE STEP NOT ACCEPTED */
          }
@@ -648,9 +656,9 @@ int RosenbrockIntegrator(
                Hnew = H * FacRej;
             RejectMoreH = RejectLastH;
             RejectLastH = 1;
-            SaveData(0);
-            SaveError(0);
-            SaveE(Err, 0);
+            // SaveData(0);
+            // SaveError(0);
+            // SaveE(Err, 0);
             H = Hnew;
          } /* end if Err <= 1 */
 
@@ -704,7 +712,7 @@ void ros_FunTimeDerivative(
     /*~~~> Input arguments: */
     KPP_REAL T, KPP_REAL Roundoff,
     KPP_REAL Y[], KPP_REAL Fcn0[],
-    void (*ode_Fun)(KPP_REAL, KPP_REAL[], KPP_REAL[]),
+    void (*ode_Fun2)(double, KPP_REAL[], KPP_REAL[]),
     /*~~~> Output arguments: */
     KPP_REAL dFdT[])
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -712,10 +720,17 @@ void ros_FunTimeDerivative(
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 {
    /*~~~> Local variables */
-   KPP_REAL Delta;
+   double Delta;
 
-   Delta = SQRT(Roundoff) * MAX(DeltaMin, ABS(T));
-   (*ode_Fun)(T + Delta, Y, dFdT);
+   if (SUN < 1e-2)
+   {
+      Delta = SQRT(DBL_EPSILON) * MAX(DeltaMin, ABS(T));
+   }
+   else
+   {
+      Delta = SQRT(Roundoff) * MAX(DeltaMin, ABS(T));
+   }
+   (*ode_Fun2)(T + Delta, Y, dFdT);
    WAXPY(KPP_NVAR, (-ONE), Fcn0, 1, dFdT, 1);
    WSCAL(KPP_NVAR, (ONE / Delta), dFdT, 1);
 
@@ -1270,3 +1285,23 @@ void JacTemplate(KPP_REAL T, KPP_REAL Y[], KPP_REAL Jcb[])
    Njac++;
 
 } /* JacTemplate   */
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+void FunTemplate2(double T, KPP_REAL Y[], KPP_REAL Ydot[])
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+    Template for the ODE function call.
+    Updates the rate coefficients (and possibly the fixed species) at each call    
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+{
+   double Told;
+
+   Told = TIME;
+   TIME = T;
+   Update_SUN();
+   Update_RCONST();
+   Fun(Y, FIX, RCONST, Ydot);
+   TIME = Told;
+
+   Nfun++;
+
+} /*  FunTemplate */

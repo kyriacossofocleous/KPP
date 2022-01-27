@@ -13,7 +13,7 @@
 /*        R. Sander, Max-Planck Institute for Chemistry, Mainz, Germany */
 /*                                                                  */
 /* File                 : small_single_LinearAlgebra.c              */
-/* Time                 : Thu Jan 27 11:37:19 2022                  */
+/* Time                 : Thu Jan 27 12:39:35 2022                  */
 /* Working directory    : /home/kyriacos/CyprusInstitute/kpp/small_single */
 /* Equation file        : small_single.kpp                          */
 /* Output root filename : small_single                              */
@@ -25,6 +25,7 @@
 #include <math.h>
 #include <string.h>
 #include <sys/time.h>
+#include <float.h>
 #include "small_single_Parameters.h"
 #include "small_single_Global.h"
 #include "small_single_Sparse.h"

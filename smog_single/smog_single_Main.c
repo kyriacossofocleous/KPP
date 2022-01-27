@@ -13,7 +13,7 @@
 /*        R. Sander, Max-Planck Institute for Chemistry, Mainz, Germany */
 /*                                                                  */
 /* File                 : smog_single_Main.c                        */
-/* Time                 : Thu Jan 27 11:37:20 2022                  */
+/* Time                 : Thu Jan 27 12:39:37 2022                  */
 /* Working directory    : /home/kyriacos/CyprusInstitute/kpp/smog_single */
 /* Equation file        : smog_single.kpp                           */
 /* Output root filename : smog_single                               */
@@ -25,6 +25,7 @@
 #include <math.h>
 #include <string.h>
 #include <sys/time.h>
+#include <float.h>
 #include "smog_single_Parameters.h"
 #include "smog_single_Global.h"
 #include "smog_single_Sparse.h"
@@ -36,7 +37,7 @@ float * VAR = & C[0];
 float * FIX = & C[12];
 float E[NSPEC];                          /* Error of all species */
 float RCONST[NREACT];                    /* Rate constants (global) */
-float TIME;                              /* Current integration time */
+double TIME;                             /* Current integration time */
 float SUN;                               /* Sunlight intensity between [0,1] */
 float TEMP;                              /* Temperature */
 float RTOLS;                             /* (scalar) Relative tolerance */
@@ -76,7 +77,7 @@ int i;
 double t; 
 /* ---- TIME VARIABLES ------------------ */
 
-  RTOLS = 1e-1;
+  RTOLS = 1e-3;
   TSTART = 3600*12;
   TEND = TSTART + 3600*24*5;
   DT = 3600.;

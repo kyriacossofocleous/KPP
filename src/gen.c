@@ -80,6 +80,7 @@ int Jac_NZ, LU_Jac_NZ, nzr;
 
 NODE *sum, *prod;
 int real;
+int dreal;
 int nlookat;
 int nmoni;
 int ntrans;
@@ -171,7 +172,7 @@ int i,j;
   X     = DefvElm( "X",  real, -NVAR, "Vector for variables" );
   XX    = DefvElm( "XX", real, -NVAR, "Vector for output variables" );
 
-  TIME  = DefElm( "TIME", real, "Current integration time");
+  TIME  = DefElm( "TIME", dreal, "Current integration time");
   SUN   = DefElm( "SUN", real, "Sunlight intensity between [0,1]");
   TEMP  = DefElm( "TEMP", real, "Temperature");
   
@@ -3113,6 +3114,7 @@ int n;
   FixStartNr = VarNr;
   
   real = useDouble ? DOUBLE : REAL;
+  dreal = DOUBLE;
 
   n = MAX_OUTBUF;
   for( i = 1; i < INLINE_OPT; i++ ) 
