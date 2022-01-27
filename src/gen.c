@@ -2876,7 +2876,7 @@ case 'h':
 
   UseFile( initFile ); 
     F90_Inline("MODULE %s_Initialize\n", rootFileName );
-    F90_Inline("  USE %s_Parameters, ONLY: dp, NVAR, NFIX", rootFileName);
+    F90_Inline("  USE %s_Parameters, ONLY: sp, dp, NVAR, NFIX", rootFileName);
     F90_Inline("  IMPLICIT NONE\n", rootFileName );
     F90_Inline("CONTAINS\n\n");
 
@@ -2890,7 +2890,7 @@ case 'h':
     if ( useDeclareValues )
       F90_Inline("  USE %s_Precision", rootFileName );
     else
-      F90_Inline("  USE %s_Parameters, ONLY: dp, NSPEC, NVAR, NFIX, NREACT", rootFileName);
+      F90_Inline("  USE %s_Parameters, ONLY: sp, dp, NSPEC, NVAR, NFIX, NREACT", rootFileName);
     F90_Inline("  PUBLIC\n  SAVE\n");
  
   UseFile( functionFile ); 

@@ -21,9 +21,9 @@ FOPT_LAHEY = -Cpp --chk a,e,s,u --pca --ap -O0 -g --trap --trace --chkglobal
 
 FC_INTEL   = ifort 
 # More aggressive for production runs:
-#FOPT_INTEL = -cpp -O -fp-model precise -pc80 -prec_div
+FOPT_INTEL = -cpp -O -fp-model precise -pc80 -prec-div
 # More checking for debugging:
-FOPT_INTEL = -cpp -O0 -fp-model strict -implicitnone -ftrapuv \
+#FOPT_INTEL = -cpp -O0 -fp-model strict -implicitnone -ftrapuv \
               -debug all -check all -warn all
 
 FC_PGF     = pgf90
