@@ -13,7 +13,7 @@
 /*        R. Sander, Max-Planck Institute for Chemistry, Mainz, Germany */
 /*                                                                  */
 /* File                 : saprc_single_Hessian.c                    */
-/* Time                 : Fri Jan 28 11:50:50 2022                  */
+/* Time                 : Fri Jan 28 15:34:29 2022                  */
 /* Working directory    : /home/kyriacos/CyprusInstitute/kpp/saprc_single */
 /* Equation file        : saprc_single.kpp                          */
 /* Output root filename : saprc_single                              */
@@ -26,6 +26,7 @@
 #include <string.h>
 #include <sys/time.h>
 #include <float.h>
+#include <xmmintrin.h>
 #include "saprc_single_Parameters.h"
 #include "saprc_single_Global.h"
 #include "saprc_single_Sparse.h"

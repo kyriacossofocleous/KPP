@@ -109,7 +109,7 @@ void INTEGRATE(KPP_REAL TIN, KPP_REAL TOUT)
    IPAR[0] = 0;       /* non-autonomous */
    IPAR[1] = 1;       /* vector tolerances */
    RPAR[2] = STEPMIN; /* starting step */
-   IPAR[3] = 5;       /* choice of the method */
+   IPAR[3] = 2;       /* choice of the method */
 
    IERR = Rosenbrock(VAR, TIN, TOUT,
                      ATOL, RTOL,

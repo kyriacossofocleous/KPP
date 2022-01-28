@@ -161,6 +161,7 @@ int blength;
     C_Inline("#include <string.h>");
     C_Inline("#include <sys/time.h>");
     C_Inline("#include <float.h>");
+    C_Inline("#include <xmmintrin.h>");
     C_Inline("#include \"%s_Parameters.h\"", rootFileName);
     C_Inline("#include \"%s_Global.h\"", rootFileName);
     if( useJacSparse )
