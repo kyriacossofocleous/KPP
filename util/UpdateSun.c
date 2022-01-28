@@ -1,8 +1,8 @@
 void Update_SUN()
 {
-KPP_REAL SunRise, SunSet;
+double SunRise, SunSet;
 double Thour, Tlocal, Ttmp; 
-const KPP_REAL PI = 3.14159265358979;  
+const double PI = 3.14159265358979;  
 
   SunRise = 4.5;
   SunSet  = 19.5;

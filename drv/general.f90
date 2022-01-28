@@ -18,7 +18,7 @@ PROGRAM KPP_ROOT_Driver
         ATOL(i) = 1.0
       END DO
       CALL cpu_time(START)
-      DO j=1, 1000
+      DO j=1, 100000
             CALL Initialize()
 
             ! CALL InitSaveData()

@@ -13,7 +13,7 @@
 /*        R. Sander, Max-Planck Institute for Chemistry, Mainz, Germany */
 /*                                                                  */
 /* File                 : cbm4_Integrator.c                         */
-/* Time                 : Thu Jan 27 12:48:12 2022                  */
+/* Time                 : Fri Jan 28 10:55:36 2022                  */
 /* Working directory    : /home/kyriacos/CyprusInstitute/kpp/cbm4   */
 /* Equation file        : cbm4.kpp                                  */
 /* Output root filename : cbm4                                      */
@@ -149,9 +149,9 @@ void INTEGRATE(double TIN, double TOUT)
    } /* for */
 
    IPAR[0] = 0;       /* non-autonomous */
-   IPAR[1] = 2;       /* vector tolerances */
+   IPAR[1] = 1;       /* vector tolerances */
    RPAR[2] = STEPMIN; /* starting step */
-   IPAR[3] = 4;       /* choice of the method */
+   IPAR[3] = 2;       /* choice of the method */
 
    IERR = Rosenbrock(VAR, TIN, TOUT,
                      ATOL, RTOL,
@@ -163,8 +163,8 @@ void INTEGRATE(double TIN, double TOUT)
    Nr = Nr + IPAR[14];
    Ng = Ng + IPAR[17];
    Nc = Nc + IPAR[18];
-   printf("\n Step=%d  Acc=%d  Rej=%d  Singular=%d RCss=%d\n",
-          Ns, Na, Nr, Ng, Nc);
+   // printf("\n Step=%d  Acc=%d  Rej=%d  Singular=%d RCss=%d\n",
+         //  Ns, Na, Nr, Ng, Nc);
 
    if (IERR < 0)
       printf("\n Rosenbrock: Unsucessful step at T=%g: IERR=%d\n",

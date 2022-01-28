@@ -13,7 +13,7 @@
 !        R. Sander, Max-Planck Institute for Chemistry, Mainz, Germany
 ! 
 ! File                 : small_f90_Main.f90
-! Time                 : Thu Jan 27 14:30:16 2022
+! Time                 : Thu Jan 27 17:32:38 2022
 ! Working directory    : /home/kyriacos/CyprusInstitute/kpp/small_fortran_single
 ! Equation file        : small_f90.kpp
 ! Output root filename : small_f90
@@ -49,7 +49,7 @@ PROGRAM small_f90_Driver
         ATOL(i) = 1.0
       END DO
       CALL cpu_time(START)
-      DO j=1, 1000
+      DO j=1, 100000
             CALL Initialize()
 
             ! CALL InitSaveData()

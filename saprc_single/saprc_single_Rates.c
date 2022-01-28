@@ -13,7 +13,7 @@
 /*        R. Sander, Max-Planck Institute for Chemistry, Mainz, Germany */
 /*                                                                  */
 /* File                 : saprc_single_Rates.c                      */
-/* Time                 : Thu Jan 27 12:49:45 2022                  */
+/* Time                 : Fri Jan 28 11:50:50 2022                  */
 /* Working directory    : /home/kyriacos/CyprusInstitute/kpp/saprc_single */
 /* Equation file        : saprc_single.kpp                          */
 /* Output root filename : saprc_single                              */
@@ -119,9 +119,9 @@ float  FALL (  float A0, float B0, float C0, float A1, float B1, float C1, float
 
 void Update_SUN()
 {
-float SunRise, SunSet;
+double SunRise, SunSet;
 double Thour, Tlocal, Ttmp; 
-const float PI = 3.14159265358979;  
+const double PI = 3.14159265358979;  
 
   SunRise = 4.5;
   SunSet  = 19.5;
