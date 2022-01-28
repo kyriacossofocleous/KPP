@@ -13,7 +13,7 @@
 /*        R. Sander, Max-Planck Institute for Chemistry, Mainz, Germany */
 /*                                                                  */
 /* File                 : small_single_Integrator.c                 */
-/* Time                 : Thu Jan 27 12:50:21 2022                  */
+/* Time                 : Fri Jan 28 15:47:05 2022                  */
 /* Working directory    : /home/kyriacos/CyprusInstitute/kpp/small_single */
 /* Equation file        : small_single.kpp                          */
 /* Output root filename : small_single                              */
@@ -26,6 +26,7 @@
 #include <string.h>
 #include <sys/time.h>
 #include <float.h>
+#include <xmmintrin.h>
 #include "small_single_Parameters.h"
 #include "small_single_Global.h"
 #include "small_single_Sparse.h"
@@ -151,7 +152,7 @@ void INTEGRATE(float TIN, float TOUT)
    IPAR[0] = 0;       /* non-autonomous */
    IPAR[1] = 2;       /* vector tolerances */
    RPAR[2] = STEPMIN; /* starting step */
-   IPAR[3] = 4;       /* choice of the method */
+   IPAR[3] = 5;       /* choice of the method */
 
    IERR = Rosenbrock(VAR, TIN, TOUT,
                      ATOL, RTOL,

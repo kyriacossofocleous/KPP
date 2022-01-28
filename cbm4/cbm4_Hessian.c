@@ -13,7 +13,7 @@
 /*        R. Sander, Max-Planck Institute for Chemistry, Mainz, Germany */
 /*                                                                  */
 /* File                 : cbm4_Hessian.c                            */
-/* Time                 : Thu Jan 27 12:48:12 2022                  */
+/* Time                 : Fri Jan 28 16:13:14 2022                  */
 /* Working directory    : /home/kyriacos/CyprusInstitute/kpp/cbm4   */
 /* Equation file        : cbm4.kpp                                  */
 /* Output root filename : cbm4                                      */
@@ -26,6 +26,7 @@
 #include <string.h>
 #include <sys/time.h>
 #include <float.h>
+#include <xmmintrin.h>
 #include "cbm4_Parameters.h"
 #include "cbm4_Global.h"
 #include "cbm4_Sparse.h"

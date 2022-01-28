@@ -13,7 +13,7 @@
 /*        R. Sander, Max-Planck Institute for Chemistry, Mainz, Germany */
 /*                                                                  */
 /* File                 : saprc_Integrator.c                        */
-/* Time                 : Thu Jan 27 12:48:33 2022                  */
+/* Time                 : Fri Jan 28 16:27:47 2022                  */
 /* Working directory    : /home/kyriacos/CyprusInstitute/kpp/saprc  */
 /* Equation file        : saprc.kpp                                 */
 /* Output root filename : saprc                                     */
@@ -26,6 +26,7 @@
 #include <string.h>
 #include <sys/time.h>
 #include <float.h>
+#include <xmmintrin.h>
 #include "saprc_Parameters.h"
 #include "saprc_Global.h"
 #include "saprc_Sparse.h"
@@ -151,7 +152,7 @@ void INTEGRATE(double TIN, double TOUT)
    IPAR[0] = 0;       /* non-autonomous */
    IPAR[1] = 2;       /* vector tolerances */
    RPAR[2] = STEPMIN; /* starting step */
-   IPAR[3] = 4;       /* choice of the method */
+   IPAR[3] = 2;       /* choice of the method */
 
    IERR = Rosenbrock(VAR, TIN, TOUT,
                      ATOL, RTOL,
@@ -163,8 +164,8 @@ void INTEGRATE(double TIN, double TOUT)
    Nr = Nr + IPAR[14];
    Ng = Ng + IPAR[17];
    Nc = Nc + IPAR[18];
-   printf("\n Step=%d  Acc=%d  Rej=%d  Singular=%d RCss=%d\n",
-          Ns, Na, Nr, Ng, Nc);
+   // printf("\n Step=%d  Acc=%d  Rej=%d  Singular=%d RCss=%d\n",
+         //  Ns, Na, Nr, Ng, Nc);
 
    if (IERR < 0)
       printf("\n Rosenbrock: Unsucessful step at T=%g: IERR=%d\n",

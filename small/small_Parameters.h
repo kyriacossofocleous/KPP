@@ -13,7 +13,7 @@
 /*        R. Sander, Max-Planck Institute for Chemistry, Mainz, Germany */
 /*                                                                  */
 /* File                 : small_Parameters.h                        */
-/* Time                 : Thu Jan 27 12:49:02 2022                  */
+/* Time                 : Fri Jan 28 16:02:24 2022                  */
 /* Working directory    : /home/kyriacos/CyprusInstitute/kpp/small  */
 /* Equation file        : small.kpp                                 */
 /* Output root filename : small                                     */

@@ -109,7 +109,7 @@ void INTEGRATE(KPP_REAL TIN, KPP_REAL TOUT)
    IPAR[0] = 0;       /* non-autonomous */
    IPAR[1] = 2;       /* vector tolerances */
    RPAR[2] = STEPMIN; /* starting step */
-   IPAR[3] = 4;       /* choice of the method */
+   IPAR[3] = 2;       /* choice of the method */
 
    IERR = Rosenbrock(VAR, TIN, TOUT,
                      ATOL, RTOL,
@@ -121,8 +121,8 @@ void INTEGRATE(KPP_REAL TIN, KPP_REAL TOUT)
    Nr = Nr + IPAR[14];
    Ng = Ng + IPAR[17];
    Nc = Nc + IPAR[18];
-   printf("\n Step=%d  Acc=%d  Rej=%d  Singular=%d RCss=%d\n",
-          Ns, Na, Nr, Ng, Nc);
+   // printf("\n Step=%d  Acc=%d  Rej=%d  Singular=%d RCss=%d\n",
+         //  Ns, Na, Nr, Ng, Nc);
 
    if (IERR < 0)
       printf("\n Rosenbrock: Unsucessful step at T=%g: IERR=%d\n",
