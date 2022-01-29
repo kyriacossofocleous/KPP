@@ -13,7 +13,7 @@
 /*        R. Sander, Max-Planck Institute for Chemistry, Mainz, Germany */
 /*                                                                  */
 /* File                 : small_single_Initialize.c                 */
-/* Time                 : Fri Jan 28 15:11:08 2022                  */
+/* Time                 : Sat Jan 29 12:54:40 2022                  */
 /* Working directory    : /home/kyriacos/CyprusInstitute/kpp/small_single */
 /* Equation file        : small_single.kpp                          */
 /* Output root filename : small_single                              */
@@ -47,21 +47,21 @@ float x;
 
   CFACTOR = 1.000000e+00;
 
-  x = (0.)*CFACTOR;
+  x = (0.f)*CFACTOR;
   for( i = 0; i < NVAR; i++ )
     VAR[i] = x;
 
-  x = (0.)*CFACTOR;
+  x = (0.f)*CFACTOR;
   for( i = 0; i < NFIX; i++ )
     FIX[i] = x;
 
-  VAR[0] = (9.906E+01)*CFACTOR;
-  VAR[1] = (6.624E+08)*CFACTOR;
-  VAR[2] = (5.326E+11)*CFACTOR;
-  VAR[3] = (8.725E+08)*CFACTOR;
-  VAR[4] = (2.240E+08)*CFACTOR;
-  FIX[0] = (8.120E+16)*CFACTOR;
-  FIX[1] = (1.697E+16)*CFACTOR;
+  VAR[0] = (9.906E+01f)*CFACTOR;
+  VAR[1] = (6.624E+08f)*CFACTOR;
+  VAR[2] = (5.326E+11f)*CFACTOR;
+  VAR[3] = (8.725E+08f)*CFACTOR;
+  VAR[4] = (2.240E+08f)*CFACTOR;
+  FIX[0] = (8.120E+16f)*CFACTOR;
+  FIX[1] = (1.697E+16f)*CFACTOR;
 /* constant rate coefficients                                       */
 /* END constant rate coefficients                                   */
 

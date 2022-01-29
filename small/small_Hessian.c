@@ -13,7 +13,7 @@
 /*        R. Sander, Max-Planck Institute for Chemistry, Mainz, Germany */
 /*                                                                  */
 /* File                 : small_Hessian.c                           */
-/* Time                 : Fri Jan 28 10:14:19 2022                  */
+/* Time                 : Sat Jan 29 14:54:10 2022                  */
 /* Working directory    : /home/kyriacos/CyprusInstitute/kpp/small  */
 /* Equation file        : small.kpp                                 */
 /* Output root filename : small                                     */
@@ -26,6 +26,7 @@
 #include <string.h>
 #include <sys/time.h>
 #include <float.h>
+#include <xmmintrin.h>
 #include "small_Parameters.h"
 #include "small_Global.h"
 #include "small_Sparse.h"

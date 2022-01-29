@@ -13,7 +13,7 @@
 /*        R. Sander, Max-Planck Institute for Chemistry, Mainz, Germany */
 /*                                                                  */
 /* File                 : small_single_LinearAlgebra.c              */
-/* Time                 : Fri Jan 28 15:11:08 2022                  */
+/* Time                 : Sat Jan 29 12:54:40 2022                  */
 /* Working directory    : /home/kyriacos/CyprusInstitute/kpp/small_single */
 /* Equation file        : small_single.kpp                          */
 /* Output root filename : small_single                              */
@@ -47,7 +47,7 @@ float a;
 int k, kk, j, jj;
 
   for( k = 0; k < 5; k++ ) {
-    if( JVS[ LU_DIAG[k] ] == 0.0 ) return k+1;
+    if( JVS[ LU_DIAG[k] ] == 0.0f ) return k+1;
     for( kk = LU_CROW[k]; kk < LU_CROW[k+1]; kk++ )
       W[ LU_ICOL[kk] ] = JVS[kk];
     for( kk = LU_CROW[k]; kk < LU_DIAG[k]; kk++ ) {
@@ -73,8 +73,8 @@ int KppDecompCmplxR( float JVSR[], float JVSI[] )
    int k, kk, j, jj;
 
    for( k = 0; k < NVAR; k++ ) {
-	if( JVSR[ LU_DIAG[k] ] == 0.0 ) return k+1;
-	if( JVSI[ LU_DIAG[k] ] == 0.0 ) return k+1;
+	if( JVSR[ LU_DIAG[k] ] == 0.0f ) return k+1;
+	if( JVSI[ LU_DIAG[k] ] == 0.0f ) return k+1;
 	for( kk = LU_CROW[k]; kk < LU_CROW[k+1]; kk++ ) {
 		WR[ LU_ICOL[kk] ] = JVSR[kk];
 		WI[ LU_ICOL[kk] ] = JVSI[kk];
@@ -420,8 +420,8 @@ float WLAMCH(char C)
     } /* end for */
     if (i == 80)
     {
-      printf("\nERROR IN WLAMCH. Very small EPS = %g\n", Eps);
-      return (double)2.2e-16;
+      printf("\nERROR IN WLAMCH. Very small EPS = %g\n", (double)Eps);
+      return (float)2.2e-16;
     }
     Eps *= TWO;
     i--;

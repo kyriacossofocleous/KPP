@@ -13,7 +13,7 @@
 /*        R. Sander, Max-Planck Institute for Chemistry, Mainz, Germany */
 /*                                                                  */
 /* File                 : small_single_Integrator.c                 */
-/* Time                 : Fri Jan 28 15:11:08 2022                  */
+/* Time                 : Sat Jan 29 12:54:40 2022                  */
 /* Working directory    : /home/kyriacos/CyprusInstitute/kpp/small_single */
 /* Equation file        : small_single.kpp                          */
 /* Output root filename : small_single                              */
@@ -45,7 +45,7 @@
 #define MAX(a, b) (((a) >= (b)) ? (a) : (b))
 #define MIN(b, c) (((b) < (c)) ? (b) : (c))
 #define ABS(x) (((x) >= 0) ? (x) : (-x))
-#define SQRT(d) (pow((d), 0.5))
+#define SQRT(d) (powf((d), 0.5))
 #define SIGN(x) (((x) >= 0) ? [0] : (-1))
 
 /*~~> Numerical constants */
@@ -169,7 +169,7 @@ void INTEGRATE(float TIN, float TOUT)
 
    if (IERR < 0)
       printf("\n Rosenbrock: Unsucessful step at T=%g: IERR=%d\n",
-             TIN, IERR);
+             (double)TIN, IERR);
 
    TIN = RPAR[10];     /* Exit time */
    STEPMIN = RPAR[11]; /* Last step */
@@ -368,7 +368,7 @@ int Rosenbrock(float Y[], float Tstart, float Tend,
    Hmin = RPAR[0];
    if (RPAR[0] < ZERO)
    {
-      printf("\n User-selected Hmin: RPAR[0]=%e\n", RPAR[0]);
+      printf("\n User-selected Hmin: RPAR[0]=%e\n", (double)RPAR[0]);
       return ros_ErrorMsg(-3, Tstart, ZERO);
    } /* end if */
      /*~~~>  Upper bound on the step size: (positive value) */
@@ -378,7 +378,7 @@ int Rosenbrock(float Y[], float Tstart, float Tend,
       Hmax = MIN(ABS(RPAR[1]), ABS(Tend - Tstart));
    if (RPAR[1] < ZERO)
    {
-      printf("\n User-selected Hmax: RPAR[1]=%e\n", RPAR[1]);
+      printf("\n User-selected Hmax: RPAR[1]=%e\n", (double)RPAR[1]);
       return ros_ErrorMsg(-3, Tstart, ZERO);
    } /* end if */
      /*~~~>  Starting step size: (positive value) */
@@ -388,7 +388,7 @@ int Rosenbrock(float Y[], float Tstart, float Tend,
       Hstart = MIN(ABS(RPAR[2]), ABS(Tend - Tstart));
    if (RPAR[2] < ZERO)
    {
-      printf("\n User-selected Hstart: RPAR[2]=%e\n", RPAR[2]);
+      printf("\n User-selected Hstart: RPAR[2]=%e\n", (double)RPAR[2]);
       return ros_ErrorMsg(-3, Tstart, ZERO);
    } /* end if */
      /*~~~>  Step size can be changed s.t.  FacMin < Hnew/Hexit < FacMax  */
@@ -398,7 +398,7 @@ int Rosenbrock(float Y[], float Tstart, float Tend,
       FacMin = RPAR[3];
    if (RPAR[3] < ZERO)
    {
-      printf("\n User-selected FacMin: RPAR[3]=%e\n", RPAR[3]);
+      printf("\n User-selected FacMin: RPAR[3]=%e\n", (double)RPAR[3]);
       return ros_ErrorMsg(-4, Tstart, ZERO);
    } /* end if */
    if (RPAR[4] == ZERO)
@@ -407,7 +407,7 @@ int Rosenbrock(float Y[], float Tstart, float Tend,
       FacMax = RPAR[4];
    if (RPAR[4] < ZERO)
    {
-      printf("\n User-selected FacMax: RPAR[4]=%e\n", RPAR[4]);
+      printf("\n User-selected FacMax: RPAR[4]=%e\n", (double)RPAR[4]);
       return ros_ErrorMsg(-4, Tstart, ZERO);
    } /* end if */
      /*~~~>   FacRej: Factor to decrease step after 2 succesive rejections */
@@ -417,7 +417,7 @@ int Rosenbrock(float Y[], float Tstart, float Tend,
       FacRej = RPAR[5];
    if (RPAR[5] < ZERO)
    {
-      printf("\n User-selected FacRej: RPAR[5]=%e\n", RPAR[5]);
+      printf("\n User-selected FacRej: RPAR[5]=%e\n", (double)RPAR[5]);
       return ros_ErrorMsg(-4, Tstart, ZERO);
    } /* end if */
      /*~~~>   FacSafe: Safety Factor in the computation of new step size */
@@ -427,16 +427,16 @@ int Rosenbrock(float Y[], float Tstart, float Tend,
       FacSafe = RPAR[6];
    if (RPAR[6] < ZERO)
    {
-      printf("\n User-selected FacSafe: RPAR[6]=%e\n", RPAR[6]);
+      printf("\n User-selected FacSafe: RPAR[6]=%e\n", (double)RPAR[6]);
       return ros_ErrorMsg(-4, Tstart, ZERO);
    } /* end if */
      /*~~~>  Check if tolerances are reasonable */
    for (i = 0; i < UplimTol; i++)
    {
-      if ((AbsTol[i] <= ZERO) || (RelTol[i] <= 10.0 * Roundoff) || (RelTol[i] >= ONE))
+      if ((AbsTol[i] <= ZERO) || (RelTol[i] <= 10.0f * Roundoff) || (RelTol[i] >= ONE))
       {
-         printf("\n  AbsTol[%d] = %e\n", i, AbsTol[i]);
-         printf("\n  RelTol[%d] = %e\n", i, RelTol[i]);
+         printf("\n  AbsTol[%d] = %e\n", i, (double)AbsTol[i]);
+         printf("\n  RelTol[%d] = %e\n", i, (double)RelTol[i]);
          return ros_ErrorMsg(-5, Tstart, ZERO);
       } /* end if */
    }    /* for */
@@ -551,7 +551,7 @@ int RosenbrockIntegrator(
    T = Tstart;
    *Hexit = 0.0;
    H = MIN(Hstart, Hmax);
-   if (ABS(H) <= 10.0 * Roundoff)
+   if (ABS(H) <= 10.0f * Roundoff)
       H = DeltaMin;
 
    if (Tend >= Tstart)
@@ -576,7 +576,7 @@ int RosenbrockIntegrator(
          *Texit = T;
          return ros_ErrorMsg(-6, T, H);
       }
-      if (((T + 0.1 * H) == T) || (H <= Roundoff))
+      if (((T + 0.1f * H) == T) || (H <= Roundoff))
       { /* Step size too small */
          *Texit = T;
          return ros_ErrorMsg(-7, T, H);
@@ -659,7 +659,7 @@ int RosenbrockIntegrator(
          Err = ros_ErrorNorm(Y, Ynew, Yerr, AbsTol, RelTol, VectorTol);
 
          /*~~~> New step size is bounded by FacMin <= Hnew/H <= FacMax  */
-         Fac = MIN(FacMax, MAX(FacMin, FacSafe / pow(Err, ONE / ros_ELO)));
+         Fac = MIN(FacMax, MAX(FacMin, FacSafe / powf(Err, ONE / ros_ELO)));
          Hnew = H * Fac;
 
          /*~~~>  Check the error magnitude and adjust step size  */
@@ -765,7 +765,7 @@ void ros_FunTimeDerivative(
    /*~~~> Local variables */
    double Delta;
 
-   if (SUN < 1e-2)
+   if (SUN < 1e-2f)
    {
       Delta = SQRT(DBL_EPSILON) * MAX(DeltaMin, ABS(T));
    }
@@ -773,9 +773,9 @@ void ros_FunTimeDerivative(
    {
       Delta = SQRT(Roundoff) * MAX(DeltaMin, ABS(T));
    }
-   (*ode_Fun2)(T + Delta, Y, dFdT);
+   (*ode_Fun2)((double)T + Delta, Y, dFdT);
    WAXPY(5, (-ONE), Fcn0, 1, dFdT, 1);
-   WSCAL(5, (ONE / Delta), dFdT, 1);
+   WSCAL(5, (ONE / (float)Delta), dFdT, 1);
 
 } /*  ros_FunTimeDerivative */
 
@@ -881,7 +881,7 @@ int ros_ErrorMsg(int Code, float T, float H)
       printf("Unknown Error code: %d ", Code);
    } /* end switch */
 
-   printf("\n   Time = %15.7e,  H = %15.7e", T, H);
+   printf("\n   Time = %15.7e,  H = %15.7e", (double)T, (double)H);
    printf("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
 
    return Code;
@@ -897,7 +897,7 @@ void Ros2(int *ros_S, float ros_A[], float ros_C[],
              AN L-STABLE METHOD, 2 stages, order 2
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 {
-   double g = (float)1.70710678118655; /* 1.0 + 1.0/SQRT(2.0) */
+   float g = 1.70710678118655f; /* 1.0 + 1.0/SQRT(2.0) */
 
    /*~~~> Name of the method */
    strcpy(ros_Name, "ROS-2");
@@ -910,10 +910,10 @@ void Ros2(int *ros_S, float ros_A[], float ros_C[],
     A(2,1) = ros_A[0], A(3,1)=ros_A[1], A(3,2)=ros_A[2], etc.
     The general mapping formula is:
         A_{i,j} = ros_A[ (i-1)*(i-2)/2 + j -1 ]   */
-   ros_A[0] = 1.0 / g;
+   ros_A[0] = 1.0f / g;
 
    /*~~~>     C_{i,j} = ros_C[ (i-1)*(i-2)/2 + j -1]  */
-   ros_C[0] = (-2.0) / g;
+   ros_C[0] = (-2.0f) / g;
 
    /*~~~> does the stage i require a new function evaluation (ros_NewF(i)=TRUE)
     or does it re-use the function evaluation from stage i-1 (ros_NewF(i)=FALSE) */
@@ -921,20 +921,20 @@ void Ros2(int *ros_S, float ros_A[], float ros_C[],
    ros_NewF[1] = 1;
 
    /*~~~> M_i = Coefficients for new step solution */
-   ros_M[0] = (3.0) / (2.0 * g);
-   ros_M[1] = (1.0) / (2.0 * g);
+   ros_M[0] = (3.0f) / (2.0f * g);
+   ros_M[1] = (1.0f) / (2.0f * g);
 
    /*~~~> E_i = Coefficients for error estimator */
-   ros_E[0] = 1.0 / (2.0 * g);
-   ros_E[1] = 1.0 / (2.0 * g);
+   ros_E[0] = 1.0f / (2.0f * g);
+   ros_E[1] = 1.0f / (2.0f * g);
 
    /*~~~> ros_ELO = estimator of local order - the minimum between the
 !    main and the embedded scheme orders plus one */
-   *ros_ELO = (float)2.0;
+   *ros_ELO = 2.0f;
 
    /*~~~> Y_stage_i ~ Y( T + H*Alpha_i ) */
-   ros_Alpha[0] = (float)0.0;
-   ros_Alpha[1] = (float)1.0;
+   ros_Alpha[0] = 0.0f;
+   ros_Alpha[1] = 1.0f;
 
    /*~~~> Gamma_i = \sum_j  gamma_{i,j}  */
    ros_Gamma[0] = g;
@@ -1339,11 +1339,11 @@ void FunTemplate2(double T, float Y[], float Ydot[])
    double Told;
 
    Told = TIME;
-   TIME = T;
+   TIME = (float)T;
    Update_SUN();
    Update_RCONST();
    Fun(Y, FIX, RCONST, Ydot);
-   TIME = Told;
+   TIME = (float)Told;
 
    Nfun++;
 

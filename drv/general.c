@@ -25,7 +25,7 @@ int main()
   TEMP = 236.21;
 
   t = Stopwatch(0);
-  for (int j = 0; j < 5000; j++)
+  for (int j = 0; j < 100000; j++)
   {
     Initialize();
     for (i = 0; i < NVAR; i++)

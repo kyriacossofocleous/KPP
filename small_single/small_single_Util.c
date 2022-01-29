@@ -13,7 +13,7 @@
 /*        R. Sander, Max-Planck Institute for Chemistry, Mainz, Germany */
 /*                                                                  */
 /* File                 : small_single_Util.c                       */
-/* Time                 : Fri Jan 28 15:11:08 2022                  */
+/* Time                 : Sat Jan 29 12:54:40 2022                  */
 /* Working directory    : /home/kyriacos/CyprusInstitute/kpp/small_single */
 /* Equation file        : small_single.kpp                          */
 /* Output root filename : small_single                              */
@@ -65,7 +65,7 @@ Stopwatch(double t0)
 {
   struct timeval t;
   gettimeofday(&t, NULL);
-  return (double)t.tv_sec + (double)t.tv_usec / 1e6 - t0;
+  return (double)t.tv_sec + (double)t.tv_usec / (double)1e6 - t0;
 }
 
 static FILE *fpDat = 0;
@@ -104,9 +104,9 @@ int InitSaveE()
 
 int SaveE(float Err, int s)
 {
-  fprintf( fpE, "%6.3f ", TIME/3600.0);
-  fprintf( fpE, "%e ", Err);
-  fprintf( fpE, "%e ", SUN);
+  fprintf( fpE, "%6.3f ", (double)TIME/(double)3600.0);
+  fprintf( fpE, "%e ", (double)Err);
+  fprintf( fpE, "%e ", (double)SUN);
   fprintf( fpE, "%d ", s);
   fprintf( fpE, "\n");
   return 0;
@@ -117,9 +117,9 @@ int SaveData()
 {
 int i;
 
-  fprintf( fpDat, "%6.1f ", TIME/3600.0 );
+  fprintf( fpDat, "%6.1f ", (double)TIME/(double)3600.0 );
   for( i = 0; i < NLOOKAT; i++ )
-    fprintf( fpDat, "%24.16e ", C[ LOOKAT[i] ]/CFACTOR );
+    fprintf( fpDat, "%24.16e ", (double)C[ LOOKAT[i] ]/(double)CFACTOR );
   // fprintf( fpDat, "%d ", s);
   fprintf( fpDat, "\n");
   return 0;
@@ -129,9 +129,9 @@ int SaveError(int s)
 {
 int i;
 
-  fprintf( fpErr, "%6.1f ", TIME/3600.0 );
+  fprintf( fpErr, "%6.1f ", (double)TIME/(double)3600.0 );
   for( i = 0; i < NLOOKAT; i++ )
-    fprintf( fpErr, "%24.16e ", E[ LOOKAT[i] ] );
+    fprintf( fpErr, "%24.16e ", (double)E[ LOOKAT[i] ] );
   fprintf( fpErr, "%d ", s);
   fprintf( fpErr, "\n");
   return 0;

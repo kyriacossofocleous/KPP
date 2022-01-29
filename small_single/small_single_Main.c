@@ -13,7 +13,7 @@
 /*        R. Sander, Max-Planck Institute for Chemistry, Mainz, Germany */
 /*                                                                  */
 /* File                 : small_single_Main.c                       */
-/* Time                 : Fri Jan 28 15:11:08 2022                  */
+/* Time                 : Sat Jan 29 12:54:40 2022                  */
 /* Working directory    : /home/kyriacos/CyprusInstitute/kpp/small_single */
 /* Equation file        : small_single.kpp                          */
 /* Output root filename : small_single                              */
@@ -38,7 +38,7 @@ float * VAR = & C[0];
 float * FIX = & C[5];
 float E[NSPEC];                          /* Error of all species */
 float RCONST[NREACT];                    /* Rate constants (global) */
-double TIME;                             /* Current integration time */
+float TIME;                             /* Current integration time */
 float SUN;                               /* Sunlight intensity between [0,1] */
 float TEMP;                              /* Temperature */
 float RTOLS;                             /* (scalar) Relative tolerance */
@@ -78,11 +78,11 @@ int main()
   double t;
   /* ---- TIME VARIABLES ------------------ */
 
-  RTOLS = 1e-1;
+  RTOLS = 1e-1f;
   TSTART = 3600 * 12;
   TEND = TSTART + 3600 * 24 * 5;
   DT = 3600.;
-  TEMP = 236.21;
+  TEMP = 236.21f;
 
   t = Stopwatch(0);
   for (int j = 0; j < 100000; j++)
@@ -91,9 +91,9 @@ int main()
     for (i = 0; i < NVAR; i++)
     {
       RTOL[i] = RTOLS;
-      ATOL[i] = 1.0;
+      ATOL[i] = 1.0f;
     }
-    STEPMIN = 0.01;
+    STEPMIN = 0.01f;
     STEPMAX = 900;
 
     /* ********** TIME LOOP **************************** */
