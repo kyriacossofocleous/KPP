@@ -13,7 +13,7 @@
 /*        R. Sander, Max-Planck Institute for Chemistry, Mainz, Germany */
 /*                                                                  */
 /* File                 : small_single_LinearAlgebra.c              */
-/* Time                 : Thu Jan 27 12:50:21 2022                  */
+/* Time                 : Sat Jan 29 19:41:54 2022                  */
 /* Working directory    : /home/kyriacos/CyprusInstitute/kpp/small_single */
 /* Equation file        : small_single.kpp                          */
 /* Output root filename : small_single                              */
@@ -371,7 +371,7 @@ float WLAMCH( char C )
 	  if (Suma <= ONE) break;
         } /* end for */
         if (i==80) {
-	   printf("\nERROR IN WLAMCH. Very small EPS = %g\n",Eps);
+	   printf("\nERROR IN WLAMCH. Very small EPS = %g\n",(double)Eps);
            return (double)2.2e-16;
 	}
         Eps *= TWO; i--;      

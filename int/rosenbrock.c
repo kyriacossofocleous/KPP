@@ -121,8 +121,8 @@ void INTEGRATE(KPP_REAL TIN, KPP_REAL TOUT)
    Nr = Nr + IPAR[14];
    Ng = Ng + IPAR[17];
    Nc = Nc + IPAR[18];
-   printf("\n Step=%d  Acc=%d  Rej=%d  Singular=%d RCss=%d\n",
-          Ns, Na, Nr, Ng, Nc);
+   // printf("\n Step=%d  Acc=%d  Rej=%d  Singular=%d RCss=%d\n",
+         //  Ns, Na, Nr, Ng, Nc);
 
    if (IERR < 0)
       printf("\n Rosenbrock: Unsucessful step at T=%g: IERR=%d\n",
@@ -722,14 +722,14 @@ void ros_FunTimeDerivative(
    /*~~~> Local variables */
    double Delta;
 
-   if (SUN < 1e-2)
-   {
-      Delta = SQRT(DBL_EPSILON) * MAX(DeltaMin, ABS(T));
-   }
-   else
-   {
+   // if (SUN < 1e-2)
+   // {
+      // Delta = SQRT(DBL_EPSILON) * MAX(DeltaMin, ABS(T));
+   // }
+   // else
+   // {
       Delta = SQRT(Roundoff) * MAX(DeltaMin, ABS(T));
-   }
+   // }
    (*ode_Fun2)(T + Delta, Y, dFdT);
    WAXPY(KPP_NVAR, (-ONE), Fcn0, 1, dFdT, 1);
    WSCAL(KPP_NVAR, (ONE / Delta), dFdT, 1);

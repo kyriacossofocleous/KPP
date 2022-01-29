@@ -13,7 +13,7 @@
 /*        R. Sander, Max-Planck Institute for Chemistry, Mainz, Germany */
 /*                                                                  */
 /* File                 : small_single_Main.c                       */
-/* Time                 : Thu Jan 27 12:50:21 2022                  */
+/* Time                 : Sat Jan 29 19:41:54 2022                  */
 /* Working directory    : /home/kyriacos/CyprusInstitute/kpp/small_single */
 /* Equation file        : small_single.kpp                          */
 /* Output root filename : small_single                              */
@@ -37,7 +37,8 @@ float * VAR = & C[0];
 float * FIX = & C[5];
 float E[NSPEC];                          /* Error of all species */
 float RCONST[NREACT];                    /* Rate constants (global) */
-double TIME;                             /* Current integration time */
+float TIME;                              /* Current integration time */
+double FUNTIME;                          /* Function Evaluation time */
 float SUN;                               /* Sunlight intensity between [0,1] */
 float TEMP;                              /* Temperature */
 float RTOLS;                             /* (scalar) Relative tolerance */
@@ -84,8 +85,8 @@ int main()
   TEMP = 236.21;
 
   t = Stopwatch(0);
-  for (int j = 0; j < 1000; j++)
-  {
+  // for (int j = 0; j < 10000; j++)
+  // {
     Initialize();
     for (i = 0; i < NVAR; i++)
     {
@@ -101,30 +102,32 @@ int main()
     // InitSaveError();
     // InitSaveE();
 
-    printf("\n%7s %7s   ", "done[%]", "Time[h]");
-    for (i = 0; i < NMONITOR; i++)
-      printf("%8s  ", SPC_NAMES[MONITOR[i]]);
-    for (i = 0; i < NMASS; i++)
-      printf("(%6s)  ", SMASS[i]);
+    // printf("\n%7s %7s   ", "done[%]", "Time[h]");
+    // for (i = 0; i < NMONITOR; i++)
+      // printf("%8s  ", SPC_NAMES[MONITOR[i]]);
+    // for (i = 0; i < NMASS; i++)
+      // printf("(%6s)  ", SMASS[i]);
 
     TIME = TSTART;
+    FUNTIME = (double)TSTART;
     while (TIME <= TEND)
     {
       GetMass(C, dval);
-      printf("\n%6.1f%% %7.2f   ", (TIME - TSTART) / (TEND - TSTART) * 100, TIME / 3600);
-      for (i = 0; i < NMONITOR; i++)
-        printf("%9.3e  ", C[MONITOR[i]] / CFACTOR);
-      for (i = 0; i < NMASS; i++)
-        printf("%9.3e  ", dval[i] / CFACTOR);
+      // printf("\n%6.1f%% %7.2f   ", (TIME - TSTART) / (TEND - TSTART) * 100, TIME / 3600);
+      // for (i = 0; i < NMONITOR; i++)
+        // printf("%9.3e  ", C[MONITOR[i]] / CFACTOR);
+      // for (i = 0; i < NMASS; i++)
+        // printf("%9.3e  ", dval[i] / CFACTOR);
 
       // SaveData();
 
       INTEGRATE(TIME, TIME + DT);
       TIME += DT;
+      FUNTIME += (double)DT;
     }
 
     /* *********** END TIME LOOP *********************** */
-  }
+  // }
   t = Stopwatch(t);
   printf("Simulation Time: %10.6f", t);
   printf("\n");

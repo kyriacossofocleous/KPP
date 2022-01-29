@@ -1,6 +1,8 @@
 # Set here the desired C compiler and its optimization options
-CC   = icc
-COPT = -O2 -fp-model=precise  
+CC   = gcc
+#COPT = -O2 -m32 -fsingle-precision-constant
+#DEBUG
+COPT = -O2 -m32 -fsingle-precision-constant -Wfloat-conversion -Wdouble-promotion
 
 # To create Matlab gateway routines
 # Note: use $(CC) as the mex C compiler

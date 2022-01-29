@@ -13,7 +13,7 @@
 /*        R. Sander, Max-Planck Institute for Chemistry, Mainz, Germany */
 /*                                                                  */
 /* File                 : small_single_Global.h                     */
-/* Time                 : Thu Jan 27 12:50:21 2022                  */
+/* Time                 : Sat Jan 29 19:41:54 2022                  */
 /* Working directory    : /home/kyriacos/CyprusInstitute/kpp/small_single */
 /* Equation file        : small_single.kpp                          */
 /* Output root filename : small_single                              */
@@ -30,7 +30,8 @@ extern float C[NSPEC];                          /* Concentration of all species 
   extern float * FIX;
 extern float E[NSPEC];                          /* Error of all species */
 extern float RCONST[NREACT];                    /* Rate constants (global) */
-extern double TIME;                             /* Current integration time */
+extern float TIME;                              /* Current integration time */
+extern double FUNTIME;                          /* Function Evaluation time */
 extern float SUN;                               /* Sunlight intensity between [0,1] */
 extern float TEMP;                              /* Temperature */
 extern float RTOLS;                             /* (scalar) Relative tolerance */

@@ -13,7 +13,7 @@
 /*        R. Sander, Max-Planck Institute for Chemistry, Mainz, Germany */
 /*                                                                  */
 /* File                 : small_Integrator.c                        */
-/* Time                 : Thu Jan 27 12:49:02 2022                  */
+/* Time                 : Sat Jan 29 17:28:18 2022                  */
 /* Working directory    : /home/kyriacos/CyprusInstitute/kpp/small  */
 /* Equation file        : small.kpp                                 */
 /* Output root filename : small                                     */
@@ -163,8 +163,8 @@ void INTEGRATE(double TIN, double TOUT)
    Nr = Nr + IPAR[14];
    Ng = Ng + IPAR[17];
    Nc = Nc + IPAR[18];
-   printf("\n Step=%d  Acc=%d  Rej=%d  Singular=%d RCss=%d\n",
-          Ns, Na, Nr, Ng, Nc);
+   // printf("\n Step=%d  Acc=%d  Rej=%d  Singular=%d RCss=%d\n",
+         //  Ns, Na, Nr, Ng, Nc);
 
    if (IERR < 0)
       printf("\n Rosenbrock: Unsucessful step at T=%g: IERR=%d\n",
@@ -764,14 +764,14 @@ void ros_FunTimeDerivative(
    /*~~~> Local variables */
    double Delta;
 
-   if (SUN < 1e-2)
-   {
-      Delta = SQRT(DBL_EPSILON) * MAX(DeltaMin, ABS(T));
-   }
-   else
-   {
+   // if (SUN < 1e-2)
+   // {
+      // Delta = SQRT(DBL_EPSILON) * MAX(DeltaMin, ABS(T));
+   // }
+   // else
+   // {
       Delta = SQRT(Roundoff) * MAX(DeltaMin, ABS(T));
-   }
+   // }
    (*ode_Fun2)(T + Delta, Y, dFdT);
    WAXPY(5, (-ONE), Fcn0, 1, dFdT, 1);
    WSCAL(5, (ONE / Delta), dFdT, 1);

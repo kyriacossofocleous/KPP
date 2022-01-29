@@ -169,7 +169,7 @@ KPP_REAL WLAMCH( char C )
 	  if (Suma <= ONE) break;
         } /* end for */
         if (i==80) {
-	   printf("\nERROR IN WLAMCH. Very small EPS = %g\n",Eps);
+	   printf("\nERROR IN WLAMCH. Very small EPS = %g\n",(double)Eps);
            return (double)2.2e-16;
 	}
         Eps *= TWO; i--;      

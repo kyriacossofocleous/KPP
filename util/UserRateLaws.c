@@ -3,65 +3,65 @@
          but all the internal calculations are performed in double precision
 */
 /* Arrhenius */
-KPP_REAL  ARR( float A0, float B0, float C0 )
+KPP_REAL  ARR( KPP_REAL A0, KPP_REAL B0, KPP_REAL C0 )
       {
-      double ARR_RES;
+      KPP_REAL ARR_RES;
                  
-      ARR_RES = (double)A0 * exp( -(double)B0/TEMP ) 
-                * pow( (TEMP/300.0), (double)C0 );   
+      ARR_RES = A0 * expf( -B0/TEMP ) 
+                * powf( (TEMP/300.0), C0 );   
            
-      return (KPP_REAL)ARR_RES;
+      return ARR_RES;
       }           
 
 
 /* Simplified Arrhenius, with two arguments */
 /* Note that the argument B0 has a changed sign when compared to ARR */
-KPP_REAL  ARR2(  float A0, float B0 )
+KPP_REAL  ARR2(  KPP_REAL A0, KPP_REAL B0 )
       {
-      double ARR_RES;           
+      KPP_REAL ARR_RES;           
 
-      ARR_RES =  (double)A0 * exp( (double)B0/TEMP );   
+      ARR_RES =  A0 * expf( B0/TEMP );   
            
-      return (KPP_REAL)ARR_RES;
+      return ARR_RES;
       }           
 
 
-KPP_REAL  EP2( float A0, float C0, float A2, float C2, float A3, float C3)
+KPP_REAL  EP2( KPP_REAL A0, KPP_REAL C0, KPP_REAL A2, KPP_REAL C2, KPP_REAL A3, KPP_REAL C3)
       {                       
-      double K0, K2, K3, EP2_RES;
+      KPP_REAL K0, K2, K3, EP2_RES;
       
-      K0 = (double)A0 * exp( -(double)C0/TEMP );
-      K2 = (double)A2 * exp( -(double)C2/TEMP );
-      K3 = (double)A3 * exp( -(double)C3/TEMP );
+      K0 = A0 * expf( -C0/TEMP );
+      K2 = A2 * expf( -C2/TEMP );
+      K3 = A3 * expf( -C3/TEMP );
       K3 = K3*CFACTOR*1.0e+6;
       EP2_RES = K0 + K3/( 1.0+K3/K2 );
         
-      return (KPP_REAL)EP2_RES;
+      return EP2_RES;
       }  
 
 
-KPP_REAL  EP3( float A1, float C1, float A2, float C2) 
+KPP_REAL  EP3( KPP_REAL A1, KPP_REAL C1, KPP_REAL A2, KPP_REAL C2) 
       {               
-      double K1, K2, EP3_RES;
+      KPP_REAL K1, K2, EP3_RES;
       
-      K1 = (double)A1 * exp(-(double)C1/TEMP);
-      K2 = (double)A2 * exp(-(double)C2/TEMP);
+      K1 = A1 * expf(-C1/TEMP);
+      K2 = A2 * expf(-C2/TEMP);
       EP3_RES = K1 + K2*(1.0e+6*CFACTOR);
       
-      return (KPP_REAL)EP3_RES;
+      return EP3_RES;
       }    
 
 
-KPP_REAL  FALL (  float A0, float B0, float C0, float A1, float B1, float C1, float CF)
+KPP_REAL  FALL (  KPP_REAL A0, KPP_REAL B0, KPP_REAL C0, KPP_REAL A1, KPP_REAL B1, KPP_REAL C1, KPP_REAL CF)
       {                      
-      double K0, K1, FALL_RES;
+      KPP_REAL K0, K1, FALL_RES;
       
-      K0 = (double)A0 * exp(-(double)B0/TEMP)* pow( (TEMP/300.0), (double)C0 );
-      K1 = (double)A1 * exp(-(double)B1/TEMP)* pow( (TEMP/300.0), (double)C1 );
+      K0 = A0 * expf(-B0/TEMP)* powf( (TEMP/300.0), C0 );
+      K1 = A1 * expf(-B1/TEMP)* powf( (TEMP/300.0), C1 );
       K0 = K0*CFACTOR*1.0e+6;
       K1 = K0/K1;
       FALL_RES = (K0/(1.0+K1))*
-           pow( (double)CF, ( 1.0/( 1.0+pow( (log10(K1)),2 ) ) ) );
+           powf( CF, ( 1.0/( 1.0+powf( (log10f(K1)),2 ) ) ) );
         
-      return (KPP_REAL)FALL_RES;
+      return FALL_RES;
       }

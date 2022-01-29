@@ -13,7 +13,7 @@
 /*        R. Sander, Max-Planck Institute for Chemistry, Mainz, Germany */
 /*                                                                  */
 /* File                 : small_single_Util.c                       */
-/* Time                 : Thu Jan 27 12:50:21 2022                  */
+/* Time                 : Sat Jan 29 19:41:54 2022                  */
 /* Working directory    : /home/kyriacos/CyprusInstitute/kpp/small_single */
 /* Equation file        : small_single.kpp                          */
 /* Output root filename : small_single                              */
@@ -64,7 +64,7 @@ Stopwatch(double t0)
 {
   struct timeval t;
   gettimeofday(&t, NULL);
-  return (double)t.tv_sec + (double)t.tv_usec / 1e6 - t0;
+  return (double)t.tv_sec + (double)t.tv_usec / (double)1e6 - t0;
 }
 
 static FILE *fpDat = 0;

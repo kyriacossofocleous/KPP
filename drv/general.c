@@ -25,8 +25,8 @@ int main()
   TEMP = 236.21;
 
   t = Stopwatch(0);
-  for (int j = 0; j < 1000; j++)
-  {
+  // for (int j = 0; j < 10000; j++)
+  // {
     Initialize();
     for (i = 0; i < NVAR; i++)
     {
@@ -42,30 +42,32 @@ int main()
     // InitSaveError();
     // InitSaveE();
 
-    printf("\n%7s %7s   ", "done[%]", "Time[h]");
-    for (i = 0; i < NMONITOR; i++)
-      printf("%8s  ", SPC_NAMES[MONITOR[i]]);
-    for (i = 0; i < NMASS; i++)
-      printf("(%6s)  ", SMASS[i]);
+    // printf("\n%7s %7s   ", "done[%]", "Time[h]");
+    // for (i = 0; i < NMONITOR; i++)
+      // printf("%8s  ", SPC_NAMES[MONITOR[i]]);
+    // for (i = 0; i < NMASS; i++)
+      // printf("(%6s)  ", SMASS[i]);
 
     TIME = TSTART;
+    FUNTIME = (double)TSTART;
     while (TIME <= TEND)
     {
       GetMass(C, dval);
-      printf("\n%6.1f%% %7.2f   ", (TIME - TSTART) / (TEND - TSTART) * 100, TIME / 3600);
-      for (i = 0; i < NMONITOR; i++)
-        printf("%9.3e  ", C[MONITOR[i]] / CFACTOR);
-      for (i = 0; i < NMASS; i++)
-        printf("%9.3e  ", dval[i] / CFACTOR);
+      // printf("\n%6.1f%% %7.2f   ", (TIME - TSTART) / (TEND - TSTART) * 100, TIME / 3600);
+      // for (i = 0; i < NMONITOR; i++)
+        // printf("%9.3e  ", C[MONITOR[i]] / CFACTOR);
+      // for (i = 0; i < NMASS; i++)
+        // printf("%9.3e  ", dval[i] / CFACTOR);
 
       // SaveData();
 
       INTEGRATE(TIME, TIME + DT);
       TIME += DT;
+      FUNTIME += (double)DT;
     }
 
     /* *********** END TIME LOOP *********************** */
-  }
+  // }
   t = Stopwatch(t);
   printf("Simulation Time: %10.6f", t);
   printf("\n");
