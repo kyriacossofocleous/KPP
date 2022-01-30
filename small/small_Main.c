@@ -13,7 +13,7 @@
 /*        R. Sander, Max-Planck Institute for Chemistry, Mainz, Germany */
 /*                                                                  */
 /* File                 : small_Main.c                              */
-/* Time                 : Sat Jan 29 17:28:18 2022                  */
+/* Time                 : Sun Jan 30 10:01:38 2022                  */
 /* Working directory    : /home/kyriacos/CyprusInstitute/kpp/small  */
 /* Equation file        : small.kpp                                 */
 /* Output root filename : small                                     */
@@ -38,6 +38,7 @@ double * FIX = & C[5];
 double E[NSPEC];                         /* Error of all species */
 double RCONST[NREACT];                   /* Rate constants (global) */
 double TIME;                             /* Current integration time */
+double FUNTIME;                          /* Function Evaluation time */
 double SUN;                              /* Sunlight intensity between [0,1] */
 double TEMP;                             /* Temperature */
 double RTOLS;                            /* (scalar) Relative tolerance */
@@ -77,7 +78,7 @@ int main()
   double t;
   /* ---- TIME VARIABLES ------------------ */
 
-  RTOLS = 1e-2;
+  RTOLS = 1e-3;
   TSTART = 3600 * 12;
   TEND = TSTART + 3600 * 24 * 5;
   DT = 3600.;
@@ -108,6 +109,7 @@ int main()
       // printf("(%6s)  ", SMASS[i]);
 
     TIME = TSTART;
+    // FUNTIME = (double)TSTART;
     while (TIME <= TEND)
     {
       GetMass(C, dval);
@@ -121,6 +123,7 @@ int main()
 
       INTEGRATE(TIME, TIME + DT);
       TIME += DT;
+      // FUNTIME += (double)DT;
     }
 
     /* *********** END TIME LOOP *********************** */

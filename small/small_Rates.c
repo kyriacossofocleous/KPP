@@ -13,7 +13,7 @@
 /*        R. Sander, Max-Planck Institute for Chemistry, Mainz, Germany */
 /*                                                                  */
 /* File                 : small_Rates.c                             */
-/* Time                 : Sat Jan 29 17:28:18 2022                  */
+/* Time                 : Sun Jan 30 10:01:38 2022                  */
 /* Working directory    : /home/kyriacos/CyprusInstitute/kpp/small  */
 /* Equation file        : small.kpp                                 */
 /* Output root filename : small                                     */
@@ -39,67 +39,67 @@
          but all the internal calculations are performed in double precision
 */
 /* Arrhenius */
-double  ARR( float A0, float B0, float C0 )
+double  ARR( double A0, double B0, double C0 )
       {
       double ARR_RES;
                  
-      ARR_RES = (double)A0 * exp( -(double)B0/TEMP ) 
-                * pow( (TEMP/300.0), (double)C0 );   
+      ARR_RES = A0 * exp( -B0/TEMP ) 
+                * pow( (TEMP/300.0), C0 );   
            
-      return (double)ARR_RES;
+      return ARR_RES;
       }           
 
 
 /* Simplified Arrhenius, with two arguments */
 /* Note that the argument B0 has a changed sign when compared to ARR */
-double  ARR2(  float A0, float B0 )
+double  ARR2(  double A0, double B0 )
       {
       double ARR_RES;           
 
-      ARR_RES =  (double)A0 * exp( (double)B0/TEMP );   
+      ARR_RES =  A0 * exp( B0/TEMP );   
            
-      return (double)ARR_RES;
+      return ARR_RES;
       }           
 
 
-double  EP2( float A0, float C0, float A2, float C2, float A3, float C3)
+double  EP2( double A0, double C0, double A2, double C2, double A3, double C3)
       {                       
       double K0, K2, K3, EP2_RES;
       
-      K0 = (double)A0 * exp( -(double)C0/TEMP );
-      K2 = (double)A2 * exp( -(double)C2/TEMP );
-      K3 = (double)A3 * exp( -(double)C3/TEMP );
+      K0 = A0 * exp( -C0/TEMP );
+      K2 = A2 * exp( -C2/TEMP );
+      K3 = A3 * exp( -C3/TEMP );
       K3 = K3*CFACTOR*1.0e+6;
       EP2_RES = K0 + K3/( 1.0+K3/K2 );
         
-      return (double)EP2_RES;
+      return EP2_RES;
       }  
 
 
-double  EP3( float A1, float C1, float A2, float C2) 
+double  EP3( double A1, double C1, double A2, double C2) 
       {               
       double K1, K2, EP3_RES;
       
-      K1 = (double)A1 * exp(-(double)C1/TEMP);
-      K2 = (double)A2 * exp(-(double)C2/TEMP);
+      K1 = A1 * exp(-C1/TEMP);
+      K2 = A2 * exp(-C2/TEMP);
       EP3_RES = K1 + K2*(1.0e+6*CFACTOR);
       
-      return (double)EP3_RES;
+      return EP3_RES;
       }    
 
 
-double  FALL (  float A0, float B0, float C0, float A1, float B1, float C1, float CF)
+double  FALL (  double A0, double B0, double C0, double A1, double B1, double C1, double CF)
       {                      
       double K0, K1, FALL_RES;
       
-      K0 = (double)A0 * exp(-(double)B0/TEMP)* pow( (TEMP/300.0), (double)C0 );
-      K1 = (double)A1 * exp(-(double)B1/TEMP)* pow( (TEMP/300.0), (double)C1 );
+      K0 = A0 * exp(-B0/TEMP)* pow( (TEMP/300.0), C0 );
+      K1 = A1 * exp(-B1/TEMP)* pow( (TEMP/300.0), C1 );
       K0 = K0*CFACTOR*1.0e+6;
       K1 = K0/K1;
       FALL_RES = (K0/(1.0+K1))*
-           pow( (double)CF, ( 1.0/( 1.0+pow( (log10(K1)),2 ) ) ) );
+           pow( CF, ( 1.0/( 1.0+pow( (log10(K1)),2 ) ) ) );
         
-      return (double)FALL_RES;
+      return FALL_RES;
       }
 
 /* End Rate Law Functions from KPP_HOME/util/UserRateLaws           */
@@ -119,9 +119,9 @@ double  FALL (  float A0, float B0, float C0, float A1, float B1, float C1, floa
 
 void Update_SUN()
 {
-double SunRise, SunSet;
-double Thour, Tlocal, Ttmp; 
-const double PI = 3.14159265358979;  
+float SunRise, SunSet;
+float Thour, Tlocal, Ttmp; 
+const float PI = 3.14159265358979;  
 
   SunRise = 4.5;
   SunSet  = 19.5;
@@ -130,6 +130,27 @@ const double PI = 3.14159265358979;
 
   if ( (Tlocal >= SunRise) && (Tlocal <= SunSet) ) {
     Ttmp = (2.0*Tlocal-SunRise-SunSet)/(SunSet-SunRise);
+    if (Ttmp > 0) Ttmp =  Ttmp*Ttmp;
+             else Ttmp = -Ttmp*Ttmp;
+    SUN = ( 1.0 + (float)cos(PI*Ttmp) )/2.0; 
+  } else {
+    SUN=0.0;
+  }
+}
+
+void Update_SUN_D()
+{
+double SunRise, SunSet;
+double Thour, Tlocal, Ttmp; 
+const double PI = 3.14159265358979;  
+
+  SunRise = 4.5;
+  SunSet  = 19.5;
+  Thour = TIME/(double)3600.0;
+  Tlocal = Thour - ((int)Thour/24)*24;
+
+  if ( (Tlocal >= SunRise) && (Tlocal <= SunSet) ) {
+    Ttmp = ((double)2.0*Tlocal-SunRise-SunSet)/(SunSet-SunRise);
     if (Ttmp > 0) Ttmp =  Ttmp*Ttmp;
              else Ttmp = -Ttmp*Ttmp;
     SUN = ( 1.0 + cos(PI*Ttmp) )/2.0; 

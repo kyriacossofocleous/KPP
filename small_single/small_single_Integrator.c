@@ -13,7 +13,7 @@
 /*        R. Sander, Max-Planck Institute for Chemistry, Mainz, Germany */
 /*                                                                  */
 /* File                 : small_single_Integrator.c                 */
-/* Time                 : Sat Jan 29 19:41:54 2022                  */
+/* Time                 : Sun Jan 30 10:24:16 2022                  */
 /* Working directory    : /home/kyriacos/CyprusInstitute/kpp/small_single */
 /* Equation file        : small_single.kpp                          */
 /* Output root filename : small_single                              */
@@ -165,8 +165,8 @@ void INTEGRATE(float TIN, float TOUT)
    Nr = Nr + IPAR[14];
    Ng = Ng + IPAR[17];
    Nc = Nc + IPAR[18];
-   printf("\n Step=%d  Acc=%d  Rej=%d  Singular=%d RCss=%d\n",
-          Ns, Na, Nr, Ng, Nc);
+   // printf("\n Step=%d  Acc=%d  Rej=%d  Singular=%d RCss=%d\n",
+         //  Ns, Na, Nr, Ng, Nc);
 
    if (IERR < 0)
       printf("\n Rosenbrock: Unsucessful step at T=%g: IERR=%d\n",

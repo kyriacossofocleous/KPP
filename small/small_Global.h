@@ -13,7 +13,7 @@
 /*        R. Sander, Max-Planck Institute for Chemistry, Mainz, Germany */
 /*                                                                  */
 /* File                 : small_Global.h                            */
-/* Time                 : Sat Jan 29 17:28:18 2022                  */
+/* Time                 : Sun Jan 30 10:01:38 2022                  */
 /* Working directory    : /home/kyriacos/CyprusInstitute/kpp/small  */
 /* Equation file        : small.kpp                                 */
 /* Output root filename : small                                     */
@@ -31,6 +31,7 @@ extern double C[NSPEC];                         /* Concentration of all species 
 extern double E[NSPEC];                         /* Error of all species */
 extern double RCONST[NREACT];                   /* Rate constants (global) */
 extern double TIME;                             /* Current integration time */
+extern double FUNTIME;                          /* Function Evaluation time */
 extern double SUN;                              /* Sunlight intensity between [0,1] */
 extern double TEMP;                             /* Temperature */
 extern double RTOLS;                            /* (scalar) Relative tolerance */

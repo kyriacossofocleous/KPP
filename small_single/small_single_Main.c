@@ -13,7 +13,7 @@
 /*        R. Sander, Max-Planck Institute for Chemistry, Mainz, Germany */
 /*                                                                  */
 /* File                 : small_single_Main.c                       */
-/* Time                 : Sat Jan 29 19:41:54 2022                  */
+/* Time                 : Sun Jan 30 10:24:16 2022                  */
 /* Working directory    : /home/kyriacos/CyprusInstitute/kpp/small_single */
 /* Equation file        : small_single.kpp                          */
 /* Output root filename : small_single                              */
@@ -85,8 +85,8 @@ int main()
   TEMP = 236.21;
 
   t = Stopwatch(0);
-  // for (int j = 0; j < 10000; j++)
-  // {
+  for (int j = 0; j < 30000; j++)
+  {
     Initialize();
     for (i = 0; i < NVAR; i++)
     {
@@ -127,7 +127,7 @@ int main()
     }
 
     /* *********** END TIME LOOP *********************** */
-  // }
+  }
   t = Stopwatch(t);
   printf("Simulation Time: %10.6f", t);
   printf("\n");
