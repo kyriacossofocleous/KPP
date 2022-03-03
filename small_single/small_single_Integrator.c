@@ -13,7 +13,7 @@
 /*        R. Sander, Max-Planck Institute for Chemistry, Mainz, Germany */
 /*                                                                  */
 /* File                 : small_single_Integrator.c                 */
-/* Time                 : Thu Jan 27 11:37:19 2022                  */
+/* Time                 : Thu Mar  3 11:02:15 2022                  */
 /* Working directory    : /home/kyriacos/CyprusInstitute/kpp/small_single */
 /* Equation file        : small_single.kpp                          */
 /* Output root filename : small_single                              */
@@ -157,6 +157,7 @@ void INTEGRATE(float TIN, float TOUT)
    Na = Na + IPAR[13];
    Nr = Nr + IPAR[14];
    Ng = Ng + IPAR[17];
+   Nc = Nc + IPAR[18];
    printf("\n Step=%d  Acc=%d  Rej=%d  Singular=%d RCss = %d\n",
           Ns, Na, Nr, Ng, Nc);
 
@@ -665,7 +666,7 @@ int RosenbrockIntegrator(
                Hnew = MIN(Hnew, H);
             RejectLastH = 0;
             RejectMoreH = 0;
-            if (H > Hnew)
+            if (H < Hnew)
             {
                SaveData(2);
                SaveError(2);

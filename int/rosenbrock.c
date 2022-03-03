@@ -116,6 +116,7 @@ void INTEGRATE(KPP_REAL TIN, KPP_REAL TOUT)
    Na = Na + IPAR[13];
    Nr = Nr + IPAR[14];
    Ng = Ng + IPAR[17];
+   Nc = Nc + IPAR[18];
    printf("\n Step=%d  Acc=%d  Rej=%d  Singular=%d RCss = %d\n",
           Ns, Na, Nr, Ng, Nc);
 
@@ -624,7 +625,7 @@ int RosenbrockIntegrator(
                Hnew = MIN(Hnew, H);
             RejectLastH = 0;
             RejectMoreH = 0;
-            if (H > Hnew)
+            if (H < Hnew)
             {
                SaveData(2);
                SaveError(2);

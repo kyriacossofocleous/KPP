@@ -13,7 +13,7 @@
 /*        R. Sander, Max-Planck Institute for Chemistry, Mainz, Germany */
 /*                                                                  */
 /* File                 : small_single_Main.c                       */
-/* Time                 : Thu Jan 27 11:37:19 2022                  */
+/* Time                 : Thu Mar  3 11:02:15 2022                  */
 /* Working directory    : /home/kyriacos/CyprusInstitute/kpp/small_single */
 /* Equation file        : small_single.kpp                          */
 /* Output root filename : small_single                              */
@@ -76,7 +76,7 @@ int i;
 double t; 
 /* ---- TIME VARIABLES ------------------ */
 
-  RTOLS = 1e-1;
+  RTOLS = 1e-2;
   TSTART = 3600*12;
   TEND = TSTART + 3600*24*5;
   DT = 3600.;
