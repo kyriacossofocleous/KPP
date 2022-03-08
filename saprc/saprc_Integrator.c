@@ -13,7 +13,7 @@
 /*        R. Sander, Max-Planck Institute for Chemistry, Mainz, Germany */
 /*                                                                  */
 /* File                 : saprc_Integrator.c                        */
-/* Time                 : Thu Jan 27 11:36:44 2022                  */
+/* Time                 : Fri Mar  4 16:10:03 2022                  */
 /* Working directory    : /home/kyriacos/CyprusInstitute/kpp/saprc  */
 /* Equation file        : saprc.kpp                                 */
 /* Output root filename : saprc                                     */
@@ -146,7 +146,7 @@ void INTEGRATE(double TIN, double TOUT)
    IPAR[0] = 0;       /* non-autonomous */
    IPAR[1] = 1;       /* vector tolerances */
    RPAR[2] = STEPMIN; /* starting step */
-   IPAR[3] = 5;       /* choice of the method */
+   IPAR[3] = 4;       /* choice of the method */
 
    IERR = Rosenbrock(VAR, TIN, TOUT,
                      ATOL, RTOL,
@@ -157,6 +157,7 @@ void INTEGRATE(double TIN, double TOUT)
    Na = Na + IPAR[13];
    Nr = Nr + IPAR[14];
    Ng = Ng + IPAR[17];
+   Nc = Nc + IPAR[18];
    printf("\n Step=%d  Acc=%d  Rej=%d  Singular=%d RCss = %d\n",
           Ns, Na, Nr, Ng, Nc);
 
@@ -665,16 +666,16 @@ int RosenbrockIntegrator(
                Hnew = MIN(Hnew, H);
             RejectLastH = 0;
             RejectMoreH = 0;
-            if (H > Hnew)
+            if (H < Hnew)
             {
-               SaveData(2);
+               // SaveData(2);
                SaveError(2);
                SaveE(Err, 2);
                Ncss++;
             }
             else
             {
-               SaveData(1);
+               // SaveData(1);
                SaveError(1);
                SaveE(Err, 1);
             }
@@ -689,7 +690,7 @@ int RosenbrockIntegrator(
                Hnew = H * FacRej;
             RejectMoreH = RejectLastH;
             RejectLastH = 1;
-            SaveData(0);
+            // SaveData(0);
             SaveError(0);
             SaveE(Err, 0);
             H = Hnew;

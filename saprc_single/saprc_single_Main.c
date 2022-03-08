@@ -13,7 +13,7 @@
 /*        R. Sander, Max-Planck Institute for Chemistry, Mainz, Germany */
 /*                                                                  */
 /* File                 : saprc_single_Main.c                       */
-/* Time                 : Thu Jan 27 11:37:08 2022                  */
+/* Time                 : Fri Mar  4 16:09:41 2022                  */
 /* Working directory    : /home/kyriacos/CyprusInstitute/kpp/saprc_single */
 /* Equation file        : saprc_single.kpp                          */
 /* Output root filename : saprc_single                              */
@@ -76,7 +76,7 @@ int i;
 double t; 
 /* ---- TIME VARIABLES ------------------ */
 
-  RTOLS = 1e-1;
+  RTOLS = 1e-3;
   TSTART = 3600*12;
   TEND = TSTART + 3600*24*5;
   DT = 3600.;
@@ -112,7 +112,7 @@ double t;
     for( i = 0; i < NMASS; i++ ) 
       printf( "%9.3e  ", dval[i]/CFACTOR );
     
-    // SaveData();
+    SaveData();
 
     INTEGRATE( TIME , TIME+DT );
     TIME += DT;

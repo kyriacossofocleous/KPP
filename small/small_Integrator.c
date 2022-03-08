@@ -13,7 +13,7 @@
 /*        R. Sander, Max-Planck Institute for Chemistry, Mainz, Germany */
 /*                                                                  */
 /* File                 : small_Integrator.c                        */
-/* Time                 : Thu Jan 27 11:36:54 2022                  */
+/* Time                 : Thu Mar  3 11:57:45 2022                  */
 /* Working directory    : /home/kyriacos/CyprusInstitute/kpp/small  */
 /* Equation file        : small.kpp                                 */
 /* Output root filename : small                                     */
@@ -146,7 +146,7 @@ void INTEGRATE(double TIN, double TOUT)
    IPAR[0] = 0;       /* non-autonomous */
    IPAR[1] = 1;       /* vector tolerances */
    RPAR[2] = STEPMIN; /* starting step */
-   IPAR[3] = 5;       /* choice of the method */
+   IPAR[3] = 2;       /* choice of the method */
 
    IERR = Rosenbrock(VAR, TIN, TOUT,
                      ATOL, RTOL,
@@ -157,6 +157,7 @@ void INTEGRATE(double TIN, double TOUT)
    Na = Na + IPAR[13];
    Nr = Nr + IPAR[14];
    Ng = Ng + IPAR[17];
+   Nc = Nc + IPAR[18];
    printf("\n Step=%d  Acc=%d  Rej=%d  Singular=%d RCss = %d\n",
           Ns, Na, Nr, Ng, Nc);
 
@@ -665,7 +666,7 @@ int RosenbrockIntegrator(
                Hnew = MIN(Hnew, H);
             RejectLastH = 0;
             RejectMoreH = 0;
-            if (H > Hnew)
+            if (H < Hnew)
             {
                SaveData(2);
                SaveError(2);
