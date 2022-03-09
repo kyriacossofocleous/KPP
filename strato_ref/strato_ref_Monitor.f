@@ -13,7 +13,7 @@ C        M. Damian, Villanova University, USA
 C        R. Sander, Max-Planck Institute for Chemistry, Mainz, Germany
 C                                                                  
 C File                 : strato_ref_Monitor.f                      
-C Time                 : Wed Mar  9 11:42:03 2022                  
+C Time                 : Wed Mar  9 12:16:26 2022                  
 C Working directory    : /home/kyriacos/CyprusInstitute/kpp/strato_ref
 C Equation file        : strato_ref.kpp                            
 C Output root filename : strato_ref                                

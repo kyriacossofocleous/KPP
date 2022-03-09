@@ -13,7 +13,7 @@
 /*        R. Sander, Max-Planck Institute for Chemistry, Mainz, Germany */
 /*                                                                  */
 /* File                 : strato_StoichiomSP.c                      */
-/* Time                 : Wed Mar  9 11:42:29 2022                  */
+/* Time                 : Wed Mar  9 12:16:50 2022                  */
 /* Working directory    : /home/kyriacos/CyprusInstitute/kpp/strato */
 /* Equation file        : strato.kpp                                */
 /* Output root filename : strato                                    */

@@ -13,7 +13,7 @@
 /*        R. Sander, Max-Planck Institute for Chemistry, Mainz, Germany */
 /*                                                                  */
 /* File                 : strato_single_HessianSP.c                 */
-/* Time                 : Wed Mar  9 11:42:45 2022                  */
+/* Time                 : Wed Mar  9 12:17:05 2022                  */
 /* Working directory    : /home/kyriacos/CyprusInstitute/kpp/strato_single */
 /* Equation file        : strato_single.kpp                         */
 /* Output root filename : strato_single                             */

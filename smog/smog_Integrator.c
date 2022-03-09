@@ -13,7 +13,7 @@
 /*        R. Sander, Max-Planck Institute for Chemistry, Mainz, Germany */
 /*                                                                  */
 /* File                 : smog_Integrator.c                         */
-/* Time                 : Wed Mar  9 11:42:28 2022                  */
+/* Time                 : Wed Mar  9 12:16:49 2022                  */
 /* Working directory    : /home/kyriacos/CyprusInstitute/kpp/smog   */
 /* Equation file        : smog.kpp                                  */
 /* Output root filename : smog                                      */
@@ -666,7 +666,7 @@ int RosenbrockIntegrator(
                Hnew = MIN(Hnew, H);
             RejectLastH = 0;
             RejectMoreH = 0;
-            if (H < Hnew)
+            if (H > Hnew)
             {
                SaveData(2);
                SaveError(2);

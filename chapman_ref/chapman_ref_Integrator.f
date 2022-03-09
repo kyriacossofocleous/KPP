@@ -13,7 +13,7 @@ C        M. Damian, Villanova University, USA
 C        R. Sander, Max-Planck Institute for Chemistry, Mainz, Germany
 C                                                                  
 C File                 : chapman_ref_Integrator.f                  
-C Time                 : Wed Mar  9 11:41:39 2022                  
+C Time                 : Wed Mar  9 12:16:03 2022                  
 C Working directory    : /home/kyriacos/CyprusInstitute/kpp/chapman_ref
 C Equation file        : chapman_ref.kpp                           
 C Output root filename : chapman_ref                               

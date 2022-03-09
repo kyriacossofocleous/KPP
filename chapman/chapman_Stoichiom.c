@@ -13,7 +13,7 @@
 /*        R. Sander, Max-Planck Institute for Chemistry, Mainz, Germany */
 /*                                                                  */
 /* File                 : chapman_Stoichiom.c                       */
-/* Time                 : Wed Mar  9 11:42:20 2022                  */
+/* Time                 : Wed Mar  9 12:16:42 2022                  */
 /* Working directory    : /home/kyriacos/CyprusInstitute/kpp/chapman */
 /* Equation file        : chapman.kpp                               */
 /* Output root filename : chapman                                   */

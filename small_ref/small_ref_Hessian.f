@@ -13,7 +13,7 @@ C        M. Damian, Villanova University, USA
 C        R. Sander, Max-Planck Institute for Chemistry, Mainz, Germany
 C                                                                  
 C File                 : small_ref_Hessian.f                       
-C Time                 : Wed Mar  9 11:41:57 2022                  
+C Time                 : Wed Mar  9 12:16:21 2022                  
 C Working directory    : /home/kyriacos/CyprusInstitute/kpp/small_ref
 C Equation file        : small_ref.kpp                             
 C Output root filename : small_ref                                 

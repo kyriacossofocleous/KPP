@@ -13,7 +13,7 @@
 /*        R. Sander, Max-Planck Institute for Chemistry, Mainz, Germany */
 /*                                                                  */
 /* File                 : chapman_Integrator.c                      */
-/* Time                 : Wed Mar  9 11:42:20 2022                  */
+/* Time                 : Wed Mar  9 12:16:42 2022                  */
 /* Working directory    : /home/kyriacos/CyprusInstitute/kpp/chapman */
 /* Equation file        : chapman.kpp                               */
 /* Output root filename : chapman                                   */
@@ -666,7 +666,7 @@ int RosenbrockIntegrator(
                Hnew = MIN(Hnew, H);
             RejectLastH = 0;
             RejectMoreH = 0;
-            if (H < Hnew)
+            if (H > Hnew)
             {
                SaveData(2);
                SaveError(2);

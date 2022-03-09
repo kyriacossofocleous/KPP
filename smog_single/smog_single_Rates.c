@@ -13,7 +13,7 @@
 /*        R. Sander, Max-Planck Institute for Chemistry, Mainz, Germany */
 /*                                                                  */
 /* File                 : smog_single_Rates.c                       */
-/* Time                 : Wed Mar  9 11:42:44 2022                  */
+/* Time                 : Wed Mar  9 12:17:04 2022                  */
 /* Working directory    : /home/kyriacos/CyprusInstitute/kpp/smog_single */
 /* Equation file        : smog_single.kpp                           */
 /* Output root filename : smog_single                               */
