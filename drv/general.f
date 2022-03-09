@@ -16,7 +16,7 @@ C ---- TIME VARIABLES ------------------
       STEPMIN = 0.01
       STEPMAX = 900
 
-      RTOLS = 1e-3
+      RTOLS = 1e-10
       DO i=1,NVAR
         RTOL(i) = RTOLS
         ATOL(i) = 1

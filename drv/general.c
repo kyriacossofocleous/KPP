@@ -54,7 +54,7 @@ double t;
     for( i = 0; i < NMASS; i++ ) 
       printf( "%9.3e  ", dval[i]/CFACTOR );
     
-    // SaveData();
+    SaveData();
 
     INTEGRATE( TIME , TIME+DT );
     TIME += DT;

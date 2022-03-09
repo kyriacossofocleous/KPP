@@ -47,7 +47,7 @@ OBJ =   saprc_ref_Main.o      saprc_ref_Integrator.o   \
 	saprc_ref_Stoichiom.o saprc_ref_Util.o         \
 	saprc_ref_Monitor.o
 
-all:    exe 
+all:    exe
 
 exe:	$(HEADERS) $(SPOBJ) $(OBJ)
 	$(FC) $(FOPT) $(SPOBJ) $(OBJ) $(MATHLIB) -o saprc_ref.exe
@@ -68,14 +68,14 @@ distclean:
 saprc_ref_Monitor.o: saprc_ref_Monitor.f $(HEADERS)
 	$(FC) $(FOPT) -c $<
 
-#saprc_ref_JacobianSP.o: saprc_ref_JacobianSP.f $(HEADERS)
-#	$(FC) $(FOPT) -c $<
+saprc_ref_JacobianSP.o: saprc_ref_JacobianSP.f $(HEADERS)
+	$(FC) $(FOPT) -c $<
 
-#saprc_ref_HessianSP.o: saprc_ref_HessianSP.f  $(HEADERS)
-#	$(FC) $(FOPT) -c $<
+saprc_ref_HessianSP.o: saprc_ref_HessianSP.f  $(HEADERS)
+	$(FC) $(FOPT) -c $<
 
-#saprc_ref_StoichiomSP.o: saprc_ref_StoichiomSP.f $(HEADERS)
-#	$(FC) $(FOPT) -c $<
+saprc_ref_StoichiomSP.o: saprc_ref_StoichiomSP.f $(HEADERS)
+	$(FC) $(FOPT) -c $<
 
 saprc_ref_Main.o: saprc_ref_Main.f  saprc_ref_Initialize.o $(HEADERS) $(SPOBJ)
 	$(FC) $(FOPT) -c $<

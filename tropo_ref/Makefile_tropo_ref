@@ -1,0 +1,109 @@
+# Set here the Fortran77 compiler and the desired optimization options
+COMPILER = INTEL
+
+FC_INTEL   = ifort
+FOPT_INTEL = -O -f77rtl -fp-model=precise -pc80 -prec-div
+FC_PGF     = pgf77
+FOPT_PGF   = -O -fast -pc 80 -Kieee
+FC_GNU     = g77
+FOPT_GNU   = -O -Wall -Wimplicit -ffast-math -funroll-loops \
+	         -malign-double -ffortran-bounds-check
+FC_HPUX    = f90
+FOPT_HPUX  = -O
+
+FC   = $(FC_$(COMPILER))
+FOPT = $(FOPT_$(COMPILER)) 
+
+# Mathematical libraries: blas and lapack
+# MATHLIB   = -L/usr/local/lib  -llapack_g77  -L/usr/lib -lblas_g77
+MATHLIB   = -llapack  -lblas 
+
+# To create Matlab mex gateway routines
+# Note: use $(FC) as the mex Fortran compiler
+MEX  = mex
+
+HEADERS = tropo_ref_Global.h  tropo_ref_Parameters.h  tropo_ref_Sparse.h
+
+#SPSRC = tropo_ref_JacobianSP.f \
+#	tropo_ref_HessianSP.f  \
+#	tropo_ref_StoichiomSP.f
+
+#SPOBJ = tropo_ref_JacobianSP.o \
+#	tropo_ref_HessianSP.o  \
+#	tropo_ref_StoichiomSP.o
+
+
+SRC =   tropo_ref_Main.f      tropo_ref_Integrator.f   \
+        tropo_ref_Function.f  tropo_ref_Initialize.f   \
+	tropo_ref_Jacobian.f  tropo_ref_LinearAlgebra.f\
+	tropo_ref_Rates.f     tropo_ref_Hessian.f      \
+	tropo_ref_Stoichiom.f tropo_ref_Util.f         \
+	tropo_ref_Monitor.f   
+
+OBJ =   tropo_ref_Main.o      tropo_ref_Integrator.o   \
+        tropo_ref_Function.o  tropo_ref_Initialize.o   \
+	tropo_ref_Jacobian.o  tropo_ref_LinearAlgebra.o\
+	tropo_ref_Rates.o     tropo_ref_Hessian.o      \
+	tropo_ref_Stoichiom.o tropo_ref_Util.o         \
+	tropo_ref_Monitor.o
+
+all:    exe
+
+exe:	$(HEADERS) $(SPOBJ) $(OBJ)
+	$(FC) $(FOPT) $(SPOBJ) $(OBJ) $(MATHLIB) -o tropo_ref.exe
+
+#mex:    $(HEADERS) $(SPOBJ) $(OBJ)
+#	$(MEX) FC#$(FC) -fortran -O tropo_ref_mex_Fun.f     $(SPOBJ) $(OBJ)
+#	$(MEX) FC#$(FC) -fortran -O tropo_ref_mex_Jac_SP.f  $(SPOBJ) $(OBJ)
+#	$(MEX) FC#$(FC) -fortran -O tropo_ref_mex_Hessian.f $(SPOBJ) $(OBJ)
+	
+clean:
+	rm -f $(SPOBJ) $(OBJ) tropo_ref.exe tropo_ref.map  \
+	tropo_ref.dat 
+
+distclean:
+	rm -f $(SPOBJ) $(OBJ) tropo_ref.exe tropo_ref.map  \
+	tropo_ref.dat tropo_ref*.f  tropo_ref*.h 
+
+tropo_ref_Monitor.o: tropo_ref_Monitor.f $(HEADERS)
+	$(FC) $(FOPT) -c $<
+
+tropo_ref_JacobianSP.o: tropo_ref_JacobianSP.f $(HEADERS)
+	$(FC) $(FOPT) -c $<
+
+tropo_ref_HessianSP.o: tropo_ref_HessianSP.f  $(HEADERS)
+	$(FC) $(FOPT) -c $<
+
+tropo_ref_StoichiomSP.o: tropo_ref_StoichiomSP.f $(HEADERS)
+	$(FC) $(FOPT) -c $<
+
+tropo_ref_Main.o: tropo_ref_Main.f  tropo_ref_Initialize.o $(HEADERS) $(SPOBJ)
+	$(FC) $(FOPT) -c $<
+
+tropo_ref_Integrator.o: tropo_ref_Integrator.f  $(HEADERS) $(SPOBJ)
+	$(FC) $(FOPT) -c $<
+
+tropo_ref_Initialize.o: tropo_ref_Initialize.f  $(HEADERS) $(SPOBJ)
+	$(FC) $(FOPT) -c $<
+
+tropo_ref_Function.o: tropo_ref_Function.f  $(HEADERS) $(SPOBJ)
+	$(FC) $(FOPT) -c $<
+
+tropo_ref_Jacobian.o: tropo_ref_Jacobian.f  $(HEADERS) $(SPOBJ)
+	$(FC) $(FOPT) -c $<
+
+tropo_ref_LinearAlgebra.o: tropo_ref_LinearAlgebra.f  $(HEADERS) $(SPOBJ)
+	$(FC) $(FOPT) -c $<
+
+tropo_ref_Rates.o: tropo_ref_Rates.f  $(HEADERS) $(SPOBJ)
+	$(FC) $(FOPT) -c $<
+
+tropo_ref_Hessian.o:  tropo_ref_Hessian.f $(HEADERS) $(SPOBJ)
+	$(FC) $(FOPT) -c $<
+
+tropo_ref_Stoichiom.o: tropo_ref_Stoichiom.f  $(HEADERS) $(SPOBJ)
+	$(FC) $(FOPT) -c $<
+
+tropo_ref_Util.o: tropo_ref_Util.f  $(HEADERS) $(SPOBJ)
+	$(FC) $(FOPT) -c $<
+

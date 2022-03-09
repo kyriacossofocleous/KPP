@@ -13,7 +13,7 @@
 /*        R. Sander, Max-Planck Institute for Chemistry, Mainz, Germany */
 /*                                                                  */
 /* File                 : smog_Main.c                               */
-/* Time                 : Thu Jan 27 11:36:56 2022                  */
+/* Time                 : Wed Mar  9 11:42:28 2022                  */
 /* Working directory    : /home/kyriacos/CyprusInstitute/kpp/smog   */
 /* Equation file        : smog.kpp                                  */
 /* Output root filename : smog                                      */
@@ -112,7 +112,7 @@ double t;
     for( i = 0; i < NMASS; i++ ) 
       printf( "%9.3e  ", dval[i]/CFACTOR );
     
-    // SaveData();
+    SaveData();
 
     INTEGRATE( TIME , TIME+DT );
     TIME += DT;

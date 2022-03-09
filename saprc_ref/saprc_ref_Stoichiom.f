@@ -13,7 +13,7 @@ C        M. Damian, Villanova University, USA
 C        R. Sander, Max-Planck Institute for Chemistry, Mainz, Germany
 C                                                                  
 C File                 : saprc_ref_Stoichiom.f                     
-C Time                 : Tue Mar  8 12:16:40 2022                  
+C Time                 : Wed Mar  9 11:41:45 2022                  
 C Working directory    : /home/kyriacos/CyprusInstitute/kpp/saprc_ref
 C Equation file        : saprc_ref.kpp                             
 C Output root filename : saprc_ref                                 

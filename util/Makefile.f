@@ -1,8 +1,8 @@
 # Set here the Fortran77 compiler and the desired optimization options
-COMPILER = GNU
+COMPILER = INTEL
 
 FC_INTEL   = ifort
-FOPT_INTEL = -O -f77rtl -mp -pc80 -prec_div -tpp7
+FOPT_INTEL = -O -f77rtl -fp-model=precise -pc80 -prec-div
 FC_PGF     = pgf77
 FOPT_PGF   = -O -fast -pc 80 -Kieee
 FC_GNU     = g77
@@ -24,13 +24,13 @@ MEX  = mex
 
 HEADERS = KPP_ROOT_Global.h  KPP_ROOT_Parameters.h  KPP_ROOT_Sparse.h
 
-SPSRC = KPP_ROOT_JacobianSP.f \
-	KPP_ROOT_HessianSP.f  \
-	KPP_ROOT_StoichiomSP.f
+#SPSRC = KPP_ROOT_JacobianSP.f \
+#	KPP_ROOT_HessianSP.f  \
+#	KPP_ROOT_StoichiomSP.f
 
-SPOBJ = KPP_ROOT_JacobianSP.o \
-	KPP_ROOT_HessianSP.o  \
-	KPP_ROOT_StoichiomSP.o
+#SPOBJ = KPP_ROOT_JacobianSP.o \
+#	KPP_ROOT_HessianSP.o  \
+#	KPP_ROOT_StoichiomSP.o
 
 
 SRC =   KPP_ROOT_Main.f      KPP_ROOT_Integrator.f   \
@@ -47,15 +47,15 @@ OBJ =   KPP_ROOT_Main.o      KPP_ROOT_Integrator.o   \
 	KPP_ROOT_Stoichiom.o KPP_ROOT_Util.o         \
 	KPP_ROOT_Monitor.o
 
-all:    exe mex
+all:    exe
 
 exe:	$(HEADERS) $(SPOBJ) $(OBJ)
 	$(FC) $(FOPT) $(SPOBJ) $(OBJ) $(MATHLIB) -o KPP_ROOT.exe
 
-mex:    $(HEADERS) $(SPOBJ) $(OBJ)
-	$(MEX) FC#$(FC) -fortran -O KPP_ROOT_mex_Fun.f     $(SPOBJ) $(OBJ)
-	$(MEX) FC#$(FC) -fortran -O KPP_ROOT_mex_Jac_SP.f  $(SPOBJ) $(OBJ)
-	$(MEX) FC#$(FC) -fortran -O KPP_ROOT_mex_Hessian.f $(SPOBJ) $(OBJ)
+#mex:    $(HEADERS) $(SPOBJ) $(OBJ)
+#	$(MEX) FC#$(FC) -fortran -O KPP_ROOT_mex_Fun.f     $(SPOBJ) $(OBJ)
+#	$(MEX) FC#$(FC) -fortran -O KPP_ROOT_mex_Jac_SP.f  $(SPOBJ) $(OBJ)
+#	$(MEX) FC#$(FC) -fortran -O KPP_ROOT_mex_Hessian.f $(SPOBJ) $(OBJ)
 	
 clean:
 	rm -f $(SPOBJ) $(OBJ) KPP_ROOT.exe KPP_ROOT.map  \

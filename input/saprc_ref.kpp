@@ -1,6 +1,6 @@
 #MODEL      saprc99
-#INTEGRATOR rosenbrock 
-#LANGUAGE   C
+#INTEGRATOR atm_radau5 
+#LANGUAGE   Fortran77
 #DRIVER     general
 #HESSIAN    on
 #STOICMAT   on

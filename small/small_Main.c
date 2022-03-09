@@ -13,7 +13,7 @@
 /*        R. Sander, Max-Planck Institute for Chemistry, Mainz, Germany */
 /*                                                                  */
 /* File                 : small_Main.c                              */
-/* Time                 : Thu Mar  3 11:57:45 2022                  */
+/* Time                 : Wed Mar  9 11:42:27 2022                  */
 /* Working directory    : /home/kyriacos/CyprusInstitute/kpp/small  */
 /* Equation file        : small.kpp                                 */
 /* Output root filename : small                                     */
@@ -76,7 +76,7 @@ int i;
 double t; 
 /* ---- TIME VARIABLES ------------------ */
 
-  RTOLS = 1e-2;
+  RTOLS = 1e-1;
   TSTART = 3600*12;
   TEND = TSTART + 3600*24*5;
   DT = 3600.;
@@ -112,7 +112,7 @@ double t;
     for( i = 0; i < NMASS; i++ ) 
       printf( "%9.3e  ", dval[i]/CFACTOR );
     
-    // SaveData();
+    SaveData();
 
     INTEGRATE( TIME , TIME+DT );
     TIME += DT;

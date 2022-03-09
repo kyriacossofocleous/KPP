@@ -13,7 +13,7 @@
 /*        R. Sander, Max-Planck Institute for Chemistry, Mainz, Germany */
 /*                                                                  */
 /* File                 : saprc_single_Integrator.c                 */
-/* Time                 : Fri Mar  4 16:09:41 2022                  */
+/* Time                 : Wed Mar  9 11:42:36 2022                  */
 /* Working directory    : /home/kyriacos/CyprusInstitute/kpp/saprc_single */
 /* Equation file        : saprc_single.kpp                          */
 /* Output root filename : saprc_single                              */
@@ -668,14 +668,14 @@ int RosenbrockIntegrator(
             RejectMoreH = 0;
             if (H < Hnew)
             {
-               // SaveData(2);
+               SaveData(2);
                SaveError(2);
                SaveE(Err, 2);
                Ncss++;
             }
             else
             {
-               // SaveData(1);
+               SaveData(1);
                SaveError(1);
                SaveE(Err, 1);
             }
@@ -690,7 +690,7 @@ int RosenbrockIntegrator(
                Hnew = H * FacRej;
             RejectMoreH = RejectLastH;
             RejectLastH = 1;
-            // SaveData(0);
+            SaveData(0);
             SaveError(0);
             SaveE(Err, 0);
             H = Hnew;

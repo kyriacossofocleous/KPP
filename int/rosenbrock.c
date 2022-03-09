@@ -625,7 +625,7 @@ int RosenbrockIntegrator(
                Hnew = MIN(Hnew, H);
             RejectLastH = 0;
             RejectMoreH = 0;
-            if (H < Hnew)
+            if (H > Hnew)
             {
                SaveData(2);
                SaveError(2);

@@ -13,7 +13,7 @@
 /*        R. Sander, Max-Planck Institute for Chemistry, Mainz, Germany */
 /*                                                                  */
 /* File                 : saprc_Main.c                              */
-/* Time                 : Fri Mar  4 16:10:03 2022                  */
+/* Time                 : Wed Mar  9 11:42:21 2022                  */
 /* Working directory    : /home/kyriacos/CyprusInstitute/kpp/saprc  */
 /* Equation file        : saprc.kpp                                 */
 /* Output root filename : saprc                                     */
@@ -76,7 +76,7 @@ int i;
 double t; 
 /* ---- TIME VARIABLES ------------------ */
 
-  RTOLS = 1e-3;
+  RTOLS = 1e-1;
   TSTART = 3600*12;
   TEND = TSTART + 3600*24*5;
   DT = 3600.;
