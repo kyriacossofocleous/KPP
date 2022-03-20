@@ -1,0 +1,105 @@
+# Set here the desired C compiler and its optimization options
+CC   = icc
+#COPT = -O2 -m32 -fsingle-precision-constant
+#DEBUG
+COPT = -O3 -fp-model=precise
+
+# To create Matlab gateway routines
+# Note: use $(CC) as the mex C compiler
+MEX  = mex
+
+HEADERS = tropo_enh_Global.h  tropo_enh_Parameters.h  tropo_enh_Sparse.h
+
+SPSRC = tropo_enh_JacobianSP.c \
+	tropo_enh_HessianSP.c  \
+	tropo_enh_StoichiomSP.c
+
+SPOBJ = tropo_enh_JacobianSP.o \
+	tropo_enh_HessianSP.o  \
+	tropo_enh_StoichiomSP.o
+
+
+SRC =   tropo_enh_Main.c      tropo_enh_Integrator.c   \
+	tropo_enh_Function.c  tropo_enh_Initialize.c   \
+	tropo_enh_Jacobian.c  tropo_enh_LinearAlgebra.c\
+	tropo_enh_Rates.c     tropo_enh_Hessian.c      \
+	tropo_enh_Stoichiom.c tropo_enh_Util.c         \
+	tropo_enh_Monitor.c
+
+OBJ =   tropo_enh_Main.o      tropo_enh_Integrator.o   \
+	tropo_enh_Function.o  tropo_enh_Initialize.o   \
+	tropo_enh_Jacobian.o  tropo_enh_LinearAlgebra.o\
+	tropo_enh_Rates.o     tropo_enh_Hessian.o      \
+	tropo_enh_Stoichiom.o tropo_enh_Util.o         \
+	tropo_enh_Monitor.o
+
+STOCHSRC = tropo_enh_Stochastic.c 
+STOCHOBJ = tropo_enh_Stochastic.o 
+
+all:    exe
+
+exe:	$(HEADERS) $(SPOBJ) $(OBJ)
+	$(CC) $(COPT) $(SPOBJ) $(OBJ) -lm -o tropo_enh.exe	
+
+stochastic:$(HEADERS) $(SPOBJ) $(OBJ) $(STOCHOBJ)
+	$(CC) $(COPT) $(SPOBJ) $(OBJ) $(STOCHOBJ) -lm \
+	-o tropo_enh_stochastic.exe	
+
+mex:    $(HEADERS) $(SPOBJ) $(OBJ)
+	$(MEX) CC#$(CC) -O tropo_enh_mex_Fun.c     -lm $(SPOBJ) $(OBJ)
+	$(MEX) CC#$(CC) -O tropo_enh_mex_Jac_SP.c  -lm $(SPOBJ) $(OBJ)
+	$(MEX) CC#$(CC) -O tropo_enh_mex_Hessian.c -lm $(SPOBJ) $(OBJ)
+
+
+clean:
+	rm -f $(SPOBJ) $(OBJ) tropo_enh.exe tropo_enh_*.mexglx tropo_enh*.dat
+
+distclean:
+	rm -f $(SPOBJ) $(OBJ) tropo_enh.exe tropo_enh*.dat \
+	tropo_enh_*.c tropo_enh_*.h tropo_enh_*.map tropo_enh_*.mexglx
+
+tropo_enh_Monitor.o: tropo_enh_Monitor.c $(HEADERS)
+	$(CC) $(COPT) -c $<
+
+tropo_enh_JacobianSP.o: tropo_enh_JacobianSP.c $(HEADERS)
+	$(CC) $(COPT) -c $<
+
+tropo_enh_HessianSP.o: tropo_enh_HessianSP.c  $(HEADERS)
+	$(CC) $(COPT) -c $<
+
+tropo_enh_StoichiomSP.o: tropo_enh_StoichiomSP.c $(HEADERS)
+	$(CC) $(COPT) -c $<
+
+tropo_enh_Main.o: tropo_enh_Main.c tropo_enh_Initialize.o $(HEADERS) $(SPOBJ)
+	$(CC) $(COPT) -c $<
+
+tropo_enh_Integrator.o: tropo_enh_Integrator.c  $(HEADERS) $(SPOBJ)
+	$(CC) $(COPT) -c $<
+
+tropo_enh_Initialize.o: tropo_enh_Initialize.c  $(HEADERS) $(SPOBJ)
+	$(CC) $(COPT) -c $<
+
+tropo_enh_Function.o: tropo_enh_Function.c  $(HEADERS) $(SPOBJ)
+	$(CC) $(COPT) -c $<
+
+tropo_enh_Stochastic.o: tropo_enh_Stochastic.c  $(HEADERS) $(SPOBJ)
+	$(CC) $(COPT) -c $<
+
+tropo_enh_Jacobian.o: tropo_enh_Jacobian.c  $(HEADERS) $(SPOBJ)
+	$(CC) $(COPT) -c $<
+
+tropo_enh_LinearAlgebra.o: tropo_enh_LinearAlgebra.c  $(HEADERS) $(SPOBJ)
+	$(CC) $(COPT) -c $<
+
+tropo_enh_Rates.o: tropo_enh_Rates.c  $(HEADERS) $(SPOBJ)
+	$(CC) $(COPT) -c $<
+
+tropo_enh_Hessian.o:  tropo_enh_Hessian.c $(HEADERS) $(SPOBJ)
+	$(CC) $(COPT) -c $<
+
+tropo_enh_Stoichiom.o: tropo_enh_Stoichiom.c  $(HEADERS) $(SPOBJ)
+	$(CC) $(COPT) -c $<
+
+tropo_enh_Util.o: tropo_enh_Util.c  $(HEADERS) $(SPOBJ)
+	$(CC) $(COPT) -c $<
+

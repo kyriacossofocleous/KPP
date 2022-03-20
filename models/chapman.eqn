@@ -8,6 +8,6 @@
 // Catalytical loss reaction
 <R5>  NO   + O3 = NO2 + O2 	: (6.062E-15);
 <R6>  NO2  + O  = NO  + O2	: (1.069E-11);
-//<R7>  NO2  + hv = NO  + O       : (1.289E-02) * SUN;
+<R7>  NO2  + hv = NO  + O       : (1.289E-02) * SUN;
 
 

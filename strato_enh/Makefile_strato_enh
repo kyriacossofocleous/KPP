@@ -1,0 +1,105 @@
+# Set here the desired C compiler and its optimization options
+CC   = icc
+#COPT = -O2 -m32 -fsingle-precision-constant
+#DEBUG
+COPT = -O3 -fp-model=precise
+
+# To create Matlab gateway routines
+# Note: use $(CC) as the mex C compiler
+MEX  = mex
+
+HEADERS = strato_enh_Global.h  strato_enh_Parameters.h  strato_enh_Sparse.h
+
+SPSRC = strato_enh_JacobianSP.c \
+	strato_enh_HessianSP.c  \
+	strato_enh_StoichiomSP.c
+
+SPOBJ = strato_enh_JacobianSP.o \
+	strato_enh_HessianSP.o  \
+	strato_enh_StoichiomSP.o
+
+
+SRC =   strato_enh_Main.c      strato_enh_Integrator.c   \
+	strato_enh_Function.c  strato_enh_Initialize.c   \
+	strato_enh_Jacobian.c  strato_enh_LinearAlgebra.c\
+	strato_enh_Rates.c     strato_enh_Hessian.c      \
+	strato_enh_Stoichiom.c strato_enh_Util.c         \
+	strato_enh_Monitor.c
+
+OBJ =   strato_enh_Main.o      strato_enh_Integrator.o   \
+	strato_enh_Function.o  strato_enh_Initialize.o   \
+	strato_enh_Jacobian.o  strato_enh_LinearAlgebra.o\
+	strato_enh_Rates.o     strato_enh_Hessian.o      \
+	strato_enh_Stoichiom.o strato_enh_Util.o         \
+	strato_enh_Monitor.o
+
+STOCHSRC = strato_enh_Stochastic.c 
+STOCHOBJ = strato_enh_Stochastic.o 
+
+all:    exe
+
+exe:	$(HEADERS) $(SPOBJ) $(OBJ)
+	$(CC) $(COPT) $(SPOBJ) $(OBJ) -lm -o strato_enh.exe	
+
+stochastic:$(HEADERS) $(SPOBJ) $(OBJ) $(STOCHOBJ)
+	$(CC) $(COPT) $(SPOBJ) $(OBJ) $(STOCHOBJ) -lm \
+	-o strato_enh_stochastic.exe	
+
+mex:    $(HEADERS) $(SPOBJ) $(OBJ)
+	$(MEX) CC#$(CC) -O strato_enh_mex_Fun.c     -lm $(SPOBJ) $(OBJ)
+	$(MEX) CC#$(CC) -O strato_enh_mex_Jac_SP.c  -lm $(SPOBJ) $(OBJ)
+	$(MEX) CC#$(CC) -O strato_enh_mex_Hessian.c -lm $(SPOBJ) $(OBJ)
+
+
+clean:
+	rm -f $(SPOBJ) $(OBJ) strato_enh.exe strato_enh_*.mexglx strato_enh*.dat
+
+distclean:
+	rm -f $(SPOBJ) $(OBJ) strato_enh.exe strato_enh*.dat \
+	strato_enh_*.c strato_enh_*.h strato_enh_*.map strato_enh_*.mexglx
+
+strato_enh_Monitor.o: strato_enh_Monitor.c $(HEADERS)
+	$(CC) $(COPT) -c $<
+
+strato_enh_JacobianSP.o: strato_enh_JacobianSP.c $(HEADERS)
+	$(CC) $(COPT) -c $<
+
+strato_enh_HessianSP.o: strato_enh_HessianSP.c  $(HEADERS)
+	$(CC) $(COPT) -c $<
+
+strato_enh_StoichiomSP.o: strato_enh_StoichiomSP.c $(HEADERS)
+	$(CC) $(COPT) -c $<
+
+strato_enh_Main.o: strato_enh_Main.c strato_enh_Initialize.o $(HEADERS) $(SPOBJ)
+	$(CC) $(COPT) -c $<
+
+strato_enh_Integrator.o: strato_enh_Integrator.c  $(HEADERS) $(SPOBJ)
+	$(CC) $(COPT) -c $<
+
+strato_enh_Initialize.o: strato_enh_Initialize.c  $(HEADERS) $(SPOBJ)
+	$(CC) $(COPT) -c $<
+
+strato_enh_Function.o: strato_enh_Function.c  $(HEADERS) $(SPOBJ)
+	$(CC) $(COPT) -c $<
+
+strato_enh_Stochastic.o: strato_enh_Stochastic.c  $(HEADERS) $(SPOBJ)
+	$(CC) $(COPT) -c $<
+
+strato_enh_Jacobian.o: strato_enh_Jacobian.c  $(HEADERS) $(SPOBJ)
+	$(CC) $(COPT) -c $<
+
+strato_enh_LinearAlgebra.o: strato_enh_LinearAlgebra.c  $(HEADERS) $(SPOBJ)
+	$(CC) $(COPT) -c $<
+
+strato_enh_Rates.o: strato_enh_Rates.c  $(HEADERS) $(SPOBJ)
+	$(CC) $(COPT) -c $<
+
+strato_enh_Hessian.o:  strato_enh_Hessian.c $(HEADERS) $(SPOBJ)
+	$(CC) $(COPT) -c $<
+
+strato_enh_Stoichiom.o: strato_enh_Stoichiom.c  $(HEADERS) $(SPOBJ)
+	$(CC) $(COPT) -c $<
+
+strato_enh_Util.o: strato_enh_Util.c  $(HEADERS) $(SPOBJ)
+	$(CC) $(COPT) -c $<
+

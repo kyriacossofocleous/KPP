@@ -1,0 +1,109 @@
+# Set here the Fortran77 compiler and the desired optimization options
+COMPILER = INTEL
+
+FC_INTEL   = ifort
+FOPT_INTEL = -O -f77rtl -fp-model=precise -pc80 -prec-div
+FC_PGF     = pgf77
+FOPT_PGF   = -O -fast -pc 80 -Kieee
+FC_GNU     = g77
+FOPT_GNU   = -O -Wall -Wimplicit -ffast-math -funroll-loops \
+	         -malign-double -ffortran-bounds-check
+FC_HPUX    = f90
+FOPT_HPUX  = -O
+
+FC   = $(FC_$(COMPILER))
+FOPT = $(FOPT_$(COMPILER)) 
+
+# Mathematical libraries: blas and lapack
+# MATHLIB   = -L/usr/local/lib  -llapack_g77  -L/usr/lib -lblas_g77
+MATHLIB   = -llapack  -lblas 
+
+# To create Matlab mex gateway routines
+# Note: use $(FC) as the mex Fortran compiler
+MEX  = mex
+
+HEADERS = smog_ref_Global.h  smog_ref_Parameters.h  smog_ref_Sparse.h
+
+#SPSRC = smog_ref_JacobianSP.f \
+#	smog_ref_HessianSP.f  \
+#	smog_ref_StoichiomSP.f
+
+#SPOBJ = smog_ref_JacobianSP.o \
+#	smog_ref_HessianSP.o  \
+#	smog_ref_StoichiomSP.o
+
+
+SRC =   smog_ref_Main.f      smog_ref_Integrator.f   \
+        smog_ref_Function.f  smog_ref_Initialize.f   \
+	smog_ref_Jacobian.f  smog_ref_LinearAlgebra.f\
+	smog_ref_Rates.f     smog_ref_Hessian.f      \
+	smog_ref_Stoichiom.f smog_ref_Util.f         \
+	smog_ref_Monitor.f   
+
+OBJ =   smog_ref_Main.o      smog_ref_Integrator.o   \
+        smog_ref_Function.o  smog_ref_Initialize.o   \
+	smog_ref_Jacobian.o  smog_ref_LinearAlgebra.o\
+	smog_ref_Rates.o     smog_ref_Hessian.o      \
+	smog_ref_Stoichiom.o smog_ref_Util.o         \
+	smog_ref_Monitor.o
+
+all:    exe
+
+exe:	$(HEADERS) $(SPOBJ) $(OBJ)
+	$(FC) $(FOPT) $(SPOBJ) $(OBJ) $(MATHLIB) -o smog_ref.exe
+
+#mex:    $(HEADERS) $(SPOBJ) $(OBJ)
+#	$(MEX) FC#$(FC) -fortran -O smog_ref_mex_Fun.f     $(SPOBJ) $(OBJ)
+#	$(MEX) FC#$(FC) -fortran -O smog_ref_mex_Jac_SP.f  $(SPOBJ) $(OBJ)
+#	$(MEX) FC#$(FC) -fortran -O smog_ref_mex_Hessian.f $(SPOBJ) $(OBJ)
+	
+clean:
+	rm -f $(SPOBJ) $(OBJ) smog_ref.exe smog_ref.map  \
+	smog_ref.dat 
+
+distclean:
+	rm -f $(SPOBJ) $(OBJ) smog_ref.exe smog_ref.map  \
+	smog_ref.dat smog_ref*.f  smog_ref*.h 
+
+smog_ref_Monitor.o: smog_ref_Monitor.f $(HEADERS)
+	$(FC) $(FOPT) -c $<
+
+smog_ref_JacobianSP.o: smog_ref_JacobianSP.f $(HEADERS)
+	$(FC) $(FOPT) -c $<
+
+smog_ref_HessianSP.o: smog_ref_HessianSP.f  $(HEADERS)
+	$(FC) $(FOPT) -c $<
+
+smog_ref_StoichiomSP.o: smog_ref_StoichiomSP.f $(HEADERS)
+	$(FC) $(FOPT) -c $<
+
+smog_ref_Main.o: smog_ref_Main.f  smog_ref_Initialize.o $(HEADERS) $(SPOBJ)
+	$(FC) $(FOPT) -c $<
+
+smog_ref_Integrator.o: smog_ref_Integrator.f  $(HEADERS) $(SPOBJ)
+	$(FC) $(FOPT) -c $<
+
+smog_ref_Initialize.o: smog_ref_Initialize.f  $(HEADERS) $(SPOBJ)
+	$(FC) $(FOPT) -c $<
+
+smog_ref_Function.o: smog_ref_Function.f  $(HEADERS) $(SPOBJ)
+	$(FC) $(FOPT) -c $<
+
+smog_ref_Jacobian.o: smog_ref_Jacobian.f  $(HEADERS) $(SPOBJ)
+	$(FC) $(FOPT) -c $<
+
+smog_ref_LinearAlgebra.o: smog_ref_LinearAlgebra.f  $(HEADERS) $(SPOBJ)
+	$(FC) $(FOPT) -c $<
+
+smog_ref_Rates.o: smog_ref_Rates.f  $(HEADERS) $(SPOBJ)
+	$(FC) $(FOPT) -c $<
+
+smog_ref_Hessian.o:  smog_ref_Hessian.f $(HEADERS) $(SPOBJ)
+	$(FC) $(FOPT) -c $<
+
+smog_ref_Stoichiom.o: smog_ref_Stoichiom.f  $(HEADERS) $(SPOBJ)
+	$(FC) $(FOPT) -c $<
+
+smog_ref_Util.o: smog_ref_Util.f  $(HEADERS) $(SPOBJ)
+	$(FC) $(FOPT) -c $<
+
