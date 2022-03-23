@@ -72,6 +72,7 @@ int EQN_TAGS;
 int NONZERO, LU_NONZERO;
 int TIME, SUN, TEMP;
 int FUNTIME;
+// int SUN_D;
 int RTOLS, TSTART, TEND, DT;
 int ATOL, RTOL, STEPMIN, STEPMAX, CFACTOR;
 int V_USER, CL;
@@ -175,13 +176,14 @@ int i,j;
 
   TIME  = DefElm( "TIME", real, "Current integration time");
   FUNTIME  = DefElm( "FUNTIME", dreal, "Function Evaluation time");
-  SUN   = DefElm( "SUN", real, "Sunlight intensity between [0,1]");
+  SUN   = DefElm( "SUN", dreal, "Sunlight intensity between [0,1]");
+  // SUN_D = DefElm( "SUN_D", dreal, "Sunlight in double precision");
   TEMP  = DefElm( "TEMP", real, "Temperature");
   
   RTOLS  = DefElm( "RTOLS", real, "(scalar) Relative tolerance");
-  TSTART = DefElm( "TSTART", real, "Integration start time");
-  TEND   = DefElm( "TEND", real, "Integration end time");
-  DT     = DefElm( "DT", real, "Integration step");
+  TSTART = DefElm( "TSTART", dreal, "Integration start time");
+  TEND   = DefElm( "TEND", dreal, "Integration end time");
+  DT     = DefElm( "DT", dreal, "Integration step");
   
   A  = DefvElm( "A", real, -NREACT, "Rate for each equation" );
 
@@ -340,6 +342,7 @@ int dim;
   GlobalDeclare( RCONST );
   GlobalDeclare( TIME );
   GlobalDeclare( FUNTIME );
+  // GlobalDeclare( SUN_D );
   GlobalDeclare( SUN );
   GlobalDeclare( TEMP );
   GlobalDeclare( RTOLS );
@@ -2303,6 +2306,7 @@ int mxyz;
   ExternDeclare( TIME );
   ExternDeclare( FUNTIME );
   ExternDeclare( SUN );
+  // ExternDeclare( SUN_D );
   ExternDeclare( TEMP );
   ExternDeclare( RTOLS );
   ExternDeclare( TSTART );
