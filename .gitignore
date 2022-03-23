@@ -1,4 +1,10 @@
 *.o
-*.c
+small*
+tropo*
+smog*
+strato*
+cbm4*
+chapman*
+saprc*
 *.exe
 *.map
