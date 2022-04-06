@@ -1,7 +1,0 @@
-#MODEL      strato
-#INTEGRATOR atm_radau5 
-#LANGUAGE   Fortran77
-#DRIVER     general
-#HESSIAN    on
-#STOICMAT   on
-#DOUBLE	    on
