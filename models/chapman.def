@@ -1,5 +1,5 @@
-#include small_strato.spc
-#include small_strato.eqn
+#include chapman.spc
+#include chapman.eqn
  
 
 //#LANGUAGE Fortran77          {Output Language}
@@ -11,14 +11,13 @@
 
 
 #LOOKATALL                     {File Output}
-#MONITOR O3;N;O2;O;NO;O1D;NO2; {Screen Output}
+#MONITOR O3;N;O2;O;NO;NO2; {Screen Output}
 
 #CHECK O; N;                   {Check Mass Balance}
  
 #INITVALUES                    {Initial Values}
  
 CFACTOR = 1.    ;              {Conversion Factor} 
-O1D = 9.906E+01 ; 
 O   = 6.624E+08 ; 
 O3  = 5.326E+11 ; 
 O2  = 1.697E+16 ;
