@@ -1,7 +1,0 @@
-#MODEL      wet
-#INTEGRATOR rosenbrock 
-#LANGUAGE   C
-#DRIVER     general
-#HESSIAN    on
-#STOICMAT   on
-#DOUBLE	    on

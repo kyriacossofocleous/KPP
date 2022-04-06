@@ -1,7 +1,7 @@
 #MODEL      cbm4
-#INTEGRATOR rosenbrock 
+#INTEGRATOR rosenbrocksingle
 #LANGUAGE   C
 #DRIVER     general
 #HESSIAN    on
 #STOICMAT   on
-#DOUBLE	    on
+#DOUBLE	    off

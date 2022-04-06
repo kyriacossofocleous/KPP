@@ -725,14 +725,14 @@ void ros_FunTimeDerivative(
    /*~~~> Local variables */
    double Delta;
 
-   // if (SUN < 1e-2)
-   // {
+   if (SUN < 1e-2)
+   {
       Delta = SQRT((double)DBL_EPSILON) * (double)MAX(DeltaMin, ABS(T));
-   // }
-   // else
-   // {
-      // Delta = SQRT(Roundoff) * MAX(DeltaMin, ABS(T));
-   // }
+   }
+   else
+   {
+      Delta = SQRT(Roundoff) * MAX(DeltaMin, ABS(T));
+   }
    (*ode_Fun)((double)T + Delta, Y, dFdT);
    WAXPY(KPP_NVAR, (-ONE), Fcn0, 1, dFdT, 1);
    WSCAL(KPP_NVAR, (ONE / (float)Delta), dFdT, 1);
@@ -1288,23 +1288,3 @@ void JacTemplate(double T, KPP_REAL Y[], KPP_REAL Jcb[])
    Njac++;
 
 } /* JacTemplate   */
-
-// /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-// void FunTemplate2(double T, KPP_REAL Y[], KPP_REAL Ydot[])
-// /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
-//     Template for the ODE function call.
-//     Updates the rate coefficients (and possibly the fixed species) at each call    
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-// {
-//    double Told;
-
-//    Told = FUNTIME;
-//    FUNTIME = T;
-//    Update_SUN_D();
-//    Update_RCONST();
-//    Fun(Y, FIX, RCONST, Ydot);
-//    FUNTIME = Told;
-
-//    Nfun++;
-
-// } /*  FunTemplate */
