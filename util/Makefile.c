@@ -1,6 +1,6 @@
 # Set here the desired C compiler and its optimization options
-CC   = icc
-COPT = -O3 -fp-model=precise
+CC   = gcc
+COPT = -O3
 
 # To create Matlab gateway routines
 # Note: use $(CC) as the mex C compiler

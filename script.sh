@@ -1,5 +1,11 @@
 #!/bin/sh
 
+mkdir bin
+make -f Makefile -B
+
+export KPP_HOME=$(pwd)
+export PATH=$PATH:$HOME/bin
+
 for model in cbm4 chapman saprc small smog strato tropo
 do
    rm -r $model

@@ -1,0 +1,103 @@
+# Set here the desired C compiler and its optimization options
+CC   = gcc
+COPT = -O3
+
+# To create Matlab gateway routines
+# Note: use $(CC) as the mex C compiler
+MEX  = mex
+
+HEADERS = small_Global.h  small_Parameters.h  small_Sparse.h
+
+SPSRC = small_JacobianSP.c \
+	small_HessianSP.c  \
+	small_StoichiomSP.c
+
+SPOBJ = small_JacobianSP.o \
+	small_HessianSP.o  \
+	small_StoichiomSP.o
+
+
+SRC =   small_Main.c      small_Integrator.c   \
+	small_Function.c  small_Initialize.c   \
+	small_Jacobian.c  small_LinearAlgebra.c\
+	small_Rates.c     small_Hessian.c      \
+	small_Stoichiom.c small_Util.c         \
+	small_Monitor.c
+
+OBJ =   small_Main.o      small_Integrator.o   \
+	small_Function.o  small_Initialize.o   \
+	small_Jacobian.o  small_LinearAlgebra.o\
+	small_Rates.o     small_Hessian.o      \
+	small_Stoichiom.o small_Util.o         \
+	small_Monitor.o
+
+STOCHSRC = small_Stochastic.c 
+STOCHOBJ = small_Stochastic.o 
+
+all:    exe
+
+exe:	$(HEADERS) $(SPOBJ) $(OBJ)
+	$(CC) $(COPT) $(SPOBJ) $(OBJ) -lm -o small.exe	
+
+stochastic:$(HEADERS) $(SPOBJ) $(OBJ) $(STOCHOBJ)
+	$(CC) $(COPT) $(SPOBJ) $(OBJ) $(STOCHOBJ) -lm \
+	-o small_stochastic.exe	
+
+mex:    $(HEADERS) $(SPOBJ) $(OBJ)
+	$(MEX) CC#$(CC) -O small_mex_Fun.c     -lm $(SPOBJ) $(OBJ)
+	$(MEX) CC#$(CC) -O small_mex_Jac_SP.c  -lm $(SPOBJ) $(OBJ)
+	$(MEX) CC#$(CC) -O small_mex_Hessian.c -lm $(SPOBJ) $(OBJ)
+
+
+clean:
+	rm -f $(SPOBJ) $(OBJ) small.exe small_*.mexglx small*.dat
+
+distclean:
+	rm -f $(SPOBJ) $(OBJ) small.exe small*.dat \
+	small_*.c small_*.h small_*.map small_*.mexglx
+
+small_Monitor.o: small_Monitor.c $(HEADERS)
+	$(CC) $(COPT) -c $<
+
+small_JacobianSP.o: small_JacobianSP.c $(HEADERS)
+	$(CC) $(COPT) -c $<
+
+small_HessianSP.o: small_HessianSP.c  $(HEADERS)
+	$(CC) $(COPT) -c $<
+
+small_StoichiomSP.o: small_StoichiomSP.c $(HEADERS)
+	$(CC) $(COPT) -c $<
+
+small_Main.o: small_Main.c small_Initialize.o $(HEADERS) $(SPOBJ)
+	$(CC) $(COPT) -c $<
+
+small_Integrator.o: small_Integrator.c  $(HEADERS) $(SPOBJ)
+	$(CC) $(COPT) -c $<
+
+small_Initialize.o: small_Initialize.c  $(HEADERS) $(SPOBJ)
+	$(CC) $(COPT) -c $<
+
+small_Function.o: small_Function.c  $(HEADERS) $(SPOBJ)
+	$(CC) $(COPT) -c $<
+
+small_Stochastic.o: small_Stochastic.c  $(HEADERS) $(SPOBJ)
+	$(CC) $(COPT) -c $<
+
+small_Jacobian.o: small_Jacobian.c  $(HEADERS) $(SPOBJ)
+	$(CC) $(COPT) -c $<
+
+small_LinearAlgebra.o: small_LinearAlgebra.c  $(HEADERS) $(SPOBJ)
+	$(CC) $(COPT) -c $<
+
+small_Rates.o: small_Rates.c  $(HEADERS) $(SPOBJ)
+	$(CC) $(COPT) -c $<
+
+small_Hessian.o:  small_Hessian.c $(HEADERS) $(SPOBJ)
+	$(CC) $(COPT) -c $<
+
+small_Stoichiom.o: small_Stoichiom.c  $(HEADERS) $(SPOBJ)
+	$(CC) $(COPT) -c $<
+
+small_Util.o: small_Util.c  $(HEADERS) $(SPOBJ)
+	$(CC) $(COPT) -c $<
+
