@@ -109,7 +109,7 @@ void INTEGRATE(KPP_REAL TIN, KPP_REAL TOUT)
    IPAR[0] = 0;       /* non-autonomous */
    IPAR[1] = 2;       /* vector tolerances */
    RPAR[2] = STEPMIN; /* starting step */
-   IPAR[3] = 4;       /* choice of the method */
+   IPAR[3] = 2;       /* choice of the method */
 
    IERR = Rosenbrock(VAR, TIN, TOUT,
                      ATOL, RTOL,
@@ -121,7 +121,7 @@ void INTEGRATE(KPP_REAL TIN, KPP_REAL TOUT)
    Nr = Nr + IPAR[14];
    Ng = Ng + IPAR[17];
    Nc = Nc + IPAR[18];
-   printf("\n Step=%d  Acc=%d  Rej=%d  Singular=%d RCss=%d\n",
+   printf("\n Step=%d  Acc=%d  Rej=%d  Singular=%d Awrt=%d\n",
           Ns, Na, Nr, Ng, Nc);
 
    if (IERR < 0)
@@ -635,15 +635,15 @@ int RosenbrockIntegrator(
             if (H > Hnew)
             {
                // SaveData(2);
-               // SaveError(2);
-               // SaveE(Err, 2);
+               SaveError(2);
+               SaveE(Err, 2);
                Ncss++;
             }
             // else
             // {
                // SaveData(1);
-               // SaveError(1);
-               // SaveE(Err, 1);
+               SaveError(1);
+               SaveE(Err, 1);
             // }
             H = Hnew;
             break; /* EXIT THE LOOP: WHILE STEP NOT ACCEPTED */
@@ -657,8 +657,8 @@ int RosenbrockIntegrator(
             RejectMoreH = RejectLastH;
             RejectLastH = 1;
             // SaveData(0);
-            // SaveError(0);
-            // SaveE(Err, 0);
+            SaveError(0);
+            SaveE(Err, 0);
             H = Hnew;
          } /* end if Err <= 1 */
 

@@ -175,16 +175,25 @@ int i,j;
   XX    = DefvElm( "XX", real, -NVAR, "Vector for output variables" );
 
   TIME  = DefElm( "TIME", real, "Current integration time");
+  #if defined (__MIXEDPREC)
   FUNTIME  = DefElm( "FUNTIME", dreal, "Function Evaluation time");
   SUN   = DefElm( "SUN", dreal, "Sunlight intensity between [0,1]");
-  // SUN_D = DefElm( "SUN_D", dreal, "Sunlight in double precision");
+  #else
+  // FUNTIME  = DefElm( "FUNTIME", real, "Function Evaluation time");
+  SUN   = DefElm( "SUN", real, "Sunlight intensity between [0,1]");
+  #endif
   TEMP  = DefElm( "TEMP", real, "Temperature");
   
   RTOLS  = DefElm( "RTOLS", real, "(scalar) Relative tolerance");
+  #if defined (__MIXEDPREC)
   TSTART = DefElm( "TSTART", dreal, "Integration start time");
   TEND   = DefElm( "TEND", dreal, "Integration end time");
   DT     = DefElm( "DT", dreal, "Integration step");
-  
+  #else
+  TSTART = DefElm( "TSTART", real, "Integration start time");
+  TEND   = DefElm( "TEND", real, "Integration end time");
+  DT     = DefElm( "DT", real, "Integration step");
+  #endif
   A  = DefvElm( "A", real, -NREACT, "Rate for each equation" );
 
   ARP  = DefvElm( "ARP", real, -NREACT, "Reactant product in each equation" );
@@ -341,8 +350,9 @@ int dim;
   GlobalDeclare( E );
   GlobalDeclare( RCONST );
   GlobalDeclare( TIME );
+  #if defined(__MIXEDPREC)
   GlobalDeclare( FUNTIME );
-  // GlobalDeclare( SUN_D );
+  #endif
   GlobalDeclare( SUN );
   GlobalDeclare( TEMP );
   GlobalDeclare( RTOLS );
@@ -2304,7 +2314,9 @@ int mxyz;
   ExternDeclare( E );
   ExternDeclare( RCONST );
   ExternDeclare( TIME );
+  #if defined(__MIXEDPREC)
   ExternDeclare( FUNTIME );
+  #endif
   ExternDeclare( SUN );
   // ExternDeclare( SUN_D );
   ExternDeclare( TEMP );
