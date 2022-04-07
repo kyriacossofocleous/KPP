@@ -13,7 +13,7 @@
 /*        R. Sander, Max-Planck Institute for Chemistry, Mainz, Germany */
 /*                                                                  */
 /* File                 : small_Main.c                              */
-/* Time                 : Wed Apr  6 15:25:04 2022                  */
+/* Time                 : Wed Apr  6 16:48:58 2022                  */
 /* Working directory    : /home/kyriacos/CyprusInstitute/KPP/small  */
 /* Equation file        : small.kpp                                 */
 /* Output root filename : small                                     */
@@ -39,13 +39,12 @@ float * FIX = & C[5];
 float E[NSPEC];                          /* Error of all species */
 float RCONST[NREACT];                    /* Rate constants (global) */
 float TIME;                              /* Current integration time */
-double FUNTIME;                          /* Function Evaluation time */
-double SUN;                              /* Sunlight intensity between [0,1] */
+float SUN;                               /* Sunlight intensity between [0,1] */
 float TEMP;                              /* Temperature */
 float RTOLS;                             /* (scalar) Relative tolerance */
-double TSTART;                           /* Integration start time */
-double TEND;                             /* Integration end time */
-double DT;                               /* Integration step */
+float TSTART;                            /* Integration start time */
+float TEND;                              /* Integration end time */
+float DT;                                /* Integration step */
 float ATOL[NVAR];                        /* Absolute tolerance */
 float RTOL[NVAR];                        /* Relative tolerance */
 float STEPMIN;                           /* Lower bound for integration step */
@@ -86,8 +85,7 @@ int main()
   TEMP = 236.21;
 
   t = Stopwatch(0);
-  // for (int j = 0; j < 10000; j++)
-  // {
+
     Initialize();
     for (i = 0; i < NVAR; i++)
     {
@@ -110,7 +108,9 @@ int main()
       printf("(%6s)  ", SMASS[i]);
 
     TIME = TSTART;
+    #if defined(__MIXEDPREC)
     FUNTIME = (double)TSTART;
+    #endif
     while (TIME <= TEND)
     {
       GetMass(C, dval);
@@ -124,7 +124,9 @@ int main()
 
       INTEGRATE(TIME, TIME + DT);
       TIME += DT;
+      #if defined(__MIXEDPREC)
       FUNTIME += (double)DT;
+      #endif
     }
 
     /* *********** END TIME LOOP *********************** */
