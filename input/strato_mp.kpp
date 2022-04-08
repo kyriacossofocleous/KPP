@@ -1,5 +1,5 @@
 #MODEL      strato
-#INTEGRATOR rosenbrocksingle
+#INTEGRATOR ros4single
 #LANGUAGE   C
 #DRIVER     general
 #HESSIAN    on

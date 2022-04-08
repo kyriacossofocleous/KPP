@@ -1,5 +1,5 @@
 #MODEL      cbm4
-#INTEGRATOR rosenbrocksingle
+#INTEGRATOR rosenbrock
 #LANGUAGE   C
 #DRIVER     general
 #HESSIAN    on

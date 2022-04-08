@@ -6,7 +6,7 @@ FOPT_INTEL = -O -f77rtl -fp-model=precise -pc80 -prec-div
 FC_PGF     = pgf77
 FOPT_PGF   = -O -fast -pc 80 -Kieee
 FC_GNU     = gfortran
-FOPT_GNU   = -O -Wall -Wimplicit -funroll-loops
+FOPT_GNU   = -O
 FC_HPUX    = f90
 FOPT_HPUX  = -O
 
