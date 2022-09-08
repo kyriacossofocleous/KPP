@@ -1,0 +1,107 @@
+# Set here the Fortran77 compiler and the desired optimization options
+COMPILER = GNU
+
+FC_INTEL   = ifort
+FOPT_INTEL = -O -f77rtl -fp-model=precise -pc80 -prec-div
+FC_PGF     = pgf77
+FOPT_PGF   = -O -fast -pc 80 -Kieee
+FC_GNU     = gfortran
+FOPT_GNU   = -O
+FC_HPUX    = f90
+FOPT_HPUX  = -O
+
+FC   = $(FC_$(COMPILER))
+FOPT = $(FOPT_$(COMPILER)) 
+
+# Mathematical libraries: blas and lapack
+# MATHLIB   = -L/usr/local/lib  -llapack_g77  -L/usr/lib -lblas_g77
+MATHLIB   = -llapack  -lblas 
+
+# To create Matlab mex gateway routines
+# Note: use $(FC) as the mex Fortran compiler
+MEX  = mex
+
+HEADERS = small_ref_Global.h  small_ref_Parameters.h  small_ref_Sparse.h
+
+#SPSRC = small_ref_JacobianSP.f \
+#	small_ref_HessianSP.f  \
+#	small_ref_StoichiomSP.f
+
+#SPOBJ = small_ref_JacobianSP.o \
+#	small_ref_HessianSP.o  \
+#	small_ref_StoichiomSP.o
+
+
+SRC =   small_ref_Main.f      small_ref_Integrator.f   \
+        small_ref_Function.f  small_ref_Initialize.f   \
+	small_ref_Jacobian.f  small_ref_LinearAlgebra.f\
+	small_ref_Rates.f     small_ref_Hessian.f      \
+	small_ref_Stoichiom.f small_ref_Util.f         \
+	small_ref_Monitor.f   
+
+OBJ =   small_ref_Main.o      small_ref_Integrator.o   \
+        small_ref_Function.o  small_ref_Initialize.o   \
+	small_ref_Jacobian.o  small_ref_LinearAlgebra.o\
+	small_ref_Rates.o     small_ref_Hessian.o      \
+	small_ref_Stoichiom.o small_ref_Util.o         \
+	small_ref_Monitor.o
+
+all:    exe
+
+exe:	$(HEADERS) $(SPOBJ) $(OBJ)
+	$(FC) $(FOPT) $(SPOBJ) $(OBJ) $(MATHLIB) -o small_ref.exe
+
+#mex:    $(HEADERS) $(SPOBJ) $(OBJ)
+#	$(MEX) FC#$(FC) -fortran -O small_ref_mex_Fun.f     $(SPOBJ) $(OBJ)
+#	$(MEX) FC#$(FC) -fortran -O small_ref_mex_Jac_SP.f  $(SPOBJ) $(OBJ)
+#	$(MEX) FC#$(FC) -fortran -O small_ref_mex_Hessian.f $(SPOBJ) $(OBJ)
+	
+clean:
+	rm -f $(SPOBJ) $(OBJ) small_ref.exe small_ref.map  \
+	small_ref.dat 
+
+distclean:
+	rm -f $(SPOBJ) $(OBJ) small_ref.exe small_ref.map  \
+	small_ref.dat small_ref*.f  small_ref*.h 
+
+small_ref_Monitor.o: small_ref_Monitor.f $(HEADERS)
+	$(FC) $(FOPT) -c $<
+
+small_ref_JacobianSP.o: small_ref_JacobianSP.f $(HEADERS)
+	$(FC) $(FOPT) -c $<
+
+small_ref_HessianSP.o: small_ref_HessianSP.f  $(HEADERS)
+	$(FC) $(FOPT) -c $<
+
+small_ref_StoichiomSP.o: small_ref_StoichiomSP.f $(HEADERS)
+	$(FC) $(FOPT) -c $<
+
+small_ref_Main.o: small_ref_Main.f  small_ref_Initialize.o $(HEADERS) $(SPOBJ)
+	$(FC) $(FOPT) -c $<
+
+small_ref_Integrator.o: small_ref_Integrator.f  $(HEADERS) $(SPOBJ)
+	$(FC) $(FOPT) -c $<
+
+small_ref_Initialize.o: small_ref_Initialize.f  $(HEADERS) $(SPOBJ)
+	$(FC) $(FOPT) -c $<
+
+small_ref_Function.o: small_ref_Function.f  $(HEADERS) $(SPOBJ)
+	$(FC) $(FOPT) -c $<
+
+small_ref_Jacobian.o: small_ref_Jacobian.f  $(HEADERS) $(SPOBJ)
+	$(FC) $(FOPT) -c $<
+
+small_ref_LinearAlgebra.o: small_ref_LinearAlgebra.f  $(HEADERS) $(SPOBJ)
+	$(FC) $(FOPT) -c $<
+
+small_ref_Rates.o: small_ref_Rates.f  $(HEADERS) $(SPOBJ)
+	$(FC) $(FOPT) -c $<
+
+small_ref_Hessian.o:  small_ref_Hessian.f $(HEADERS) $(SPOBJ)
+	$(FC) $(FOPT) -c $<
+
+small_ref_Stoichiom.o: small_ref_Stoichiom.f  $(HEADERS) $(SPOBJ)
+	$(FC) $(FOPT) -c $<
+
+small_ref_Util.o: small_ref_Util.f  $(HEADERS) $(SPOBJ)
+	$(FC) $(FOPT) -c $<

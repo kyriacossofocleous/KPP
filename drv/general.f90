@@ -14,25 +14,25 @@ PROGRAM KPP_ROOT_Driver
       STEPMAX = 0.0d0
 
       DO i=1,NVAR
-        RTOL(i) = 1.0d-1
+        RTOL(i) = 1.0d-3
         ATOL(i) = 1.0
       END DO
       CALL cpu_time(START)
-      DO j=1, 1000
-            CALL Initialize()
+      ! DO j=1, 1000
+      CALL Initialize()
 
-            ! CALL InitSaveData()
+      CALL InitSaveData()
 
       !~~~> Time loop
-            T = TSTART
+      T = TSTART
       kron: DO WHILE (T < TEND)
 
             TIME = T
             CALL GetMass( C, DVAL )
-            ! WRITE(6,991) (T-TSTART)/(TEND-TSTART)*100, T,       &
-                        ! ( TRIM(SPC_NAMES(MONITOR(i))),           &
-                        ! C(MONITOR(i))/CFACTOR, i=1,NMONITOR )
-            !   CALL SaveData()
+            WRITE(6,991) (T-TSTART)/(TEND-TSTART)*100, T,       &
+                        ( TRIM(SPC_NAMES(MONITOR(i))),           &
+                        C(MONITOR(i))/CFACTOR, i=1,NMONITOR )
+              CALL SaveData()
             CALL Update_SUN() 
             CALL Update_RCONST()
 
@@ -40,17 +40,16 @@ PROGRAM KPP_ROOT_Driver
             ICNTRL_U = (/ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 /) )
             T = RSTATE(1)
 
-            END DO kron
+      END DO kron
       !~~~> End Time loop
 
-            CALL GetMass( C, DVAL )
-            ! WRITE(6,991) (T-TSTART)/(TEND-TSTART)*100, T,     &
-                  ! ( TRIM(SPC_NAMES(MONITOR(i))),           &
-                  ! C(MONITOR(i))/CFACTOR, i=1,NMONITOR ) 
-            TIME = T
-            ! CALL SaveData()
-            ! CALL CloseSaveData()
-      END DO
+      CALL GetMass( C, DVAL )
+      WRITE(6,991) (T-TSTART)/(TEND-TSTART)*100, T,     &
+            ( TRIM(SPC_NAMES(MONITOR(i))),           &
+            C(MONITOR(i))/CFACTOR, i=1,NMONITOR ) 
+      TIME = T
+      CALL SaveData()
+      CALL CloseSaveData()
       CALL cpu_time(FINISH)
       PRINT '("Time = ",f10.6," seconds.")',FINISH-START
 991   FORMAT(F6.1,'%. T=',E9.3,2X,200(A,'=',E11.4,'; '))

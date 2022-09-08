@@ -74,8 +74,8 @@ SUBROUTINE INTEGRATE( TIN, TOUT, &
          RCNTRL,ICNTRL,RSTATUS,ISTATUS,IERR)
 
    !~~~> Debug option: show no of steps
-   ! Ntotal = Ntotal + ISTATUS(Nstp)
-   ! PRINT*,'NSTEPS=',ISTATUS(Nstp),' (',Ntotal,')'
+   Ntotal = Ntotal + ISTATUS(Nstp)
+   PRINT*,'NSTEPS=',ISTATUS(Nstp),' (',Ntotal,')'
 
    STEPMIN = RSTATUS(Nhexit)
    ! if optional parameters are given for output they 

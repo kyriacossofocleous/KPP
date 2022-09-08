@@ -1,0 +1,103 @@
+# Set here the desired C compiler and its optimization options
+CC   = gcc
+COPT = -O3
+
+# To create Matlab gateway routines
+# Note: use $(CC) as the mex C compiler
+MEX  = mex
+
+HEADERS = cbm4_mp_Global.h  cbm4_mp_Parameters.h  cbm4_mp_Sparse.h
+
+SPSRC = cbm4_mp_JacobianSP.c \
+	cbm4_mp_HessianSP.c  \
+	cbm4_mp_StoichiomSP.c
+
+SPOBJ = cbm4_mp_JacobianSP.o \
+	cbm4_mp_HessianSP.o  \
+	cbm4_mp_StoichiomSP.o
+
+
+SRC =   cbm4_mp_Main.c      cbm4_mp_Integrator.c   \
+	cbm4_mp_Function.c  cbm4_mp_Initialize.c   \
+	cbm4_mp_Jacobian.c  cbm4_mp_LinearAlgebra.c\
+	cbm4_mp_Rates.c     cbm4_mp_Hessian.c      \
+	cbm4_mp_Stoichiom.c cbm4_mp_Util.c         \
+	cbm4_mp_Monitor.c
+
+OBJ =   cbm4_mp_Main.o      cbm4_mp_Integrator.o   \
+	cbm4_mp_Function.o  cbm4_mp_Initialize.o   \
+	cbm4_mp_Jacobian.o  cbm4_mp_LinearAlgebra.o\
+	cbm4_mp_Rates.o     cbm4_mp_Hessian.o      \
+	cbm4_mp_Stoichiom.o cbm4_mp_Util.o         \
+	cbm4_mp_Monitor.o
+
+STOCHSRC = cbm4_mp_Stochastic.c 
+STOCHOBJ = cbm4_mp_Stochastic.o 
+
+all:    exe
+
+exe:	$(HEADERS) $(SPOBJ) $(OBJ)
+	$(CC) $(COPT) $(SPOBJ) $(OBJ) -lm -o cbm4_mp.exe	
+
+stochastic:$(HEADERS) $(SPOBJ) $(OBJ) $(STOCHOBJ)
+	$(CC) $(COPT) $(SPOBJ) $(OBJ) $(STOCHOBJ) -lm \
+	-o cbm4_mp_stochastic.exe	
+
+mex:    $(HEADERS) $(SPOBJ) $(OBJ)
+	$(MEX) CC#$(CC) -O cbm4_mp_mex_Fun.c     -lm $(SPOBJ) $(OBJ)
+	$(MEX) CC#$(CC) -O cbm4_mp_mex_Jac_SP.c  -lm $(SPOBJ) $(OBJ)
+	$(MEX) CC#$(CC) -O cbm4_mp_mex_Hessian.c -lm $(SPOBJ) $(OBJ)
+
+
+clean:
+	rm -f $(SPOBJ) $(OBJ) cbm4_mp.exe cbm4_mp_*.mexglx cbm4_mp*.dat
+
+distclean:
+	rm -f $(SPOBJ) $(OBJ) cbm4_mp.exe cbm4_mp*.dat \
+	cbm4_mp_*.c cbm4_mp_*.h cbm4_mp_*.map cbm4_mp_*.mexglx
+
+cbm4_mp_Monitor.o: cbm4_mp_Monitor.c $(HEADERS)
+	$(CC) $(COPT) -c $<
+
+cbm4_mp_JacobianSP.o: cbm4_mp_JacobianSP.c $(HEADERS)
+	$(CC) $(COPT) -c $<
+
+cbm4_mp_HessianSP.o: cbm4_mp_HessianSP.c  $(HEADERS)
+	$(CC) $(COPT) -c $<
+
+cbm4_mp_StoichiomSP.o: cbm4_mp_StoichiomSP.c $(HEADERS)
+	$(CC) $(COPT) -c $<
+
+cbm4_mp_Main.o: cbm4_mp_Main.c cbm4_mp_Initialize.o $(HEADERS) $(SPOBJ)
+	$(CC) $(COPT) -c $<
+
+cbm4_mp_Integrator.o: cbm4_mp_Integrator.c  $(HEADERS) $(SPOBJ)
+	$(CC) $(COPT) -c $<
+
+cbm4_mp_Initialize.o: cbm4_mp_Initialize.c  $(HEADERS) $(SPOBJ)
+	$(CC) $(COPT) -c $<
+
+cbm4_mp_Function.o: cbm4_mp_Function.c  $(HEADERS) $(SPOBJ)
+	$(CC) $(COPT) -c $<
+
+cbm4_mp_Stochastic.o: cbm4_mp_Stochastic.c  $(HEADERS) $(SPOBJ)
+	$(CC) $(COPT) -c $<
+
+cbm4_mp_Jacobian.o: cbm4_mp_Jacobian.c  $(HEADERS) $(SPOBJ)
+	$(CC) $(COPT) -c $<
+
+cbm4_mp_LinearAlgebra.o: cbm4_mp_LinearAlgebra.c  $(HEADERS) $(SPOBJ)
+	$(CC) $(COPT) -c $<
+
+cbm4_mp_Rates.o: cbm4_mp_Rates.c  $(HEADERS) $(SPOBJ)
+	$(CC) $(COPT) -c $<
+
+cbm4_mp_Hessian.o:  cbm4_mp_Hessian.c $(HEADERS) $(SPOBJ)
+	$(CC) $(COPT) -c $<
+
+cbm4_mp_Stoichiom.o: cbm4_mp_Stoichiom.c  $(HEADERS) $(SPOBJ)
+	$(CC) $(COPT) -c $<
+
+cbm4_mp_Util.o: cbm4_mp_Util.c  $(HEADERS) $(SPOBJ)
+	$(CC) $(COPT) -c $<
+

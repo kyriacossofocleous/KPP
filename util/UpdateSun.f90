@@ -4,10 +4,10 @@
 
     IMPLICIT NONE
 
-    KPP_REAL :: SunRise, SunSet
-    KPP_REAL :: Thour, Tlocal, Ttmp 
+    REAL(kind=dp)  :: SunRise, SunSet
+    REAL(kind=dp)  :: Thour, Tlocal, Ttmp 
     ! PI - Value of pi
-    KPP_REAL, PARAMETER :: PI = 3.14159265358979d0
+    REAL(kind=dp) , PARAMETER :: PI = 3.14159265358979d0
     
     SunRise = 4.5_dp 
     SunSet  = 19.5_dp 
