@@ -1,7 +1,0 @@
-#MODEL      tropo
-#INTEGRATOR rosenbrocksingle
-#LANGUAGE   C
-#DRIVER     general
-#HESSIAN    on
-#STOICMAT   on
-#DOUBLE	    off

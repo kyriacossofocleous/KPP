@@ -1,7 +1,0 @@
-#MODEL      strato
-#INTEGRATOR ros4
-#LANGUAGE   C
-#DRIVER     general
-#HESSIAN    on
-#STOICMAT   on
-#DOUBLE	    on
