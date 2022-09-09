@@ -677,7 +677,7 @@ Stage: DO istage = 1, ros_S
 !~~~> Local variables
    REAL(kind=dp) :: Delta
    KPP_REAL, PARAMETER :: ONE = 1.0_dp, DeltaMin = 1.0E-6_dp
-   IF (SUN < 1e-3) THEN
+   IF (SUN < 1e-2) THEN
       Delta = SQRT(epsilon(T))*MAX(DeltaMin,ABS(T))
    ELSE
       Delta = SQRT(Roundoff)*MAX(DeltaMin,ABS(T))
