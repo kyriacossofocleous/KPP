@@ -3,7 +3,12 @@ PROGRAM KPP_ROOT_Driver
   USE KPP_ROOT_Model
   USE KPP_ROOT_Initialize, ONLY: Initialize
 
-      KPP_REAL :: T, DVAL(NSPEC)
+#ifdef __MIXEDPREC
+      REAL(kind=dp) :: T
+#else
+      KPP_REAL :: T
+#endif
+      KPP_REAL :: DVAL(NSPEC)
       KPP_REAL :: RSTATE(20)
       INTEGER :: i
   
@@ -13,8 +18,8 @@ PROGRAM KPP_ROOT_Driver
       STEPMAX = 0.0d0
 
       DO i=1,NVAR
-        RTOL(i) = 1.0d-4
-        ATOL(i) = 1.0d-3
+        RTOL(i) = 1.0d-3
+        ATOL(i) = 1.0
       END DO
      
       CALL Initialize()
@@ -22,6 +27,9 @@ PROGRAM KPP_ROOT_Driver
 
 !~~~> Time loop
       T = TSTART
+#ifdef __MIXEDPREC
+      FUNTIME = REAL(TSTART,kind=dp)
+#endif      
 kron: DO WHILE (T < TEND)
 
         TIME = T
@@ -36,6 +44,9 @@ kron: DO WHILE (T < TEND)
         CALL INTEGRATE( TIN = T, TOUT = T+DT, RSTATUS_U = RSTATE, &
         ICNTRL_U = (/ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 /) )
         T = RSTATE(1)
+#ifdef __MIXEDPREC
+      FUNTIME = FUNTIME + REAL(DT,kind=dp)
+#endif
 
       END DO kron
 !~~~> End Time loop

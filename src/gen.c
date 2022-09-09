@@ -71,6 +71,8 @@ int SPC_NAMES, EQN_NAMES;
 int EQN_TAGS; 
 int NONZERO, LU_NONZERO;
 int TIME, SUN, TEMP;
+int FUNTIME;
+// int SUN_D;
 int RTOLS, TSTART, TEND, DT;
 int ATOL, RTOL, STEPMIN, STEPMAX, CFACTOR;
 int V_USER, CL;
@@ -80,6 +82,7 @@ int Jac_NZ, LU_Jac_NZ, nzr;
 
 NODE *sum, *prod;
 int real;
+int dreal;
 int nlookat;
 int nmoni;
 int ntrans;
@@ -172,14 +175,25 @@ int i,j;
   XX    = DefvElm( "XX", real, -NVAR, "Vector for output variables" );
 
   TIME  = DefElm( "TIME", real, "Current integration time");
+  #if defined (__MIXEDPREC)
+  FUNTIME  = DefElm( "FUNTIME", dreal, "Function Evaluation time");
+  SUN   = DefElm( "SUN", dreal, "Sunlight intensity between [0,1]");
+  #else
+  // FUNTIME  = DefElm( "FUNTIME", real, "Function Evaluation time");
   SUN   = DefElm( "SUN", real, "Sunlight intensity between [0,1]");
+  #endif
   TEMP  = DefElm( "TEMP", real, "Temperature");
   
   RTOLS  = DefElm( "RTOLS", real, "(scalar) Relative tolerance");
+  #if defined (__MIXEDPREC)
+  TSTART = DefElm( "TSTART", dreal, "Integration start time");
+  TEND   = DefElm( "TEND", dreal, "Integration end time");
+  DT     = DefElm( "DT", dreal, "Integration step");
+  #else
   TSTART = DefElm( "TSTART", real, "Integration start time");
   TEND   = DefElm( "TEND", real, "Integration end time");
   DT     = DefElm( "DT", real, "Integration step");
-  
+  #endif
   A  = DefvElm( "A", real, -NREACT, "Rate for each equation" );
 
   ARP  = DefvElm( "ARP", real, -NREACT, "Reactant product in each equation" );
@@ -336,6 +350,9 @@ int dim;
   GlobalDeclare( E );
   GlobalDeclare( RCONST );
   GlobalDeclare( TIME );
+  #if defined(__MIXEDPREC)
+  GlobalDeclare( FUNTIME );
+  #endif
   GlobalDeclare( SUN );
   GlobalDeclare( TEMP );
   GlobalDeclare( RTOLS );
@@ -2297,7 +2314,11 @@ int mxyz;
   ExternDeclare( E );
   ExternDeclare( RCONST );
   ExternDeclare( TIME );
+  #if defined(__MIXEDPREC)
+  ExternDeclare( FUNTIME );
+  #endif
   ExternDeclare( SUN );
+  // ExternDeclare( SUN_D );
   ExternDeclare( TEMP );
   ExternDeclare( RTOLS );
   ExternDeclare( TSTART );
@@ -2854,7 +2875,7 @@ if (useLang != F90_LANG) return;
 switch (where) {
 case 'h':
 
-  sprintf( buf, "%s_Precision.f90", rootFileName );  
+  sprintf( buf, "%s_Precision.F90", rootFileName );  
   sparse_dataFile = fopen(buf, "w");
   if( sparse_dataFile == 0 ) {
     FatalError(3,"%s: Can't create file", buf );
@@ -2875,7 +2896,7 @@ case 'h':
 
   UseFile( initFile ); 
     F90_Inline("MODULE %s_Initialize\n", rootFileName );
-    F90_Inline("  USE %s_Parameters, ONLY: dp, NVAR, NFIX", rootFileName);
+    F90_Inline("  USE %s_Parameters, ONLY: sp, dp, NVAR, NFIX", rootFileName);
     F90_Inline("  IMPLICIT NONE\n", rootFileName );
     F90_Inline("CONTAINS\n\n");
 
@@ -2889,7 +2910,7 @@ case 'h':
     if ( useDeclareValues )
       F90_Inline("  USE %s_Precision", rootFileName );
     else
-      F90_Inline("  USE %s_Parameters, ONLY: dp, NSPEC, NVAR, NFIX, NREACT", rootFileName);
+      F90_Inline("  USE %s_Parameters, ONLY: sp, dp, NSPEC, NVAR, NFIX, NREACT", rootFileName);
     F90_Inline("  PUBLIC\n  SAVE\n");
  
   UseFile( functionFile ); 
@@ -3000,7 +3021,7 @@ case 'h':
     /* Here we define the model module which aggregates everything */ 
     /* put module rootFileName_Model into separate file */
     /* (reusing "sparse_dataFile" as done above for _Precision file) */
-    sprintf( buf, "%s_Model.f90", rootFileName );  
+    sprintf( buf, "%s_Model.F90", rootFileName );  
     sparse_dataFile = fopen(buf, "w");
     if( sparse_dataFile == 0 ) {
       FatalError(3,"%s: Can't create file", buf );
@@ -3113,6 +3134,7 @@ int n;
   FixStartNr = VarNr;
   
   real = useDouble ? DOUBLE : REAL;
+  dreal = DOUBLE;
 
   n = MAX_OUTBUF;
   for( i = 1; i < INLINE_OPT; i++ ) 
@@ -3246,7 +3268,7 @@ int n;
     GenerateDJacDRcoeff();
   }  
 
-  printf("\nKPP is generating the driver from %s.f90:", driver);
+  printf("\nKPP is generating the driver from %s.F90:", driver);
   printf("\n    - %s_Main",rootFileName);
   
   if ( (useLang == F77_LANG)||(useLang == F90_LANG)||(useLang == C_LANG) )
