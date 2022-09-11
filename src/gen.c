@@ -2875,7 +2875,7 @@ if (useLang != F90_LANG) return;
 switch (where) {
 case 'h':
 
-  sprintf( buf, "%s_Precision.F90", rootFileName );  
+  sprintf( buf, "%s_Precision.f90", rootFileName );  
   sparse_dataFile = fopen(buf, "w");
   if( sparse_dataFile == 0 ) {
     FatalError(3,"%s: Can't create file", buf );
@@ -3021,7 +3021,7 @@ case 'h':
     /* Here we define the model module which aggregates everything */ 
     /* put module rootFileName_Model into separate file */
     /* (reusing "sparse_dataFile" as done above for _Precision file) */
-    sprintf( buf, "%s_Model.F90", rootFileName );  
+    sprintf( buf, "%s_Model.f90", rootFileName );  
     sparse_dataFile = fopen(buf, "w");
     if( sparse_dataFile == 0 ) {
       FatalError(3,"%s: Can't create file", buf );
@@ -3268,7 +3268,7 @@ int n;
     GenerateDJacDRcoeff();
   }  
 
-  printf("\nKPP is generating the driver from %s.F90:", driver);
+  printf("\nKPP is generating the driver from %s.f90:", driver);
   printf("\n    - %s_Main",rootFileName);
   
   if ( (useLang == F77_LANG)||(useLang == F90_LANG)||(useLang == C_LANG) )
