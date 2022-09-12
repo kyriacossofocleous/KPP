@@ -227,7 +227,7 @@ SUBROUTINE Rosenbrock(N,Y,Tstart,Tend, &
    CHARACTER(LEN=12) :: ros_Name
 !~~~>  Local variables
    KPP_REAL :: Roundoff, FacMin, FacMax, FacRej, FacSafe
-   KPP_REAL :: Hmin, Hmax, Hstart
+   REAL(kind=dp) :: Hmin, Hmax, Hstart
    REAL(kind=dp) :: Texit
    INTEGER       :: i, UplimTol, Max_no_steps
    LOGICAL       :: Autonomous, VectorTol
@@ -268,7 +268,7 @@ SUBROUTINE Rosenbrock(N,Y,Tstart,Tend, &
        CALL Rang3
      CASE DEFAULT
        PRINT * , 'Unknown Rosenbrock method: ICNTRL(3)=',ICNTRL(3) 
-       CALL ros_ErrorMsg(-2,Tstart,ZERO,IERR)
+       CALL ros_ErrorMsg(-2,Tstart,0.0_dp,IERR)
        RETURN
    END SELECT
 
@@ -279,7 +279,7 @@ SUBROUTINE Rosenbrock(N,Y,Tstart,Tend, &
       Max_no_steps=ICNTRL(4)
    ELSE
       PRINT * ,'User-selected max no. of steps: ICNTRL(4)=',ICNTRL(4)
-      CALL ros_ErrorMsg(-1,Tstart,ZERO,IERR)
+      CALL ros_ErrorMsg(-1,Tstart,0.0_dp,IERR)
       RETURN
    END IF
 
@@ -293,7 +293,7 @@ SUBROUTINE Rosenbrock(N,Y,Tstart,Tend, &
       Hmin = RCNTRL(1)
    ELSE
       PRINT * , 'User-selected Hmin: RCNTRL(1)=', RCNTRL(1)
-      CALL ros_ErrorMsg(-3,Tstart,ZERO,IERR)
+      CALL ros_ErrorMsg(-3,Tstart,0.0_dp,IERR)
       RETURN
    END IF
 !~~~>  Upper bound on the step size: (positive value)
@@ -303,7 +303,7 @@ SUBROUTINE Rosenbrock(N,Y,Tstart,Tend, &
       Hmax = MIN(ABS(RCNTRL(2)),ABS(Tend-Tstart))
    ELSE
       PRINT * , 'User-selected Hmax: RCNTRL(2)=', RCNTRL(2)
-      CALL ros_ErrorMsg(-3,Tstart,ZERO,IERR)
+      CALL ros_ErrorMsg(-3,Tstart,0.0_dp,IERR)
       RETURN
    END IF
 !~~~>  Starting step size: (positive value)
@@ -313,7 +313,7 @@ SUBROUTINE Rosenbrock(N,Y,Tstart,Tend, &
       Hstart = MIN(ABS(RCNTRL(3)),ABS(Tend-Tstart))
    ELSE
       PRINT * , 'User-selected Hstart: RCNTRL(3)=', RCNTRL(3)
-      CALL ros_ErrorMsg(-3,Tstart,ZERO,IERR)
+      CALL ros_ErrorMsg(-3,Tstart,0.0_dp,IERR)
       RETURN
    END IF
 !~~~>  Step size can be changed s.t.  FacMin < Hnew/Hold < FacMax
@@ -323,7 +323,7 @@ SUBROUTINE Rosenbrock(N,Y,Tstart,Tend, &
       FacMin = RCNTRL(4)
    ELSE
       PRINT * , 'User-selected FacMin: RCNTRL(4)=', RCNTRL(4)
-      CALL ros_ErrorMsg(-4,Tstart,ZERO,IERR)
+      CALL ros_ErrorMsg(-4,Tstart,0.0_dp,IERR)
       RETURN
    END IF
    IF (RCNTRL(5) == ZERO) THEN
@@ -332,7 +332,7 @@ SUBROUTINE Rosenbrock(N,Y,Tstart,Tend, &
       FacMax = RCNTRL(5)
    ELSE
       PRINT * , 'User-selected FacMax: RCNTRL(5)=', RCNTRL(5)
-      CALL ros_ErrorMsg(-4,Tstart,ZERO,IERR)
+      CALL ros_ErrorMsg(-4,Tstart,0.0_dp,IERR)
       RETURN
    END IF
 !~~~>   FacRej: Factor to decrease step after 2 succesive rejections
@@ -342,7 +342,7 @@ SUBROUTINE Rosenbrock(N,Y,Tstart,Tend, &
       FacRej = RCNTRL(6)
    ELSE
       PRINT * , 'User-selected FacRej: RCNTRL(6)=', RCNTRL(6)
-      CALL ros_ErrorMsg(-4,Tstart,ZERO,IERR)
+      CALL ros_ErrorMsg(-4,Tstart,0.0_dp,IERR)
       RETURN
    END IF
 !~~~>   FacSafe: Safety Factor in the computation of new step size
@@ -352,7 +352,7 @@ SUBROUTINE Rosenbrock(N,Y,Tstart,Tend, &
       FacSafe = RCNTRL(7)
    ELSE
       PRINT * , 'User-selected FacSafe: RCNTRL(7)=', RCNTRL(7)
-      CALL ros_ErrorMsg(-4,Tstart,ZERO,IERR)
+      CALL ros_ErrorMsg(-4,Tstart,0.0_dp,IERR)
       RETURN
    END IF
 !~~~>  Check if tolerances are reasonable
@@ -361,7 +361,7 @@ SUBROUTINE Rosenbrock(N,Y,Tstart,Tend, &
          .OR. (RelTol(i) >= 1.0_dp) ) THEN
         PRINT * , ' AbsTol(',i,') = ',AbsTol(i)
         PRINT * , ' RelTol(',i,') = ',RelTol(i)
-        CALL ros_ErrorMsg(-5,Tstart,ZERO,IERR)
+        CALL ros_ErrorMsg(-5,Tstart,0.0_dp,IERR)
         RETURN
       END IF
     END DO
@@ -388,7 +388,7 @@ CONTAINS !  SUBROUTINES internal to Rosenbrock
 !~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~   
   
    REAL(kind=dp), INTENT(IN) :: T
-   KPP_REAL, INTENT(IN) :: H
+   REAL(kind=dp), INTENT(IN) :: H
    INTEGER, INTENT(IN)  :: Code
    INTEGER, INTENT(OUT) :: IERR
    
@@ -449,7 +449,7 @@ CONTAINS !  SUBROUTINES internal to Rosenbrock
    KPP_REAL, INTENT(IN) ::  AbsTol(N), RelTol(N)
 !~~~> Input: integration parameters
    LOGICAL, INTENT(IN) :: Autonomous, VectorTol
-   KPP_REAL, INTENT(IN) :: Hstart, Hmin, Hmax
+   REAL(kind=dp), INTENT(IN) :: Hstart, Hmin, Hmax
    INTEGER, INTENT(IN) :: Max_no_steps
    KPP_REAL, INTENT(IN) :: Roundoff, FacMin, FacMax, FacRej, FacSafe
 !~~~> Output: Error indicator
@@ -462,7 +462,8 @@ CONTAINS !  SUBROUTINES internal to Rosenbrock
 #else
    KPP_REAL :: Jac0(LU_NONZERO), Ghimj(LU_NONZERO)
 #endif
-   KPP_REAL :: H, Hnew, HC, HG, Fac 
+   REAL(kind=dp) :: H, Hnew 
+   KPP_REAL :: HC, HG, Fac 
    REAL(kind=dp) :: Tau
    KPP_REAL :: Err, Yerr(N)
    INTEGER :: Pivot(N), Direction, ioffset, j, istage
@@ -720,7 +721,7 @@ Stage: DO istage = 1, ros_S
    LOGICAL, INTENT(OUT) ::  Singular
    INTEGER, INTENT(OUT) ::  Pivot(N)
 !~~~> Inout arguments
-   KPP_REAL, INTENT(INOUT) :: H   ! step size is decreased when LU fails
+   REAL(kind=dp), INTENT(INOUT) :: H   ! step size is decreased when LU fails
 !~~~> Local variables
    INTEGER  :: i, ISING, Nconsecutive
    KPP_REAL :: ghinv
