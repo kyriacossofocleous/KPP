@@ -592,7 +592,7 @@ Stage: DO istage = 1, ros_S
    IF ( (Err <= ONE).OR.(H <= Hmin) ) THEN  !~~~> Accept step
       ISTATUS(Nacc) = ISTATUS(Nacc) + 1
       !slim: CALL WCOPY(N,Ynew,1,Y,1)
-      Y(1:N) = Ynew(1:N)
+      Y(1:N) = MAX(Ynew(1:N),ZERO)
       T = T + Direction*H
       Hnew = MAX(Hmin,MIN(Hnew,Hmax))
       IF (RejectLastH) THEN  ! No step size increase after a rejected step

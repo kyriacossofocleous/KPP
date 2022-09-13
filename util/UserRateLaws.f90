@@ -48,18 +48,18 @@
 
   !---------------------------------------------------------------------------
 
-  ELEMENTAL REAL(kind=dp) FUNCTION k_3rd(temp,cair,k0_300K,n,kinf_300K,m,fc)
+  ELEMENTAL KPP_REAL FUNCTION k_3rd(temp,cair,k0_300K,n,kinf_300K,m,fc)
 
     INTRINSIC LOG10
 
-    REAL(kind=dp), INTENT(IN) :: temp      ! temperature [K]
-    REAL(kind=dp), INTENT(IN) :: cair      ! air concentration [molecules/cm3]
-    REAL, INTENT(IN) :: k0_300K   ! low pressure limit at 300 K
-    REAL, INTENT(IN) :: n         ! exponent for low pressure limit
-    REAL, INTENT(IN) :: kinf_300K ! high pressure limit at 300 K
-    REAL, INTENT(IN) :: m         ! exponent for high pressure limit
-    REAL, INTENT(IN) :: fc        ! broadening factor (usually fc=0.6)
-    REAL(kind=dp) :: zt_help, k0_T, kinf_T, k_ratio
+    KPP_REAL, INTENT(IN) :: temp      ! temperature [K]
+    KPP_REAL, INTENT(IN) :: cair      ! air concentration [molecules/cm3]
+    KPP_REAL, INTENT(IN) :: k0_300K   ! low pressure limit at 300 K
+    KPP_REAL, INTENT(IN) :: n         ! exponent for low pressure limit
+    KPP_REAL, INTENT(IN) :: kinf_300K ! high pressure limit at 300 K
+    KPP_REAL, INTENT(IN) :: m         ! exponent for high pressure limit
+    KPP_REAL, INTENT(IN) :: fc        ! broadening factor (usually fc=0.6)
+    KPP_REAL :: zt_help, k0_T, kinf_T, k_ratio
 
     zt_help = 300._dp/temp
     k0_T    = k0_300K   * zt_help**(n) * cair ! k_0   at current T
@@ -71,12 +71,12 @@
 
   !---------------------------------------------------------------------------
 
-  ELEMENTAL REAL(kind=dp) FUNCTION k_arr (k_298,tdep,temp)
+  ELEMENTAL KPP_REAL FUNCTION k_arr (k_298,tdep,temp)
     ! Arrhenius function
 
-    REAL,     INTENT(IN) :: k_298 ! k at T = 298.15K
-    REAL,     INTENT(IN) :: tdep  ! temperature dependence
-    REAL(kind=dp), INTENT(IN) :: temp  ! temperature
+    KPP_REAL, INTENT(IN) :: k_298 ! k at T = 298.15K
+    KPP_REAL, INTENT(IN) :: tdep  ! temperature dependence
+    KPP_REAL, INTENT(IN) :: temp  ! temperature
 
     INTRINSIC EXP
 

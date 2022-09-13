@@ -2547,6 +2547,11 @@ int INITVAL;
   F77_Inline("      INCLUDE '%s_Global.h'", rootFileName);
   F90_Inline("  USE %s_Global\n", rootFileName);
   MATLAB_Inline("global CFACTOR VAR FIX NVAR NFIX", rootFileName);
+
+  /*  mz_rs_20151116+ */
+  F77_Inline("      INCLUDE '%s_Parameters.h'", rootFileName);
+  F90_Inline("  USE %s_Parameters\n", rootFileName);
+  /*  mz_rs_20151116- */
   
   I = DefElm( "i", INT, 0);
   X = DefElm( "x", real, 0);

@@ -2,8 +2,8 @@
 #FUNCTION AGGREGATE
 #JACOBIAN SPARSE_LU_ROW
 
-#DOUBLE OFF
-#INTFILE rosenbrocksingle
+#DOUBLE ON 
+#INTFILE rosenbrock_posdef
 
 #INLINE F77_GLOBAL
       INTEGER Autonomous
