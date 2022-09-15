@@ -174,12 +174,13 @@ int i,j;
   X     = DefvElm( "X",  real, -NVAR, "Vector for variables" );
   XX    = DefvElm( "XX", real, -NVAR, "Vector for output variables" );
 
-  TIME  = DefElm( "TIME", real, "Current integration time");
   #if defined (__MIXEDPREC)
-  FUNTIME  = DefElm( "FUNTIME", dreal, "Function Evaluation time");
+  // FUNTIME  = DefElm( "FUNTIME", dreal, "Function Evaluation time");
+  TIME  = DefElm( "TIME", dreal, "Current integration time");
   SUN   = DefElm( "SUN", dreal, "Sunlight intensity between [0,1]");
   #else
   // FUNTIME  = DefElm( "FUNTIME", real, "Function Evaluation time");
+  TIME  = DefElm( "TIME", real, "Current integration time");
   SUN   = DefElm( "SUN", real, "Sunlight intensity between [0,1]");
   #endif
   TEMP  = DefElm( "TEMP", real, "Temperature");

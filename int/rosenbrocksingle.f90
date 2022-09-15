@@ -1274,12 +1274,12 @@ SUBROUTINE FunTemplate( T, Y, Ydot )
 !~~~> Local variables
    REAL(kind=dp) :: Told
 
-   Told = FUNTIME
-   FUNTIME = T
+   Told = TIME
+   TIME = T
    CALL Update_SUN()
    CALL Update_RCONST()
    CALL Fun( Y, FIX, RCONST, Ydot )
-   FUNTIME = Told
+   TIME = Told
 
 END SUBROUTINE FunTemplate
 
@@ -1310,8 +1310,8 @@ SUBROUTINE JacTemplate( T, Y, Jcb )
     INTEGER :: i, j
 #endif   
 
-    Told = FUNTIME
-    FUNTIME = T
+    Told = TIME
+    TIME = T
     CALL Update_SUN()
     CALL Update_RCONST()
 #ifdef FULL_ALGEBRA    
@@ -1327,7 +1327,7 @@ SUBROUTINE JacTemplate( T, Y, Jcb )
 #else
     CALL Jac_SP( Y, FIX, RCONST, Jcb )
 #endif   
-    FUNTIME = Told
+    TIME = Told
 
 END SUBROUTINE JacTemplate
 
