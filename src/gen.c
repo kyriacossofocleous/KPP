@@ -173,12 +173,11 @@ int i,j;
   X     = DefvElm( "X",  real, -NVAR, "Vector for variables" );
   XX    = DefvElm( "XX", real, -NVAR, "Vector for output variables" );
 
-  TIME  = DefElm( "TIME", real, "Current integration time");
   if( useDouble == 2) { /* #DOUBLE MIXED */
-    FUNTIME  = DefElm( "FUNTIME", DOUBLE, "Function Evaluation time");
+    TIME  = DefElm( "TIME", DOUBLE, "Current integration time");
     SUN   = DefElm( "SUN", DOUBLE, "Sunlight intensity between [0,1]");
   } else {
-    // FUNTIME  = DefElm( "FUNTIME", real, "Function Evaluation time");
+    TIME  = DefElm( "TIME", real, "Current integration time");
     SUN   = DefElm( "SUN", real, "Sunlight intensity between [0,1]");
   }
   TEMP  = DefElm( "TEMP", real, "Temperature");
