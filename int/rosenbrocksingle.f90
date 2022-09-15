@@ -35,8 +35,8 @@ SUBROUTINE INTEGRATE( TIN, TOUT, &
 
    IMPLICIT NONE
 
-   REAL(kind=dp), INTENT(IN) :: TIN  ! Start Time
-   REAL(kind=dp), INTENT(IN) :: TOUT ! End Time
+   KPP_DBL, INTENT(IN) :: TIN  ! Start Time
+   KPP_DBL, INTENT(IN) :: TOUT ! End Time
    ! Optional input parameters and statistics
    INTEGER,       INTENT(IN),  OPTIONAL :: ICNTRL_U(20)
    KPP_REAL, INTENT(IN),  OPTIONAL :: RCNTRL_U(20)
@@ -211,7 +211,7 @@ SUBROUTINE Rosenbrock(N,Y,Tstart,Tend, &
 !~~~>  Arguments
    INTEGER,       INTENT(IN)    :: N
    KPP_REAL, INTENT(INOUT) :: Y(N)
-   REAL(kind=dp), INTENT(IN)    :: Tstart,Tend
+   KPP_DBL, INTENT(IN)    :: Tstart,Tend
    KPP_REAL, INTENT(IN)    :: AbsTol(N),RelTol(N)
    INTEGER,       INTENT(IN)    :: ICNTRL(20)
    KPP_REAL, INTENT(IN)    :: RCNTRL(20)
@@ -227,8 +227,8 @@ SUBROUTINE Rosenbrock(N,Y,Tstart,Tend, &
    CHARACTER(LEN=12) :: ros_Name
 !~~~>  Local variables
    KPP_REAL :: Roundoff, FacMin, FacMax, FacRej, FacSafe
-   REAL(kind=dp) :: Hmin, Hmax, Hstart
-   REAL(kind=dp) :: Texit
+   KPP_DBL :: Hmin, Hmax, Hstart
+   KPP_DBL :: Texit
    INTEGER       :: i, UplimTol, Max_no_steps
    LOGICAL       :: Autonomous, VectorTol
 !~~~>   Parameters
@@ -387,8 +387,8 @@ CONTAINS !  SUBROUTINES internal to Rosenbrock
 !    Handles all error messages
 !~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~   
   
-   REAL(kind=dp), INTENT(IN) :: T
-   REAL(kind=dp), INTENT(IN) :: H
+   KPP_DBL, INTENT(IN) :: T
+   KPP_DBL, INTENT(IN) :: H
    INTEGER, INTENT(IN)  :: Code
    INTEGER, INTENT(OUT) :: IERR
    
@@ -442,14 +442,14 @@ CONTAINS !  SUBROUTINES internal to Rosenbrock
 !~~~> Input: the initial condition at Tstart; Output: the solution at T
    KPP_REAL, INTENT(INOUT) :: Y(N)
 !~~~> Input: integration interval
-   REAL(kind=dp), INTENT(IN) :: Tstart,Tend
+   KPP_DBL, INTENT(IN) :: Tstart,Tend
 !~~~> Output: time at which the solution is returned (T=Tend if success)
-   REAL(kind=dp), INTENT(OUT) ::  T
+   KPP_DBL, INTENT(OUT) ::  T
 !~~~> Input: tolerances
    KPP_REAL, INTENT(IN) ::  AbsTol(N), RelTol(N)
 !~~~> Input: integration parameters
    LOGICAL, INTENT(IN) :: Autonomous, VectorTol
-   REAL(kind=dp), INTENT(IN) :: Hstart, Hmin, Hmax
+   KPP_DBL, INTENT(IN) :: Hstart, Hmin, Hmax
    INTEGER, INTENT(IN) :: Max_no_steps
    KPP_REAL, INTENT(IN) :: Roundoff, FacMin, FacMax, FacRej, FacSafe
 !~~~> Output: Error indicator
@@ -462,9 +462,9 @@ CONTAINS !  SUBROUTINES internal to Rosenbrock
 #else
    KPP_REAL :: Jac0(LU_NONZERO), Ghimj(LU_NONZERO)
 #endif
-   REAL(kind=dp) :: H, Hnew 
+   KPP_DBL :: H, Hnew 
    KPP_REAL :: HC, HG, Fac 
-   REAL(kind=dp) :: Tau
+   KPP_DBL :: Tau
    KPP_REAL :: Err, Yerr(N)
    INTEGER :: Pivot(N), Direction, ioffset, j, istage
    LOGICAL :: RejectLastH, RejectMoreH, Singular
@@ -671,12 +671,12 @@ Stage: DO istage = 1, ros_S
    IMPLICIT NONE
 
 !~~~> Input arguments
-   REAL(kind=dp), INTENT(IN) :: T 
+   KPP_DBL, INTENT(IN) :: T 
    KPP_REAL, INTENT(IN) :: Roundoff, Y(N), Fcn0(N)
 !~~~> Output arguments
    KPP_REAL, INTENT(OUT) :: dFdT(N)
 !~~~> Local variables
-   REAL(kind=dp) :: Delta
+   KPP_DBL :: Delta
    KPP_REAL, PARAMETER :: ONE = 1.0_dp, DeltaMin = 1.0E-6_dp
    IF (SUN < 1e-2) THEN
       Delta = SQRT(epsilon(T))*MAX(DeltaMin,ABS(T))
@@ -721,7 +721,7 @@ Stage: DO istage = 1, ros_S
    LOGICAL, INTENT(OUT) ::  Singular
    INTEGER, INTENT(OUT) ::  Pivot(N)
 !~~~> Inout arguments
-   REAL(kind=dp), INTENT(INOUT) :: H   ! step size is decreased when LU fails
+   KPP_DBL, INTENT(INOUT) :: H   ! step size is decreased when LU fails
 !~~~> Local variables
    INTEGER  :: i, ISING, Nconsecutive
    KPP_REAL :: ghinv
@@ -1267,12 +1267,12 @@ SUBROUTINE FunTemplate( T, Y, Ydot )
  USE KPP_ROOT_Function, ONLY: Fun
  USE KPP_ROOT_Rates, ONLY: Update_SUN, Update_RCONST
 !~~~> Input variables
-   REAL(kind=dp) :: T
+   KPP_DBL :: T
    KPP_REAL :: Y(NVAR)
 !~~~> Output variables
    KPP_REAL :: Ydot(NVAR)
 !~~~> Local variables
-   REAL(kind=dp) :: Told
+   KPP_DBL :: Told
 
    Told = FUNTIME
    FUNTIME = T
@@ -1296,7 +1296,7 @@ SUBROUTINE JacTemplate( T, Y, Jcb )
  USE KPP_ROOT_LinearAlgebra
  USE KPP_ROOT_Rates, ONLY: Update_SUN, Update_RCONST
 !~~~> Input variables
-    REAL(kind=dp) :: T 
+    KPP_DBL :: T 
     KPP_REAL :: Y(NVAR)
 !~~~> Output variables
 #ifdef FULL_ALGEBRA    
@@ -1305,7 +1305,7 @@ SUBROUTINE JacTemplate( T, Y, Jcb )
     KPP_REAL :: Jcb(LU_NONZERO)
 #endif   
 !~~~> Local variables
-    REAL(kind=dp) :: Told
+    KPP_DBL :: Told
 #ifdef FULL_ALGEBRA    
     INTEGER :: i, j
 #endif   

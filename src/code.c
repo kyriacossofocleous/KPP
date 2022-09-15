@@ -287,12 +287,15 @@ FILE * fp;
   switch( useLang ) { 
     case F77_LANG: 
                  sprintf( cmd, "%s -e 's/KPP_REAL/%s/g'", cmd, F77_types[real] );  
+                 sprintf( cmd, "%s -e 's/KPP_DBL/%s/g'",  cmd, F77_types[DOUBLE] );  
                  break;
     case F90_LANG: 
                  sprintf( cmd, "%s -e 's/KPP_REAL/%s/g'", cmd, F90_types[real] );  
+                 sprintf( cmd, "%s -e 's/KPP_DBL/%s/g'",  cmd, F90_types[DOUBLE] );  
                  break;
     case C_LANG: 
                  sprintf( cmd, "%s -e 's/KPP_REAL/%s/g'", cmd, C_types[real] );  
+                 sprintf( cmd, "%s -e 's/KPP_DBL/%s/g'",  cmd, C_types[DOUBLE] );  
                  break;  		             
     case MATLAB_LANG: 
                  break;  		             

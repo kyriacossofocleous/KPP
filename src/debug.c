@@ -134,8 +134,9 @@ void WriteOptions()
      case JAC_LU_ROW: printf("JACOBIAN - SPARSE W/ ACCOUNT FOR LU DECOMPOSITION FILL-IN\n"); break;
      case JAC_ROW: printf("JACOBIAN - SPARSE\n"); break;
   }		    
-  if( useDouble )       printf("DOUBLE   - ON\n");
-		    else printf("DOUBLE   - OFF\n");
+  if( useDouble == 0)   printf("DOUBLE   - OFF\n");
+  if( useDouble == 1)   printf("DOUBLE   - ON\n");
+  if( useDouble == 2)   printf("DOUBLE   - MIXED\n");
   if( useReorder )      printf("REORDER  - ON\n");
 		    else printf("REORDER  - OFF\n");
   if( useMex     )      printf("MEX      - ON\n");
