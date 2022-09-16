@@ -677,11 +677,11 @@ Stage: DO istage = 1, ros_S
 !~~~> Local variables
    KPP_DBL :: Delta
    KPP_REAL, PARAMETER :: ONE = 1.0_dp, DeltaMin = 1.0E-6_dp
-   !IF (SUN < 1e-2) THEN
-   !   Delta = SQRT(epsilon(T))*MAX(DeltaMin,ABS(T))
-   !ELSE
-   Delta = SQRT(Roundoff)*MAX(DeltaMin,ABS(T))
-   !END IF
+   IF (SUN < 1e-2 .and. SUN > 0.0_dp) THEN
+      Delta = SQRT(epsilon(T))*MAX(DeltaMin,ABS(T))
+   ELSE
+     Delta = SQRT(Roundoff)*MAX(DeltaMin,ABS(T))
+   END IF
    CALL FunTemplate(T+Delta,Y,dFdT)
    ISTATUS(Nfun) = ISTATUS(Nfun) + 1
    !CALL WAXPY(N,(-ONE),Fcn0,1,dFdT,1)
