@@ -250,6 +250,7 @@ char buf[200];
 char cmd[500];
 static char tmpfile[] = "kppfile.tmp";
 FILE * fp;
+int dbl;
 
   Va_start( args, fmt );
   vsprintf( buf, fmt, args );
@@ -283,15 +284,24 @@ FILE * fp;
   sprintf( cmd, "%s -e 's/KPP_LU_NONZERO/%d/g'", cmd, LU_Jac_NZ );  
   sprintf( cmd, "%s -e 's/KPP_NHESS/%d/g'", cmd, Hess_NZ );  
   
+  if(useDouble == 0) { /* #DOUBLE OFF */
+    dbl = REAL;
+  } else { /* #DOUBLE ON or #DOUBLE MIXED */
+    dbl = DOUBLE;
+  }
+
   switch( useLang ) { 
     case F77_LANG: 
                  sprintf( cmd, "%s -e 's/KPP_REAL/%s/g'", cmd, F77_types[real] );  
+                 sprintf( cmd, "%s -e 's/KPP_DBL/%s/g'",  cmd, F77_types[dbl] );  
                  break;
     case F90_LANG: 
                  sprintf( cmd, "%s -e 's/KPP_REAL/%s/g'", cmd, F90_types[real] );  
+                 sprintf( cmd, "%s -e 's/KPP_DBL/%s/g'",  cmd, F90_types[dbl] );  
                  break;
     case C_LANG: 
                  sprintf( cmd, "%s -e 's/KPP_REAL/%s/g'", cmd, C_types[real] );  
+                 sprintf( cmd, "%s -e 's/KPP_DBL/%s/g'",  cmd, C_types[dbl] );  
                  break;  		             
     case MATLAB_LANG: 
                  break;  		             

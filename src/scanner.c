@@ -262,7 +262,11 @@ void CmdDouble( char *cmd )
     useDouble = 1;
     return;
   }
-  ScanError("'%s': Unknown parameter for #DOUBLE [ON|OFF]", cmd );
+  if( EqNoCase( cmd, "MIXED" ) ) {
+    useDouble = 2;
+    return;
+  }
+  ScanError("'%s': Unknown parameter for #DOUBLE [ON|OFF|MIXED]", cmd );
 }
 
 void CmdReorder( char *cmd )

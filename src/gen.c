@@ -82,7 +82,6 @@ int Jac_NZ, LU_Jac_NZ, nzr;
 
 NODE *sum, *prod;
 int real;
-int dreal;
 int nlookat;
 int nmoni;
 int ntrans;
@@ -108,9 +107,9 @@ static char s[40];
  
   sprintf(s, "%12.6e", x);
   /* if (useDouble && ( (useLang==F77_LANG)||(useLang==F90_LANG) ) ) { */
-  if (useDouble && (useLang==F77_LANG)) 
+  if ((useDouble==1) && (useLang==F77_LANG)) 
     s[strlen(s)-4] = 'd';
-  if (useDouble && (useLang==F90_LANG)) 
+  if ((useDouble==1) && (useLang==F90_LANG)) 
     sprintf(s, "%s_dp",s);
   return s;  
 }
@@ -174,26 +173,25 @@ int i,j;
   X     = DefvElm( "X",  real, -NVAR, "Vector for variables" );
   XX    = DefvElm( "XX", real, -NVAR, "Vector for output variables" );
 
-  TIME  = DefElm( "TIME", real, "Current integration time");
-  #if defined (__MIXEDPREC)
-  FUNTIME  = DefElm( "FUNTIME", dreal, "Function Evaluation time");
-  SUN   = DefElm( "SUN", dreal, "Sunlight intensity between [0,1]");
-  #else
-  // FUNTIME  = DefElm( "FUNTIME", real, "Function Evaluation time");
-  SUN   = DefElm( "SUN", real, "Sunlight intensity between [0,1]");
-  #endif
+  if( useDouble == 2) { /* #DOUBLE MIXED */
+    TIME  = DefElm( "TIME", DOUBLE, "Current integration time");
+    SUN   = DefElm( "SUN", DOUBLE, "Sunlight intensity between [0,1]");
+  } else {
+    TIME  = DefElm( "TIME", real, "Current integration time");
+    SUN   = DefElm( "SUN", real, "Sunlight intensity between [0,1]");
+  }
   TEMP  = DefElm( "TEMP", real, "Temperature");
   
   RTOLS  = DefElm( "RTOLS", real, "(scalar) Relative tolerance");
-  #if defined (__MIXEDPREC)
-  TSTART = DefElm( "TSTART", dreal, "Integration start time");
-  TEND   = DefElm( "TEND", dreal, "Integration end time");
-  DT     = DefElm( "DT", dreal, "Integration step");
-  #else
-  TSTART = DefElm( "TSTART", real, "Integration start time");
-  TEND   = DefElm( "TEND", real, "Integration end time");
-  DT     = DefElm( "DT", real, "Integration step");
-  #endif
+  if( useDouble == 2) { /* #DOUBLE MIXED */
+    TSTART = DefElm( "TSTART", DOUBLE, "Integration start time");
+    TEND   = DefElm( "TEND", DOUBLE, "Integration end time");
+    DT     = DefElm( "DT", DOUBLE, "Integration step");
+  } else {
+    TSTART = DefElm( "TSTART", real, "Integration start time");
+    TEND   = DefElm( "TEND", real, "Integration end time");
+    DT     = DefElm( "DT", real, "Integration step");
+  }
   A  = DefvElm( "A", real, -NREACT, "Rate for each equation" );
 
   ARP  = DefvElm( "ARP", real, -NREACT, "Reactant product in each equation" );
@@ -350,9 +348,9 @@ int dim;
   GlobalDeclare( E );
   GlobalDeclare( RCONST );
   GlobalDeclare( TIME );
-  #if defined(__MIXEDPREC)
-  GlobalDeclare( FUNTIME );
-  #endif
+  if( useDouble == 2) { /* #DOUBLE MIXED */
+    GlobalDeclare( FUNTIME );
+  }
   GlobalDeclare( SUN );
   GlobalDeclare( TEMP );
   GlobalDeclare( RTOLS );
@@ -2317,9 +2315,9 @@ int mxyz;
   ExternDeclare( E );
   ExternDeclare( RCONST );
   ExternDeclare( TIME );
-  #if defined(__MIXEDPREC)
-  ExternDeclare( FUNTIME );
-  #endif
+  if( useDouble == 2) { /* #DOUBLE MIXED */
+    ExternDeclare( FUNTIME );
+  }
   ExternDeclare( SUN );
   // ExternDeclare( SUN_D );
   ExternDeclare( TEMP );
@@ -2478,8 +2476,9 @@ int dn;
      case JAC_LU_ROW: WriteAll("JACOBIAN - SPARSE W/ ACCOUNT FOR LU DECOMPOSITION FILL-IN\n"); break;
      case JAC_ROW: WriteAll("JACOBIAN - SPARSE\n"); break;
   }		    
-  if( useDouble )        WriteAll("DOUBLE   - ON\n");
-		    else WriteAll("DOUBLE   - OFF\n");
+  if( useDouble == 0)    WriteAll("DOUBLE   - OFF\n");
+  if( useDouble == 1)    WriteAll("DOUBLE   - ON\n");
+  if( useDouble == 2)    WriteAll("DOUBLE   - MIXED\n");
   if( useReorder )        WriteAll("REORDER  - ON\n");
 		    else WriteAll("REORDER  - OFF\n");
   NewLines(1);
@@ -3140,9 +3139,13 @@ int n;
 
   VarStartNr = 0;
   FixStartNr = VarNr;
-  
-  real = useDouble ? DOUBLE : REAL;
-  dreal = DOUBLE;
+
+  // real = useDouble ? DOUBLE : REAL;
+  if(useDouble == 1) { /* #DOUBLE ON */
+    real = DOUBLE;
+  } else { /* #DOUBLE OFF or #DOUBLE MIXED */
+    real = REAL;
+  }
 
   n = MAX_OUTBUF;
   for( i = 1; i < INLINE_OPT; i++ ) 
