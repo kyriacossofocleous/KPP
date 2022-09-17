@@ -71,7 +71,6 @@ int SPC_NAMES, EQN_NAMES;
 int EQN_TAGS; 
 int NONZERO, LU_NONZERO;
 int TIME, SUN, TEMP;
-int FUNTIME;
 // int SUN_D;
 int RTOLS, TSTART, TEND, DT;
 int ATOL, RTOL, STEPMIN, STEPMAX, CFACTOR;
@@ -348,9 +347,6 @@ int dim;
   GlobalDeclare( E );
   GlobalDeclare( RCONST );
   GlobalDeclare( TIME );
-  if( useDouble == 2) { /* #DOUBLE MIXED */
-    GlobalDeclare( FUNTIME );
-  }
   GlobalDeclare( SUN );
   GlobalDeclare( TEMP );
   GlobalDeclare( RTOLS );
@@ -2312,9 +2308,6 @@ int mxyz;
   ExternDeclare( E );
   ExternDeclare( RCONST );
   ExternDeclare( TIME );
-  if( useDouble == 2) { /* #DOUBLE MIXED */
-    ExternDeclare( FUNTIME );
-  }
   ExternDeclare( SUN );
   // ExternDeclare( SUN_D );
   ExternDeclare( TEMP );
